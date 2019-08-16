@@ -34,25 +34,25 @@
     <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
         <button class="btn btn-outline-danger" ngbDropdownToggle>{{btnDefaultIns.type}}</button>
         <div class="dropdown-menu" ngbDropdownMenu>
-            <button class="dropdown-item" *ngFor="let inst of tipoInstrucciones" (click)="change('type',inst)" >{{inst}}</button>
+            <button class="dropdown-item" *ngFor="let inst of tipoInstrucciones" (click)="cambiar('type',inst.type)" >{{inst.type}}</button>
         </div>
       </div>
   <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
     <button class="btn btn-outline-danger" ngbDropdownToggle>{{btnDefaultIns.dst}}</button>
     <div class="dropdown-menu" ngbDropdownMenu>
-      <button class="dropdown-item" *ngFor="let reg of nombreRegistro" (click)="change('dst',reg)" >{{reg}}</button>
+      <button class="dropdown-item" *ngFor="let reg of nombreRegistro" (click)="cambiar('dst',reg)" >{{reg}}</button>
     </div>
   </div>
   <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
     <button class="btn btn-outline-danger" ngbDropdownToggle>{{btnDefaultIns.op1}}</button>
     <div class="dropdown-menu" ngbDropdownMenu>
-        <button class="dropdown-item" *ngFor="let reg of nombreRegistro" (click)="change('op1',reg)" >{{reg}}</button>
+        <button class="dropdown-item" *ngFor="let reg of nombreRegistro" (click)="cambiar('op1',reg)" >{{reg}}</button>
     </div>
   </div>
   <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
     <button class="btn btn-outline-danger" ngbDropdownToggle> {{btnDefaultIns.op2}}</button>
       <div class="dropdown-menu" ngbDropdownMenu>
-          <button class="dropdown-item" *ngFor="let reg of nombreRegistro" (click)="change('op2',reg)" >{{reg}}</button>
+          <button class="dropdown-item" *ngFor="let reg of nombreRegistro" (click)="cambiar('op2',reg)" >{{reg}}</button>
         </div>
   </div>
   <button id="btn-add" type="button" class="btn btn-outline-danger" (click) = "agregarInstruccion()" >Agregar</button>
@@ -73,44 +73,44 @@
   <h4>Ciclos de cada instruccion</h4>
   <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
       <button class="btn btn-outline-danger">ADD: </button>
-      <button class="btn btn-outline-danger" ngbDropdownToggle> {{numOrden}}</button>
+      <button class="btn btn-outline-danger" ngbDropdownToggle> {{tipoInstrucciones[0].ciclo}}</button>
         <div class="dropdown-menu" ngbDropdownMenu>
-            <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="cambiarOrden(num)" >{{num}}</button>
+            <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="cambiarCiclo('ADD',num)" >{{num}}</button>
         </div>
     </div>
     <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
         <button class="btn btn-outline-danger">SUB: </button>
-        <button class="btn btn-outline-danger" ngbDropdownToggle> {{numOrden}}</button>
+        <button class="btn btn-outline-danger" ngbDropdownToggle> {{tipoInstrucciones[1].ciclo}}</button>
           <div class="dropdown-menu" ngbDropdownMenu>
-              <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="cambiarOrden(num)" >{{num}}</button>
+            <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="cambiarCiclo('SUB',num)" >{{num}}</button>
           </div>
       </div>
       <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
           <button class="btn btn-outline-danger">MUL: </button>
-          <button class="btn btn-outline-danger" ngbDropdownToggle> {{numOrden}}</button>
+          <button class="btn btn-outline-danger" ngbDropdownToggle> {{tipoInstrucciones[2].ciclo}}</button>
             <div class="dropdown-menu" ngbDropdownMenu>
-                <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="cambiarOrden(num)" >{{num}}</button>
+              <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="cambiarCiclo('MUL',num)" >{{num}}</button>
             </div>
         </div>
         <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
             <button class="btn btn-outline-danger">DIV: </button>
-            <button class="btn btn-outline-danger" ngbDropdownToggle> {{numOrden}}</button>
+            <button class="btn btn-outline-danger" ngbDropdownToggle> {{tipoInstrucciones[3].ciclo}}</button>
               <div class="dropdown-menu" ngbDropdownMenu>
-                  <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="cambiarOrden(num)" >{{num}}</button>
+                <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="cambiarCiclo('DIV',num)" >{{num}}</button>
               </div>
           </div>
           <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
               <button class="btn btn-outline-danger">ST: </button>
-              <button class="btn btn-outline-danger" ngbDropdownToggle> {{numOrden}}</button>
+              <button class="btn btn-outline-danger" ngbDropdownToggle> {{tipoInstrucciones[4].ciclo}}</button>
                 <div class="dropdown-menu" ngbDropdownMenu>
-                    <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="cambiarOrden(num)" >{{num}}</button>
+                  <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="cambiarCiclo('ST',num)" >{{num}}</button>
                 </div>
             </div>
             <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
                 <button class="btn btn-outline-danger">LD: </button>
-                <button class="btn btn-outline-danger" ngbDropdownToggle> {{numOrden}}</button>
+                <button class="btn btn-outline-danger" ngbDropdownToggle> {{tipoInstrucciones[5].ciclo}}</button>
                   <div class="dropdown-menu" ngbDropdownMenu>
-                      <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="cambiarOrden(num)" >{{num}}</button>
+                    <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="cambiarCiclo('LD',num)" >{{num}}</button>
                   </div>
               </div>
 
