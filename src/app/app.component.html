@@ -6,7 +6,9 @@
      </h1>
 </div>
 
-
+<div class = "container">
+  <div class = "row">
+    <div class = col-md-4>
 <table class="table table-striped" style = "width:5cm">  
   <thead>
   <tr>
@@ -27,6 +29,7 @@
         </tr>
   </tbody>
 </table>
+</div>
 
 <div>
   <h4>Agregar una instruccion</h4>
@@ -68,6 +71,17 @@
         </div>
     </div>
 </div>
+
+<div>
+  <h4>Estacion de reserva</h4>
+    <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+      <button class="btn btn-outline-danger">Cantidad: </button>
+      <button class="btn btn-outline-danger" ngbDropdownToggle> {{numEstacionReserva}}</button>
+        <div class="dropdown-menu" ngbDropdownMenu>
+            <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="cambiarER(num)" >{{num}}</button>
+        </div>
+    </div>
+  </div>
 
 <div>
   <h4>Ciclos de cada instruccion</h4>
@@ -114,6 +128,33 @@
                   </div>
               </div>
 
-</div>
+<!-- UNIDAD FUNCIONAL VER--> 
+<div>
+  <h4>Unidades funcionales</h4>
 
+    <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+        <button class="btn btn-outline-danger">Multifuncion: </button>
+        <button class="btn btn-outline-danger" ngbDropdownToggle>{{numMultifuncion}}</button>
+        <div class="dropdown-menu" ngbDropdownMenu>
+            <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="cambiarUF(num)" >{{num}}</button>
+        </div>
+      </div>
+  <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+      <button class="btn btn-outline-danger">Aritmetica </button>
+    <button class="btn btn-outline-danger" ngbDropdownToggle>{{numAritmetica}}</button>
+    <div class="dropdown-menu" ngbDropdownMenu>
+      <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="cambiarAri(num)" >{{num}}</button>
+    </div>
+  </div>
+  <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+    <button class="btn btn-outline-danger">Memoria </button>
+    <button class="btn btn-outline-danger" ngbDropdownToggle>{{numMemoria}}</button>
+    <div class="dropdown-menu" ngbDropdownMenu>
+        <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="cambiarMem(num)" >{{num}}</button>
+    </div>
+  </div>
+
+</div>
+</div>
+</div>
 <router-outlet></router-outlet>

@@ -22,14 +22,18 @@ export class AppComponent implements OnInit {
                         {type:"LD",ciclo: 1}];
   nombreRegistro:string[] = ["R1","R2","R3","R4","R5","R6","R7","R8","R9","R10"];
   numOrden = 1;
+  numEstacionReserva = 1;
+  numMultifuncion =0;
+  numAritmetica = 0;
+  numMemoria = 0;
   idInstruccion = 0;
   btnDefaultIns = {
-    type : "INSTRUCCION",
+    type: "INSTRUCCION",
     dst: "DST",
     op1: "OP1",
     op2: "OP2"
-  }; 
- 
+  };
+
   
   constructor(public dataInstruccion: Instruccion) { }
 
@@ -57,5 +61,19 @@ export class AppComponent implements OnInit {
           tipoIns.ciclo = numCiclo;
     }
   }
+  
+  cambiarER(num){
+    this.numEstacionReserva=num;
+  }
 
+  cambiarUF(num){
+    this.numMultifuncion = num;
+  }
+
+  cambiarAri(num){
+    this.numAritmetica = num;
+  }
+  cambiarMem(num){
+    this.numMemoria= num;
+  }
 }
