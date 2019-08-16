@@ -11,12 +11,12 @@ import { identifierModuleUrl } from '@angular/compiler';
 
 
 export class AppComponent implements OnInit {
+  
   title = 'SimuladorRob';
   instrucciones;
   tipoInstrucciones:string[] = ["ADD","SUB","MUL","DIV","ST","LD"];
   nombreRegistro:string[] = ["R1","R2","R3","R4","R5","R6","R7","R8","R9","R10"];
-  botonInstruccion = "Instruccion";
-  botonDST = "DST";
+  numOrden = 1;
 
   btnDefaultIns = {
     type : "INSTRUCCION",
@@ -25,10 +25,11 @@ export class AppComponent implements OnInit {
     op2: "OP2"
   };
 
-  constructor(public dataService: Instruccion) { }
+
+  constructor(public dataInstruccion: Instruccion) { }
 
   ngOnInit() {
-    this.instrucciones = this.dataService.getInstrucciones();    
+    this.instrucciones = this.dataInstruccion.getInstrucciones();    
   }
 
   change(pos,name){
@@ -37,10 +38,9 @@ export class AppComponent implements OnInit {
 
   agregarInstruccion(){ 
     let instruccion:{id,tipo,destino,op1,op2} = {id: 1, tipo: this.btnDefaultIns.type , destino: this.btnDefaultIns.dst, op1:this.btnDefaultIns.op1, op2:this.btnDefaultIns.op2};
-   
-    this.dataService.crearInstrucciones(instruccion);
-    console.log(instruccion);
- 
+    this.dataInstruccion.crearInstrucciones(instruccion);
 }
-
+    cambiarOrden(num){
+      this.numOrden = num;
+    }
 }
