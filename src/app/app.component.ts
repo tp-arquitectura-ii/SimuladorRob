@@ -28,8 +28,8 @@ export class AppComponent implements OnInit {
     dst: "DST",
     op1: "OP1",
     op2: "OP2"
-  };
-
+  }; 
+ 
   
   constructor(public dataInstruccion: Instruccion) { }
 
