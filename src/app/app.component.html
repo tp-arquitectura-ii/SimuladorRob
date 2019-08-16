@@ -1,28 +1,13 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div class="alert alert-primary" role="alert">
-  This is a primary alert—check it out!
-</div>
+
 <div style="text-align:center">
   <h1>
     Welcome to {{ title }}! 
      </h1>
 </div>
 
-<div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Instruccion
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    <a class="dropdown-item" href="#">ADD</a>
-    <a class="dropdown-item" href="#">SUB</a>
-    <a class="dropdown-item" href="#">MUL</a>
-    <a class="dropdown-item" href="#">DIV</a>
-  </div>
-</div>
 
-
-<table class="table table-striped" style = "width:5cm">
-  
+<table class="table table-striped" style = "width:5cm">  
   <thead>
   <tr>
     <th scope = "col">#</th>
@@ -33,6 +18,44 @@
   </tr>
   </thead>
   <tbody>
+      <tr *ngFor="let inst of instrucciones">
+          <td>{{ inst.id }}</td>
+          <td> {{ inst.tipo }}</td>
+          <td> {{ inst.destino}}</td>
+          <td> {{ inst.op1 }}</td>
+          <td> {{inst.op2}}</td>
+        </tr>
   </tbody>
 </table>
+
+<div>
+  <h4>Agregar una instruccion</h4>
+<div class="btn-group mr-3 ">
+    <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+        <button class="btn btn-outline-danger" ngbDropdownToggle>{{btnDefaultIns.type}}</button>
+        <div class="dropdown-menu" ngbDropdownMenu>
+            <button class="dropdown-item" *ngFor="let inst of tipoInstrucciones" (click)="change('type',inst)" >{{inst}}</button>
+        </div>
+      </div>
+  <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+    <button class="btn btn-outline-danger" ngbDropdownToggle>{{btnDefaultIns.dst}}</button>
+    <div class="dropdown-menu" ngbDropdownMenu>
+      <button class="dropdown-item" *ngFor="let reg of nombreRegistro" (click)="change('dst',reg)" >{{reg}}</button>
+    </div>
+  </div>
+  <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+    <button class="btn btn-outline-danger" ngbDropdownToggle>{{btnDefaultIns.op1}}</button>
+    <div class="dropdown-menu" ngbDropdownMenu>
+        <button class="dropdown-item" *ngFor="let reg of nombreRegistro" (click)="change('op1',reg)" >{{reg}}</button>
+    </div>
+  </div>
+  <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+    <button class="btn btn-outline-danger" ngbDropdownToggle> {{btnDefaultIns.op2}}</button>
+      <div class="dropdown-menu" ngbDropdownMenu>
+          <button class="dropdown-item" *ngFor="let reg of nombreRegistro" (click)="change('op2',reg)" >{{reg}}</button>
+        </div>
+  </div>
+  <button id="btn-add" type="button" class="btn btn-outline-danger" (click) = "agregarInstruccion()" >Agregar</button>
+</div>
+
 <router-outlet></router-outlet>
