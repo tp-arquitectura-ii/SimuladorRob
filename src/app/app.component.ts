@@ -66,14 +66,15 @@ export class AppComponent implements OnInit {
     this.numEstacionReserva=num;
   }
 
-  cambiarUF(num){
+  cambiarUFmultifuncion(num){
     this.numMultifuncion = num;
   }
 
-  cambiarAri(num){
+  cambiarUFAritmetica(num){
     this.numAritmetica = num;
   }
-  cambiarMem(num){
+  cambiarUFMemoria(num){ 
     this.numMemoria= num;
   }
+
 }

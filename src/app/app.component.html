@@ -136,25 +136,33 @@
         <button class="btn btn-outline-danger">Multifuncion: </button>
         <button class="btn btn-outline-danger" ngbDropdownToggle>{{numMultifuncion}}</button>
         <div class="dropdown-menu" ngbDropdownMenu>
-            <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="cambiarUF(num)" >{{num}}</button>
+            <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="cambiarUFmultifuncion(num)" >{{num}}</button>
         </div>
       </div>
   <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-      <button class="btn btn-outline-danger">Aritmetica </button>
+      <button class="btn btn-outline-danger">Aritmetica: </button>
     <button class="btn btn-outline-danger" ngbDropdownToggle>{{numAritmetica}}</button>
     <div class="dropdown-menu" ngbDropdownMenu>
-      <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="cambiarAri(num)" >{{num}}</button>
+      <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="cambiarUFAritmetica(num)" >{{num}}</button>
     </div>
   </div>
   <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-    <button class="btn btn-outline-danger">Memoria </button>
+    <button class="btn btn-outline-danger">Memoria: </button>
     <button class="btn btn-outline-danger" ngbDropdownToggle>{{numMemoria}}</button>
     <div class="dropdown-menu" ngbDropdownMenu>
-        <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="cambiarMem(num)" >{{num}}</button>
+        <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="cambiarUFMemoria(num)" >{{num}}</button>
     </div>
   </div>
+  </div>
 
-</div>
+  <h4>Guardar Configuracion</h4> 
+  <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+    <button type="button" class="btn btn-outline-success" >Guardar</button>
+    <button type="button" class="btn btn-outline-success" disabled>Ejecutar</button>
+
+  </div>  
+
+
 </div>
 </div>
 <router-outlet></router-outlet>
