@@ -19,7 +19,10 @@ export class Instruccion {
     public getInstrucciones():Array<{id, tipo, destino, op1 , op2}>{
       return this.listInstrucciones;
     }
-    public crearInstrucciones(contact: {id, tipo, destino, op1,op2 }){
-      this.listInstrucciones.push(contact);
+    public crearInstrucciones(inst: {id, tipo, destino, op1,op2 }){
+      this.listInstrucciones.push(inst);
+    }
+    public eliminarInstruccion(i){
+      this.listInstrucciones.splice(i,1);
     }
   }

@@ -26,6 +26,7 @@
           <td> {{ inst.destino}}</td>
           <td> {{ inst.op1 }}</td>
           <td> {{inst.op2}}</td>
+          <td> <button type="button" class="close" aria-label="Close" (click) = eliminarInstruccion(inst)> <span aria-hidden="true">&times;</span> </button></td>
         </tr>
   </tbody>
 </table>
@@ -53,12 +54,12 @@
     </div>
   </div>
   <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-    <button class="btn btn-outline-danger" ngbDropdownToggle> {{btnDefaultIns.op2}}</button>
+    <button id="btn-op2"class="btn btn-outline-danger" ngbDropdownToggle> {{btnDefaultIns.op2}}</button>
       <div class="dropdown-menu" ngbDropdownMenu>
           <button class="dropdown-item" *ngFor="let reg of nombreRegistro" (click)="cambiar('op2',reg)" >{{reg}}</button>
         </div>
   </div>
-  <button id="btn-add" type="button" class="btn btn-outline-danger" (click) = "agregarInstruccion()" >Agregar</button>
+  <button id="btn-agregar" type="button" class="btn btn-outline-danger" disabled (click) = "agregarInstruccion()"  >Agregar</button>
 </div>
 
 <div>
@@ -136,29 +137,30 @@
         <button class="btn btn-outline-danger">Multifuncion: </button>
         <button class="btn btn-outline-danger" ngbDropdownToggle>{{numMultifuncion}}</button>
         <div class="dropdown-menu" ngbDropdownMenu>
-            <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="cambiarUFmultifuncion(num)" >{{num}}</button>
+            <button class="dropdown-item" *ngFor="let num of [0,1,2,3,4,5]" (click)="cambiarUFmultifuncion(num)" >{{num}}</button>
         </div>
       </div>
   <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
       <button class="btn btn-outline-danger">Aritmetica: </button>
     <button class="btn btn-outline-danger" ngbDropdownToggle>{{numAritmetica}}</button>
     <div class="dropdown-menu" ngbDropdownMenu>
-      <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="cambiarUFAritmetica(num)" >{{num}}</button>
+      <button class="dropdown-item" *ngFor="let num of [0,1,2,3,4,5]" (click)="cambiarUFAritmetica(num)" >{{num}}</button>
     </div>
   </div>
   <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
     <button class="btn btn-outline-danger">Memoria: </button>
     <button class="btn btn-outline-danger" ngbDropdownToggle>{{numMemoria}}</button>
     <div class="dropdown-menu" ngbDropdownMenu>
-        <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="cambiarUFMemoria(num)" >{{num}}</button>
+        <button class="dropdown-item" *ngFor="let num of [0,1,2,3,4,5]" (click)="cambiarUFMemoria(num)" >{{num}}</button>
     </div>
   </div>
   </div>
 
   <h4>Guardar Configuracion</h4> 
   <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-    <button type="button" class="btn btn-outline-success" >Guardar</button>
-    <button type="button" class="btn btn-outline-success" disabled>Ejecutar</button>
+    <button type="button" class="btn btn-outline-danger" >Guardar</button>
+    <button type="button" class="btn btn-outline-danger" disabled >Reset </button>
+    <button type="button" class="btn btn-outline-danger" disabled>Ejecutar</button>
 
   </div>  
 

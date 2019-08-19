@@ -44,6 +44,25 @@ export class AppComponent implements OnInit {
   
   cambiar(pos,name){
     this.btnDefaultIns[pos] = name;
+    this.actualizarBotones();
+  }
+
+  actualizarBotones(){
+    console.log("entro");
+    let btnAgr = document.getElementById("btn-agregar");
+    let btnOp2 = document.getElementById("btn-op2");
+
+    if (this.btnDefaultIns.type!="INSTRUCCION" && this.btnDefaultIns.dst!="DST" && this.btnDefaultIns.op1!="OP1" && this.btnDefaultIns.op2!="OP2"){
+      btnAgr.removeAttribute("disabled");
+    }
+
+    if (this.btnDefaultIns.type=="ST" || this.btnDefaultIns.type == "LD"){
+      btnOp2.setAttribute("disabled","");
+      if (this.btnDefaultIns.dst!="DST" && this.btnDefaultIns.op1!="OP1")
+        btnAgr.removeAttribute("disabled");    
+    }
+    else
+        btnOp2.removeAttribute("disabled");  
   }
 
   agregarInstruccion(){ 
@@ -66,15 +85,18 @@ export class AppComponent implements OnInit {
     this.numEstacionReserva=num;
   }
 
-  cambiarUFmultifuncion(num){
+  cambiarUF(num){
     this.numMultifuncion = num;
   }
 
-  cambiarUFAritmetica(num){
+  cambiarAri(num){
     this.numAritmetica = num;
   }
-  cambiarUFMemoria(num){ 
+  cambiarMem(num){
     this.numMemoria= num;
   }
 
+  eliminarInstruccion(i){
+    this.dataInstruccion.eliminarInstruccion(i);
+  }
 }
