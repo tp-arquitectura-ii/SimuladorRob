@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Instruccion } from '../app/Instruccion';
 import { identifierModuleUrl } from '@angular/compiler';
+import { Instruccion } from './Instruccion';
 
 
 @Component({
@@ -13,13 +13,16 @@ import { identifierModuleUrl } from '@angular/compiler';
 export class AppComponent implements OnInit {
   
   title = 'SimuladorRob';
-  instrucciones;
+
+  listInstrucciones = new Array<Instruccion>();
+
   tipoInstrucciones = [{ type: "ADD", ciclo: 1},
                         {type: "SUB", ciclo: 1},
                         {type:"MUL", ciclo:1},
                         {type:"DIV", ciclo:1},
                         {type:"ST", ciclo:1},
                         {type:"LD",ciclo: 1}];
+
   nombreRegistro:string[] = ["R1","R2","R3","R4","R5","R6","R7","R8","R9","R10"];
   numOrden = 1;
   numEstacionReserva = 1;
@@ -35,27 +38,31 @@ export class AppComponent implements OnInit {
   };
 
   
-  constructor(public dataInstruccion: Instruccion) { }
+  constructor() { }
 
   ngOnInit() {
-    this.instrucciones = this.dataInstruccion.getInstrucciones();
-    this.idInstruccion = this.dataInstruccion.getInstrucciones().length; 
+    let ins1 = new Instruccion("S1","ADD","R1","R2","R3");
+    let ins2 = new Instruccion("S2","ADD","R1","R2","R3");
+    this.listInstrucciones.push(ins1);
+    this.listInstrucciones.push(ins2);
+    this.idInstruccion = this.listInstrucciones.length;
+    
   }
   
   cambiar(pos,name){
     this.btnDefaultIns[pos] = name;
     this.actualizarBotones();
+  
   }
 
   actualizarBotones(){
-    console.log("entro");
+
     let btnAgr = document.getElementById("btn-agregar");
     let btnOp2 = document.getElementById("btn-op2");
 
     if (this.btnDefaultIns.type!="INSTRUCCION" && this.btnDefaultIns.dst!="DST" && this.btnDefaultIns.op1!="OP1" && this.btnDefaultIns.op2!="OP2"){
       btnAgr.removeAttribute("disabled");
     }
-
     if (this.btnDefaultIns.type=="ST" || this.btnDefaultIns.type == "LD"){
       btnOp2.setAttribute("disabled","");
       if (this.btnDefaultIns.dst!="DST" && this.btnDefaultIns.op1!="OP1")
@@ -66,9 +73,9 @@ export class AppComponent implements OnInit {
   }
 
   agregarInstruccion(){ 
-    this.idInstruccion++;
-    let instruccion:{id,tipo,destino,op1,op2} = {id: this.idInstruccion, tipo: this.btnDefaultIns.type , destino: this.btnDefaultIns.dst, op1:this.btnDefaultIns.op1, op2:this.btnDefaultIns.op2};
-    this.dataInstruccion.crearInstrucciones(instruccion);
+    this.idInstruccion++
+    let instNueva = new Instruccion("S" +this.idInstruccion,this.btnDefaultIns.type,this.btnDefaultIns.dst,this.btnDefaultIns.op1,this.btnDefaultIns.op2);
+    this.listInstrucciones.push(instNueva);
 
 }
   cambiarOrden(num){
@@ -96,7 +103,8 @@ export class AppComponent implements OnInit {
     this.numMemoria= num;
   }
 
-  eliminarInstruccion(i){
-    this.dataInstruccion.eliminarInstruccion(i);
+  eliminarInstruccion(inst:Instruccion){
+    let i = this.listInstrucciones.indexOf(inst);
+    this.listInstrucciones.splice(i,1);
   }
 }

@@ -20,7 +20,7 @@
   </tr>
   </thead>
   <tbody>
-      <tr *ngFor="let inst of instrucciones">
+      <tr *ngFor="let inst of listInstrucciones">
           <td>{{ inst.id }}</td>
           <td> {{ inst.tipo }}</td>
           <td> {{ inst.destino}}</td>
@@ -161,7 +161,6 @@
     <button type="button" class="btn btn-outline-danger" >Guardar</button>
     <button type="button" class="btn btn-outline-danger" disabled >Reset </button>
     <button type="button" class="btn btn-outline-danger" disabled>Ejecutar</button>
-
   </div>  
 
 

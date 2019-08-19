@@ -1,28 +1,27 @@
-import { Injectable } from '@angular/core';
 
-
-@Injectable({
-  providedIn: 'root'
-})
 
 export class Instruccion {
+    id:string;
+    tipo:string
+    destino:string;
+    op1:string;
+    op2:string;
+ 
 
-    listInstrucciones = [
-      {id: 1, tipo: "ADD", destino: "R2", op1: "R2",op2: "R2"},
-      {id: 2, tipo: "ADD", destino: "R1", op1: "R2",op2: "R2"},
-      {id: 3, tipo: "SUB", destino: "R3", op1: "R2",op2: "R2"},
-      {id: 4, tipo: "MULD", destino: "R4", op1: "R2",op2: "R2"}
-    ];
+
   
-    constructor() { }
-  
-    public getInstrucciones():Array<{id, tipo, destino, op1 , op2}>{
-      return this.listInstrucciones;
+    constructor(id:string,tipo:string,destino:string,op1:string,op2:string) {
+      this.id=id;
+      this.tipo=tipo;
+      this.destino=destino;
+      this.op1=op1;
+      this.op2=op2; 
     }
-    public crearInstrucciones(inst: {id, tipo, destino, op1,op2 }){
-      this.listInstrucciones.push(inst);
+    
+
+    public getId(){
+      return this.id;
     }
-    public eliminarInstruccion(i){
-      this.listInstrucciones.splice(i,1);
-    }
+
+    
   }
