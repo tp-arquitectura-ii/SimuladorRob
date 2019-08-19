@@ -1,15 +1,11 @@
-
-
 export class Instruccion {
     id:string;
     tipo:string
     destino:string;
     op1:string;
     op2:string;
- 
+    dependecias:string[];
 
-
-  
     constructor(id:string,tipo:string,destino:string,op1:string,op2:string) {
       this.id=id;
       this.tipo=tipo;
@@ -23,5 +19,5 @@ export class Instruccion {
       return this.id;
     }
 
-    
+  
   }

@@ -41,10 +41,25 @@ export class AppComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    let ins1 = new Instruccion("S1","ADD","R1","R2","R3");
-    let ins2 = new Instruccion("S2","ADD","R1","R2","R3");
+    let ins1 = new Instruccion("S1","ADD","R3","R0","R5");
+    let ins2 = new Instruccion("S2","MUL","R2","R2","R5");
+    let ins3 = new Instruccion("S3","DIV","R1","R5","R0");
+    let ins4 = new Instruccion("S4","ST","R3","R1","");
+    let ins5 = new Instruccion("S5","SUB","R6","R3","R2");
+    let ins6 = new Instruccion("S6","LD","R9","R6","");
+    let ins7 = new Instruccion("S7","SUB","R2","R6","R3");
+    let ins8 = new Instruccion("S8","SUB","R10","R3","R1");
+ 
+    
     this.listInstrucciones.push(ins1);
     this.listInstrucciones.push(ins2);
+    this.listInstrucciones.push(ins3);
+    this.listInstrucciones.push(ins4);
+    this.listInstrucciones.push(ins5);
+    this.listInstrucciones.push(ins6);
+    this.listInstrucciones.push(ins7);
+    this.listInstrucciones.push(ins8)
+
     this.idInstruccion = this.listInstrucciones.length;
     
   }
@@ -52,7 +67,7 @@ export class AppComponent implements OnInit {
   cambiar(pos,name){
     this.btnDefaultIns[pos] = name;
     this.actualizarBotones();
-  
+    this.getDependenciasRAW();
   }
 
   actualizarBotones(){
@@ -74,8 +89,12 @@ export class AppComponent implements OnInit {
 
   agregarInstruccion(){ 
     this.idInstruccion++
-    let instNueva = new Instruccion("S" +this.idInstruccion,this.btnDefaultIns.type,this.btnDefaultIns.dst,this.btnDefaultIns.op1,this.btnDefaultIns.op2);
-    this.listInstrucciones.push(instNueva);
+    let instNueva;
+    if (this.btnDefaultIns.type=="ST" || this.btnDefaultIns.type == "LD")
+      instNueva = new Instruccion("S" +this.idInstruccion,this.btnDefaultIns.type,this.btnDefaultIns.dst,this.btnDefaultIns.op1,"");
+    else  
+      instNueva = new Instruccion("S" +this.idInstruccion,this.btnDefaultIns.type,this.btnDefaultIns.dst,this.btnDefaultIns.op1,this.btnDefaultIns.op2);  
+      this.listInstrucciones.push(instNueva);
 
 }
   cambiarOrden(num){
@@ -107,4 +126,27 @@ export class AppComponent implements OnInit {
     let i = this.listInstrucciones.indexOf(inst);
     this.listInstrucciones.splice(i,1);
   }
+
+  getDependenciasRAW(){
+    let encontro = false;
+    for (let i = 0; i < this.listInstrucciones.length -1; i++) {
+      console.log(this.listInstrucciones[i].id + ":")
+      if(this.listInstrucciones[i].tipo!="ST")
+       for (let j = i+1; j < this.listInstrucciones.length && !encontro; j++) {
+         if(this.listInstrucciones[j].tipo!="ST"){
+            if (this.listInstrucciones[i].destino == this.listInstrucciones[j].op1 || this.listInstrucciones[i].destino == this.listInstrucciones[j].op2 )  
+               console.log(this.listInstrucciones[j].id)
+            if(this.listInstrucciones[i].destino == this.listInstrucciones[j].destino){
+              encontro=true;
+            }
+         }
+          else{
+            if(this.listInstrucciones[i].destino == this.listInstrucciones[j].destino || this.listInstrucciones[i].destino==this.listInstrucciones[j].op1)
+              console.log(this.listInstrucciones[j].id) 
+          }
+      }
+      encontro = false;
+    }
+  }
+
 }
