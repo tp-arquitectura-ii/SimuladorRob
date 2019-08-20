@@ -49,8 +49,8 @@ export class AppComponent implements OnInit {
     let ins6 = new Instruccion("S6","LD","R9","R6","");
     let ins7 = new Instruccion("S7","SUB","R2","R6","R3");
     let ins8 = new Instruccion("S8","SUB","R10","R3","R1");
- 
-    
+
+
     this.listInstrucciones.push(ins1);
     this.listInstrucciones.push(ins2);
     this.listInstrucciones.push(ins3);
@@ -60,6 +60,7 @@ export class AppComponent implements OnInit {
     this.listInstrucciones.push(ins7);
     this.listInstrucciones.push(ins8)
 
+
     this.idInstruccion = this.listInstrucciones.length;
     
   }
@@ -68,6 +69,18 @@ export class AppComponent implements OnInit {
     this.btnDefaultIns[pos] = name;
     this.actualizarBotones();
     this.getDependenciasRAW();
+    this.imprimirDependecias();
+    
+  }
+  imprimirDependecias() {
+    for (let index = 0; index < this.listInstrucciones.length; index++) {
+      console.log(this.listInstrucciones[index].id + ":" )
+      for (let j = 0; j < this.listInstrucciones[index].dependecias.length; j++) {
+        console.log(this.listInstrucciones[index].dependecias[j])
+        
+      }
+      
+    }
   }
 
   actualizarBotones(){
@@ -130,19 +143,20 @@ export class AppComponent implements OnInit {
   getDependenciasRAW(){
     let encontro = false;
     for (let i = 0; i < this.listInstrucciones.length -1; i++) {
-      console.log(this.listInstrucciones[i].id + ":")
       if(this.listInstrucciones[i].tipo!="ST")
        for (let j = i+1; j < this.listInstrucciones.length && !encontro; j++) {
          if(this.listInstrucciones[j].tipo!="ST"){
             if (this.listInstrucciones[i].destino == this.listInstrucciones[j].op1 || this.listInstrucciones[i].destino == this.listInstrucciones[j].op2 )  
-               console.log(this.listInstrucciones[j].id)
+              this.listInstrucciones[i].agregarDependecias(this.listInstrucciones[j].id);
+            
             if(this.listInstrucciones[i].destino == this.listInstrucciones[j].destino){
               encontro=true;
             }
          }
           else{
-            if(this.listInstrucciones[i].destino == this.listInstrucciones[j].destino || this.listInstrucciones[i].destino==this.listInstrucciones[j].op1)
-              console.log(this.listInstrucciones[j].id) 
+            if(this.listInstrucciones[i].destino == this.listInstrucciones[j].destino || this.listInstrucciones[i].destino==this.listInstrucciones[j].op1)            
+              this.listInstrucciones[i].agregarDependecias(this.listInstrucciones[j].id); 
+            
           }
       }
       encontro = false;

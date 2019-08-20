@@ -4,7 +4,7 @@ export class Instruccion {
     destino:string;
     op1:string;
     op2:string;
-    dependecias:string[];
+    dependecias:String[] = new Array;
 
     constructor(id:string,tipo:string,destino:string,op1:string,op2:string) {
       this.id=id;
@@ -14,9 +14,12 @@ export class Instruccion {
       this.op2=op2; 
     }
     
-
     public getId(){
       return this.id;
+    }
+    
+    public agregarDependecias(i:String){
+      this.dependecias.push(i)
     }
 
   
