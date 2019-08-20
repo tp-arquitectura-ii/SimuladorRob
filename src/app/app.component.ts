@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { identifierModuleUrl } from '@angular/compiler';
 import { Instruccion } from './Instruccion';
-
+import {DataSet} from 'vis'
 
 @Component({
   selector: 'app-root',
@@ -39,6 +39,7 @@ export class AppComponent implements OnInit {
 
   
   constructor() { }
+
 
   ngOnInit() {
     let ins1 = new Instruccion("S1","ADD","R3","R0","R5");
@@ -124,14 +125,14 @@ export class AppComponent implements OnInit {
     this.numEstacionReserva=num;
   }
 
-  cambiarUF(num){
+  cambiarUFmultifuncion(num){
     this.numMultifuncion = num;
   }
 
-  cambiarAri(num){
+  cambiarUFAritmetica(num){
     this.numAritmetica = num;
   }
-  cambiarMem(num){
+  cambiarUFMemoria(num){
     this.numMemoria= num;
   }
 
@@ -161,6 +162,65 @@ export class AppComponent implements OnInit {
       }
       encontro = false;
     }
+  }
+
+  guardarConfiguracion(){
+    let btnReset = document.getElementById("btn-reset");
+    let btnEjecutar = document.getElementById("btn-ejecutar");
+    let btnGuardar = document.getElementById("btn-guardar");
+    let btnNumMemoria = document.getElementById("btn-numMemoria");
+    let btnNumAritmetica = document.getElementById("btn-numAritmetica");
+    let btnNumMultifuncion = document.getElementById("btn-numMultifuncion");
+    let btnInstLD = document.getElementById("btn-Inst-LD");
+    let btnInstST = document.getElementById("btn-Inst-ST");
+    let btnInstADD = document.getElementById("btn-Inst-ADD");
+    let btnInstMUL = document.getElementById("btn-Inst-MUL");
+    let btnInstDIV = document.getElementById("btn-Inst-DIV"); 
+    let btnInstSUB = document.getElementById("btn-Inst-SUB");
+
+    let btnop1 = document.getElementById("btn-op1");
+    let btnop2 = document.getElementById("btn-op2");
+    let btntype = document.getElementById("btn-type"); 
+    let btndst = document.getElementById("btn-dst");
+    let btnAgregar = document.getElementById("btn-Agregar");
+    let btnGradoDispatch = document.getElementById("btn-GradoDispatch");
+    let btnCantidadER = document.getElementById("btn-CantidadER");
+    btnop1.setAttribute("disabled","");  
+    btndst.setAttribute("disabled",""); 
+    btnop2.setAttribute("disabled",""); 
+    btntype.setAttribute("disabled","");  
+    btnAgregar.setAttribute("disabled","");
+    btnGradoDispatch.setAttribute("disabled","");
+    btnCantidadER.setAttribute("disabled",""); 
+    btnInstLD.setAttribute("disabled","");
+    btnInstST.setAttribute("disabled","");
+    btnInstADD.setAttribute("disabled","");
+    btnInstMUL.setAttribute("disabled","");
+    btnInstDIV.setAttribute("disabled","");
+    btnInstSUB.setAttribute("disabled","");
+    btnNumMemoria.setAttribute("disabled","");
+    btnNumAritmetica.setAttribute("disabled","");
+    btnNumMultifuncion.setAttribute("disabled","");
+    if(btnReset.hasAttribute("disabled"))
+      btnReset.removeAttribute("disabled");
+    if (btnEjecutar.hasAttribute("disabled"))
+      btnEjecutar.removeAttribute("disabled");
+    btnGuardar.setAttribute("disabled","");
+  }
+
+
+  ejecutarRob(){
+      let tablaDispatch = document.getElementById("tablaDispatch");
+      let tr = document.createElement("tr");
+      for (let i = 0; i < 2; i++) {
+        let th = document.createElement("th");
+        let d = document.createTextNode("D"+i);
+        th.appendChild(d);
+        tr.appendChild(th);
+      }
+    
+      tablaDispatch.appendChild(tr);
+      
   }
 
 }
