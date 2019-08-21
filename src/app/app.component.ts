@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { identifierModuleUrl } from '@angular/compiler';
 import { Instruccion } from './Instruccion';
-import {DataSet} from 'vis'
 
 @Component({
   selector: 'app-root',
@@ -208,18 +207,63 @@ export class AppComponent implements OnInit {
     btnGuardar.setAttribute("disabled","");
   }
 
-
-  ejecutarRob(){
-      let tablaDispatch = document.getElementById("tablaDispatch");
+  private crearTablaDispatch() {
+    //Inicializa la tabla de despacho
+    let tablaDispatch = document.getElementById("tablaDispatch");
       let tr = document.createElement("tr");
-      for (let i = 0; i < 2; i++) {
-        let th = document.createElement("th");
-        let d = document.createTextNode("D"+i);
+      let th,d;
+      for (let i = 0; i < this.numOrden; i++) {
+        th = document.createElement("th");
+        d = document.createTextNode("D"+i);
         th.appendChild(d);
         tr.appendChild(th);
       }
-    
       tablaDispatch.appendChild(tr);
+  }
+  private crearTablaER(){
+    //Inicializa la tabla de estacion de reserva
+    let tablaER = document.getElementById("tablaER");
+    let tr = document.createElement("tr");
+    let th,d;
+    for (let i = 0; i < this.numEstacionReserva; i++) {
+      th = document.createElement("th");
+      d = document.createTextNode("ER"+i);
+      th.appendChild(d);
+      tr.appendChild(th);
+    }
+    tablaER.appendChild(tr);
+  }
+
+  private crearTablaROB(){
+    //Inicializa la tabla del ROB
+    let tablaROB = document.getElementById("tablaROB");
+    let tr = document.createElement("tr");
+    let th,I,S,th1;
+
+    //era + o * ? MODIFICAR
+    let tamROB = this.numEstacionReserva* (this.numMultifuncion+this.numAritmetica +this.numAritmetica);
+    for (let i = 0; i < tamROB; i++) {
+       th = document.createElement("th");
+       I = document.createTextNode("I");
+       th1 = document.createElement("th1");
+       S = document.createTextNode("S");
+      th.appendChild(I);
+      th1.appendChild(S);
+      tr.appendChild(th);
+      tr.appendChild(th1);
+
+    }
+    tablaROB.appendChild(tr);
+  }
+
+  ejecutarRob(){
+      this.crearTablaDispatch();
+      this.crearTablaER();
+      this.crearTablaROB();
+      let btnEjecutar = document.getElementById("btn-ejecutar");
+      btnEjecutar.setAttribute("disabled","");
+
+
       
   }
 
