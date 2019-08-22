@@ -21,6 +21,16 @@ export class Instruccion {
     public agregarDependencias(i:String){
       this.dependencias.push(i)
     }
-
-  
+    public getTipo(){
+      return this.tipo;
+    }
+    public getDestino(){
+      return this.destino;
+    }
+    public getOp1(){
+      return this.op1;
+    }
+    public getOp2(){
+      return this.op2;
+    }
   }
