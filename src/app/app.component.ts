@@ -62,21 +62,22 @@ export class AppComponent implements OnInit {
 
 
     this.idInstruccion = this.listInstrucciones.length;
-    
+    document.getElementById("tablaCiclo").style.visibility = "hidden";
+
   }
   
   cambiar(pos,name){
     this.btnDefaultIns[pos] = name;
     this.actualizarBotones();
     this.getDependenciasRAW();
-    this.imprimirDependecias();
+    this.imprimirDependencias();
     
   }
-  imprimirDependecias() {
+  imprimirDependencias() {
     for (let index = 0; index < this.listInstrucciones.length; index++) {
       console.log(this.listInstrucciones[index].id + ":" )
-      for (let j = 0; j < this.listInstrucciones[index].dependecias.length; j++) {
-        console.log(this.listInstrucciones[index].dependecias[j])
+      for (let j = 0; j < this.listInstrucciones[index].dependencias.length; j++) {
+        console.log(this.listInstrucciones[index].dependencias[j])
         
       }
       
@@ -147,7 +148,7 @@ export class AppComponent implements OnInit {
        for (let j = i+1; j < this.listInstrucciones.length && !encontro; j++) {
          if(this.listInstrucciones[j].tipo!="ST"){
             if (this.listInstrucciones[i].destino == this.listInstrucciones[j].op1 || this.listInstrucciones[i].destino == this.listInstrucciones[j].op2 )  
-              this.listInstrucciones[i].agregarDependecias(this.listInstrucciones[j].id);
+              this.listInstrucciones[i].agregarDependencias(this.listInstrucciones[j].id);
             
             if(this.listInstrucciones[i].destino == this.listInstrucciones[j].destino){
               encontro=true;
@@ -155,7 +156,7 @@ export class AppComponent implements OnInit {
          }
           else{
             if(this.listInstrucciones[i].destino == this.listInstrucciones[j].destino || this.listInstrucciones[i].destino==this.listInstrucciones[j].op1)            
-              this.listInstrucciones[i].agregarDependecias(this.listInstrucciones[j].id); 
+              this.listInstrucciones[i].agregarDependencias(this.listInstrucciones[j].id); 
             
           }
       }
@@ -163,75 +164,53 @@ export class AppComponent implements OnInit {
     }
   }
 
+  resetConfiguracion(){
+    document.getElementById("btn-reset").setAttribute("disabled","");
+    document.getElementById("btn-ejecutar").setAttribute("disabled","");
+    document.getElementById("btn-guardar").removeAttribute("disabled");
+    document.getElementById("btn-numMemoria").removeAttribute("disabled");
+    document.getElementById("btn-numAritmetica").removeAttribute("disabled");
+    document.getElementById("btn-numMultifuncion").removeAttribute("disabled");
+    document.getElementById("btn-Inst-LD").removeAttribute("disabled");
+    document.getElementById("btn-Inst-ST").removeAttribute("disabled");
+    document.getElementById("btn-Inst-ADD").removeAttribute("disabled");
+    document.getElementById("btn-Inst-MUL").removeAttribute("disabled");
+    document.getElementById("btn-Inst-DIV").removeAttribute("disabled");
+    document.getElementById("btn-Inst-SUB").removeAttribute("disabled");
+    document.getElementById("btn-op1").removeAttribute("disabled");
+    document.getElementById("btn-op2").removeAttribute("disabled");
+    document.getElementById("btn-type").removeAttribute("disabled");
+    document.getElementById("btn-dst").removeAttribute("disabled");
+    document.getElementById("btn-Agregar").removeAttribute("disabled");
+    document.getElementById("btn-GradoDispatch").removeAttribute("disabled");
+    document.getElementById("btn-CantidadER").removeAttribute("disabled");
+    document.getElementById("tablaCiclo").style.visibility = "hidden";
+    document.getElementById("tablaDispatch").style.visibility = "hidden";
+    document.getElementById("tablaER").style.visibility = "hidden";
+    document.getElementById("tablaUF").style.visibility = "hidden";
+    document.getElementById("tablaROB").style.visibility = "hidden";
+  }
+
   guardarConfiguracion(){
-    let btnReset = document.getElementById("btn-reset");
-    let btnEjecutar = document.getElementById("btn-ejecutar");
-    let btnGuardar = document.getElementById("btn-guardar");
-    let btnNumMemoria = document.getElementById("btn-numMemoria");
-    let btnNumAritmetica = document.getElementById("btn-numAritmetica");
-    let btnNumMultifuncion = document.getElementById("btn-numMultifuncion");
-    let btnInstLD = document.getElementById("btn-Inst-LD");
-    let btnInstST = document.getElementById("btn-Inst-ST");
-    let btnInstADD = document.getElementById("btn-Inst-ADD");
-    let btnInstMUL = document.getElementById("btn-Inst-MUL");
-    let btnInstDIV = document.getElementById("btn-Inst-DIV"); 
-    let btnInstSUB = document.getElementById("btn-Inst-SUB");
-
-    let btnop1 = document.getElementById("btn-op1");
-    let btnop2 = document.getElementById("btn-op2");
-    let btntype = document.getElementById("btn-type"); 
-    let btndst = document.getElementById("btn-dst");
-    let btnAgregar = document.getElementById("btn-Agregar");
-    let btnGradoDispatch = document.getElementById("btn-GradoDispatch");
-    let btnCantidadER = document.getElementById("btn-CantidadER");
-    btnop1.setAttribute("disabled","");  
-    btndst.setAttribute("disabled",""); 
-    btnop2.setAttribute("disabled",""); 
-    btntype.setAttribute("disabled","");  
-    btnAgregar.setAttribute("disabled","");
-    btnGradoDispatch.setAttribute("disabled","");
-    btnCantidadER.setAttribute("disabled",""); 
-    btnInstLD.setAttribute("disabled","");
-    btnInstST.setAttribute("disabled","");
-    btnInstADD.setAttribute("disabled","");
-    btnInstMUL.setAttribute("disabled","");
-    btnInstDIV.setAttribute("disabled","");
-    btnInstSUB.setAttribute("disabled","");
-    btnNumMemoria.setAttribute("disabled","");
-    btnNumAritmetica.setAttribute("disabled","");
-    btnNumMultifuncion.setAttribute("disabled","");
-    if(btnReset.hasAttribute("disabled"))
-      btnReset.removeAttribute("disabled");
-    if (btnEjecutar.hasAttribute("disabled"))
-      btnEjecutar.removeAttribute("disabled");
-    btnGuardar.setAttribute("disabled","");
-  }
-
-  private crearTablaDispatch() {
-    //Inicializa la tabla de despacho
-    let tablaDispatch = document.getElementById("tablaDispatch");
-      let tr = document.createElement("tr");
-      let th,d;
-      for (let i = 0; i < this.numOrden; i++) {
-        th = document.createElement("th");
-        d = document.createTextNode("D"+i);
-        th.appendChild(d);
-        tr.appendChild(th);
-      }
-      tablaDispatch.appendChild(tr);
-  }
-  private crearTablaER(){
-    //Inicializa la tabla de estacion de reserva
-    let tablaER = document.getElementById("tablaER");
-    let tr = document.createElement("tr");
-    let th,d;
-    for (let i = 0; i < this.numEstacionReserva; i++) {
-      th = document.createElement("th");
-      d = document.createTextNode("ER"+i);
-      th.appendChild(d);
-      tr.appendChild(th);
-    }
-    tablaER.appendChild(tr);
+    document.getElementById("btn-reset").removeAttribute("disabled");
+    document.getElementById("btn-ejecutar").removeAttribute("disabled");
+    document.getElementById("btn-guardar").setAttribute("disabled","");
+    document.getElementById("btn-numMemoria").setAttribute("disabled","");
+    document.getElementById("btn-numAritmetica").setAttribute("disabled","");
+    document.getElementById("btn-numMultifuncion").setAttribute("disabled","");
+    document.getElementById("btn-Inst-LD").setAttribute("disabled","");
+    document.getElementById("btn-Inst-ST").setAttribute("disabled","");
+    document.getElementById("btn-Inst-ADD").setAttribute("disabled","");
+    document.getElementById("btn-Inst-MUL").setAttribute("disabled","");
+    document.getElementById("btn-Inst-DIV").setAttribute("disabled","");
+    document.getElementById("btn-Inst-SUB").setAttribute("disabled","");
+    document.getElementById("btn-op1").setAttribute("disabled","");
+    document.getElementById("btn-op2").setAttribute("disabled","");
+    document.getElementById("btn-type").setAttribute("disabled","");
+    document.getElementById("btn-dst").setAttribute("disabled","");
+    document.getElementById("btn-Agregar").setAttribute("disabled","");
+    document.getElementById("btn-GradoDispatch").setAttribute("disabled","");
+    document.getElementById("btn-CantidadER").setAttribute("disabled","");
   }
 
   private crearTablaROB(){
@@ -256,12 +235,30 @@ export class AppComponent implements OnInit {
     tablaROB.appendChild(tr);
   }
 
+  private crearTabla(desc:string,num, tabla:string){
+    let tr = document.createElement("tr");
+    let th,d;
+    for (let i = 0; i < num; i++) {
+      th = document.createElement("th");
+      d = document.createTextNode(desc + i);
+      th.appendChild(d);
+      tr.appendChild(th);
+    }
+    document.getElementById(tabla).appendChild(tr);
+  }
+  
   ejecutarRob(){
-      this.crearTablaDispatch();
-      this.crearTablaER();
-      this.crearTablaROB();
-      let btnEjecutar = document.getElementById("btn-ejecutar");
-      btnEjecutar.setAttribute("disabled","");
+    document.getElementById("tablaCiclo").style.visibility = "visible";
+    document.getElementById("tablaDispatch").style.visibility = "visible";
+    document.getElementById("tablaER").style.visibility = "visible";
+    document.getElementById("tablaUF").style.visibility = "visible";
+    document.getElementById("tablaROB").style.visibility = "visible";
+    document.getElementById("btn-ejecutar").setAttribute("disabled","");
+    this.crearTabla("ER",this.numEstacionReserva,"tablaER");
+    this.crearTabla("D",this.numOrden,"tablaDispatch");
+    this.crearTabla("UF",this.numAritmetica+this.numMemoria+this.numMultifuncion,"tablaUF");
+    this.crearTablaROB();
+      
 
 
       

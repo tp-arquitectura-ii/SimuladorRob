@@ -4,7 +4,7 @@ export class Instruccion {
     destino:string;
     op1:string;
     op2:string;
-    dependecias:String[] = new Array;
+    dependencias:String[] = new Array;
 
     constructor(id:string,tipo:string,destino:string,op1:string,op2:string) {
       this.id=id;
@@ -18,8 +18,8 @@ export class Instruccion {
       return this.id;
     }
     
-    public agregarDependecias(i:String){
-      this.dependecias.push(i)
+    public agregarDependencias(i:String){
+      this.dependencias.push(i)
     }
 
   

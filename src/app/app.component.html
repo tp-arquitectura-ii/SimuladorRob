@@ -12,7 +12,7 @@
 <table class="table table-striped" style = "width:5cm">  
   <thead>
   <tr>
-    <th scope = "col">#</th>
+    <th scope="col">#</th>
     <th scope="col">Instruccion</th>
     <th scope="col">DST</th>
     <th scope="col">OP1</th>
@@ -160,7 +160,7 @@
   <h4>Configuracion</h4> 
   <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
     <button id = "btn-guardar" type="button" class="btn btn-outline-danger" (click) = "guardarConfiguracion()" >Guardar</button>
-    <button id = "btn-reset" type="button" class="btn btn-outline-danger" disabled  >Reset </button>
+    <button id = "btn-reset" type="button" class="btn btn-outline-danger" disabled  (click) = "resetConfiguracion()">Reset </button>
     <button id = "btn-ejecutar" type="button" class="btn btn-outline-danger" disabled (click) = "ejecutarRob()">Ejecutar</button>
   </div>  
 </div>
@@ -174,7 +174,7 @@
 
   <div class = "row">
     <div class = "col">
-    <table class="table table-striped" style = "width:2cm" >  
+    <table id ="tablaCiclo" class="table table-striped" style = "width:2cm" >  
       <thead>
       <tr>
         <th scope = "col">Ciclo #</th>
@@ -193,6 +193,13 @@
   </div>
    <div class = "col">
     <table id = "tablaER" class="table table-striped" style = "width:1cm" >  
+      <thead>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div class = "col">
+    <table id = "tablaUF" class="table table-striped" style = "width:1cm" >  
       <thead>
       </thead>
       <tbody></tbody>
