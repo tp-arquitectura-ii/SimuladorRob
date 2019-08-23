@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { identifierModuleUrl } from '@angular/compiler';
 import { Instruccion } from './Instruccion';
+import { Dispatch } from './Dispatch';
+
 
 @Component({
   selector: 'app-root',
@@ -165,6 +167,7 @@ export class AppComponent implements OnInit {
   }
 
   resetConfiguracion(){
+    document.getElementById("btn-siguiente").setAttribute("hidden","");
     document.getElementById("btn-reset").setAttribute("disabled","");
     document.getElementById("btn-ejecutar").setAttribute("disabled","");
     document.getElementById("btn-guardar").removeAttribute("disabled");
@@ -248,6 +251,7 @@ export class AppComponent implements OnInit {
   }
   
   ejecutarRob(){
+    document.getElementById("btn-siguiente").removeAttribute("hidden");
     document.getElementById("tablaCiclo").style.visibility = "visible";
     document.getElementById("tablaDispatch").style.visibility = "visible";
     document.getElementById("tablaER").style.visibility = "visible";
@@ -258,10 +262,13 @@ export class AppComponent implements OnInit {
     this.crearTabla("D",this.numOrden,"tablaDispatch");
     this.crearTabla("UF",this.numAritmetica+this.numMemoria+this.numMultifuncion,"tablaUF");
     this.crearTablaROB();
-      
+  }
 
 
-      
+  sigInstruccion(){
+    //testing 
+    let dispatch = new Dispatch(this.numOrden);
+
   }
 
 }
