@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { identifierModuleUrl } from '@angular/compiler';
 import { Instruccion } from './Instruccion';
 import { Dispatch } from './Dispatch';
+import { Procesador } from './Procesador';
 
 
 @Component({
@@ -38,6 +39,7 @@ export class AppComponent implements OnInit {
     op2: "OP2"
   };
 
+  cpu:Procesador
   
   constructor() { }
 
@@ -262,12 +264,13 @@ export class AppComponent implements OnInit {
     this.crearTabla("D",this.numOrden,"tablaDispatch");
     this.crearTabla("UF",this.numAritmetica+this.numMemoria+this.numMultifuncion,"tablaUF");
     this.crearTablaROB();
+    this.cpu = new Procesador(this.listInstrucciones,this.numOrden);
   }
 
 
   sigInstruccion(){
     //testing 
-    let dispatch = new Dispatch(this.numOrden);
+    this.cpu.siguienteCiclo();
 
   }
 

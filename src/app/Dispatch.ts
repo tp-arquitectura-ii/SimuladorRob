@@ -21,11 +21,14 @@ export class Dispatch {
             return true;
     }
 
-    AgregarInstrucc(i:Instruccion){
+    addInstruction(i:Instruccion){
         this.instrucciones.push(i);
     }
 
-    ObtenerInstruc(){
-        return this.instrucciones.shift;
+    getInstruc(){
+        return this.instrucciones.shift();
     }
+    getGrado(){
+        return this.grado;
     }
+}
