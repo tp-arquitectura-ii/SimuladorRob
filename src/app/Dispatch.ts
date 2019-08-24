@@ -1,32 +1,32 @@
-import { Instruccion } from './Instruccion';
+import { Instruction } from './Instruction';
 
 export class Dispatch {
-    instrucciones = new Array<Instruccion>();
+    instruction = new Array<Instruction>();
     grado=0;
 
     constructor(grado){
         this.grado=grado;
     }
 
-    EstaVacio(){
-        if (this.instrucciones.length == this.grado)
+    isEmpty(){
+        if (this.instruction.length == this.grado)
             return true 
         else 
             return false;
     }
     HayLugar(){
-        if (this.instrucciones.length == this.grado)
+        if (this.instruction.length == this.grado)
             return false 
         else
             return true;
     }
 
-    addInstruction(i:Instruccion){
-        this.instrucciones.push(i);
+    addInstruction(i:Instruction){
+        this.instruction.push(i);
     }
 
     getInstruc(){
-        return this.instrucciones.shift();
+        return this.instruction.shift();
     }
     getGrado(){
         return this.grado;

@@ -1,12 +1,12 @@
 import { Dispatch } from './Dispatch';
-import { Instruccion } from './Instruccion';
+import { Instruction } from './Instruction';
 
 
-export class Procesador{
+export class Processor{
     dispatcher:Dispatch
     contadorCiclos = 0;
-    listInstrucciones: Array<Instruccion>;
-    constructor(instrucciones:Array<Instruccion>,numOrden){
+    listInstrucciones: Array<Instruction>;
+    constructor(instrucciones:Array<Instruction>,numOrden){
         this.listInstrucciones = instrucciones.slice(0);
         this.dispatcher = new Dispatch(numOrden);
     }
