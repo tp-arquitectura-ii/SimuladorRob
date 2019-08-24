@@ -9,8 +9,8 @@ export class Dispatch {
     }
 
     isEmpty(){
-        if (this.instruction.length == this.grado)
-            return true 
+        if (this.instruction.length == 0)
+            return true; 
         else 
             return false;
     }

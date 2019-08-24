@@ -1,35 +1,50 @@
 import { Dispatch } from './Dispatch';
 import { Instruction } from './Instruction';
+import { FunctionalUnit } from './FunctionalUnit';
+import { ReserveStation } from './ReserveStation';
+import { BufferReorder } from './BufferReorder';
 
 
 export class Processor{
     dispatcher:Dispatch
-    contadorCiclos = 0;
-    listInstrucciones: Array<Instruction>;
+    uf: Array<FunctionalUnit>;
+    er: ReserveStation;
+    rob: BufferReorder;
+    
+    cycleCounter = 0;
+    listInstruction: Array<Instruction>;
     constructor(instrucciones:Array<Instruction>,numOrden){
-        this.listInstrucciones = instrucciones.slice(0);
+        this.listInstruction = instrucciones.slice(0);
         this.dispatcher = new Dispatch(numOrden);
     }
 
     public siguienteCiclo(){
-        for(let i = 0; i < this.dispatcher.getGrado(); i++){
-            this.dispatcher.addInstruction(this.listInstrucciones.shift())
+        if(this.cycleCounter == 0){
+            for(let i = 0; i < this.dispatcher.getGrado() && this.listInstruction.length != 0 ; i++){
+                console.log(this.listInstruction[0].getId());
+                this.dispatcher.addInstruction(this.listInstruction.shift())
+            }
+            this.cycleCounter++;
         }
-        this.addRow();
-        this.contadorCiclos++;
+        else
+        {}
+        
+        
+       
+        
     }
     //MODIFICAR
     addRow() {
         
         let tr = document.createElement("tr");
         let td = document.createElement("td");
-        td.appendChild(document.createTextNode(""+this.contadorCiclos));
+        td.appendChild(document.createTextNode(""+this.cycleCounter));
         tr.appendChild(td);
-        document.getElementById("tablaCiclo").appendChild(tr);
+        document.getElementById("tablacycle").appendChild(tr);
         
         let tr1 = document.createElement("tr");
         
-        for(let i = 0; i <this.dispatcher.getGrado();i++){
+        for(let i = 0; i <this.dispatcher.getGrado() && !(this.dispatcher.isEmpty);i++){
             let td1 = document.createElement("td");
             td1.appendChild(document.createTextNode(this.dispatcher.getInstruc().getId()))
             tr1.appendChild(td1);

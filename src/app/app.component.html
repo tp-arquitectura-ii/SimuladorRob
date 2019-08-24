@@ -136,21 +136,21 @@
 
     <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
         <button class="btn btn-outline-danger">Multifuncion: </button>
-        <button id = "btn-numMultifuncion" class="btn btn-outline-danger" ngbDropdownToggle>{{numMultifunction}}</button>
+        <button id = "btn-numMultifunction" class="btn btn-outline-danger" ngbDropdownToggle>{{numMultifunction}}</button>
         <div class="dropdown-menu" ngbDropdownMenu>
             <button class="dropdown-item" *ngFor="let num of [0,1,2,3,4,5]" (click)="changeUFmultifunction(num)" >{{num}}</button>
         </div>
       </div>
   <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
       <button class="btn btn-outline-danger">Aritmetica: </button>
-    <button id = "btn-numAritmetica" class="btn btn-outline-danger" ngbDropdownToggle>{{numArithmetic}}</button>
+    <button id = "btn-numArithmetic" class="btn btn-outline-danger" ngbDropdownToggle>{{numArithmetic}}</button>
     <div class="dropdown-menu" ngbDropdownMenu>
       <button class="dropdown-item" *ngFor="let num of [0,1,2,3,4,5]" (click)="changeUFArithmetic(num)" >{{num}}</button>
     </div>
   </div>
   <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
     <button class="btn btn-outline-danger">Memoria: </button>
-    <button id = "btn-numMemoria"class="btn btn-outline-danger" ngbDropdownToggle>{{numMemory}}</button>
+    <button id = "btn-numMemory"class="btn btn-outline-danger" ngbDropdownToggle>{{numMemory}}</button>
     <div class="dropdown-menu" ngbDropdownMenu>
         <button class="dropdown-item" *ngFor="let num of [0,1,2,3,4,5]" (click)="changeUFMemory(num)" >{{num}}</button>
     </div>
@@ -159,8 +159,8 @@
 
   <h4>Configuracion</h4> 
   <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-    <button id = "btn-guardar" type="button" class="btn btn-outline-danger" (click) = "guardarConfiguracion()" >Guardar</button>
-    <button id = "btn-reset" type="button" class="btn btn-outline-danger" disabled  (click) = "resetConfiguracion()">Reset </button>
+    <button id = "btn-guardar" type="button" class="btn btn-outline-danger" (click) = "saveConfiguration()" >Guardar</button>
+    <button id = "btn-reset" type="button" class="btn btn-outline-danger" disabled  (click) = "resetConfiguration()">Reset </button>
     <button id = "btn-ejecutar" type="button" class="btn btn-outline-danger" disabled (click) = "ejecutarRob()">Ejecutar</button>
   </div>  
 </div>
@@ -175,7 +175,7 @@
 
   <div class = "row">
     <div class = "col">
-    <table id ="tablaCiclo" class="table table-striped" style = "width:2cm" >  
+    <table id ="tablacycle" class="table table-striped" style = "width:2cm" >  
       <thead>
       <tr>
         <th scope = "col">Ciclo #</th>

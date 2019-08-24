@@ -4,6 +4,8 @@ export class Instruction {
     private destination:string;
     private op1:string;
     private op2:string;
+    private isExecute:boolean
+    private cycles: number;
     dependecies:String[] = new Array;
 
     constructor(id:string,type:string,destination:string,op1:string,op2:string) {

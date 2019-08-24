@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
 
 
     this.idInstruction = this.listInstructions.length;
-    document.getElementById("tablaCiclo").style.visibility = "hidden";
+    document.getElementById("tablacycle").style.visibility = "hidden";
 
   }
   
@@ -200,7 +200,7 @@ export class AppComponent implements OnInit {
     document.getElementById("btn-ejecutar").removeAttribute("disabled");
     document.getElementById("btn-guardar").setAttribute("disabled","");
     document.getElementById("btn-numMemory").setAttribute("disabled","");
-    document.getElementById("btn-numArithmeti").setAttribute("disabled","");
+    document.getElementById("btn-numArithmetic").setAttribute("disabled","");
     document.getElementById("btn-numMultifunction").setAttribute("disabled","");
     document.getElementById("btn-Inst-LD").setAttribute("disabled","");
     document.getElementById("btn-Inst-ST").setAttribute("disabled","");
@@ -260,6 +260,7 @@ export class AppComponent implements OnInit {
     document.getElementById("tablaROB").style.visibility = "visible";
     document.getElementById("btn-ejecutar").setAttribute("disabled","");
     this.createTableHead("ER",this.numReserveStation,"tablaER");
+    console.log("hols");
     this.createTableHead("D",this.numOrder,"tablaDispatch");
     this.createTableHead("UF",this.numArithmetic+this.numMemory+this.numMultifunction,"tablaUF");
     this.createTableHeadROB();
