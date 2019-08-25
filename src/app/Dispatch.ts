@@ -1,11 +1,15 @@
 import { Instruction } from './Instruction';
 
 export class Dispatch {
-    instruction = new Array<Instruction>();
-    grado=0;
+    private instruction = new Array<Instruction>();
+    private grade=0;
 
-    constructor(grado){
-        this.grado=grado;
+    constructor(grade){
+        this.grade=grade;
+    }
+
+    getSize(){
+        return this.instruction.length;
     }
 
     isEmpty(){
@@ -14,11 +18,11 @@ export class Dispatch {
         else 
             return false;
     }
-    HayLugar(){
-        if (this.instruction.length == this.grado)
-            return false 
+    isBusy(){
+        if (this.instruction.length == this.grade)
+            return true 
         else
-            return true;
+            return false;
     }
 
     addInstruction(i:Instruction){
@@ -28,7 +32,7 @@ export class Dispatch {
     getInstruc(){
         return this.instruction.shift();
     }
-    getGrado(){
-        return this.grado;
+    getGrade(){
+        return this.grade;
     }
 }

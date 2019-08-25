@@ -6,16 +6,27 @@ export class Instruction {
     private op2:string;
     private isExecute:boolean
     private cycles: number;
+    private UFType : string;
     dependecies:String[] = new Array;
 
-    constructor(id:string,type:string,destination:string,op1:string,op2:string) {
+    constructor(id:string,type:string,destination:string,op1:string,op2:string,UFType:string) {
       this.id=id;
       this.type=type;
       this.destination=destination;
       this.op1=op1;
-      this.op2=op2; 
+      this.op2=op2;
+      this.UFType = UFType; 
     }
     
+    public setExecuting(t:boolean){
+      this.isExecute = t;
+    }
+    public getExecuting(){
+      return this.isExecute;
+    }
+    public getUFType(){
+      return this.UFType;
+    }
     public getId(){
       return this.id;
     }

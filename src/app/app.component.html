@@ -159,9 +159,9 @@
 
   <h4>Configuracion</h4> 
   <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-    <button id = "btn-guardar" type="button" class="btn btn-outline-danger" (click) = "saveConfiguration()" >Guardar</button>
+    <button id = "btn-save" type="button" class="btn btn-outline-danger" (click) = "saveConfiguration()" >Guardar</button>
     <button id = "btn-reset" type="button" class="btn btn-outline-danger" disabled  (click) = "resetConfiguration()">Reset </button>
-    <button id = "btn-ejecutar" type="button" class="btn btn-outline-danger" disabled (click) = "ejecutarRob()">Ejecutar</button>
+    <button id = "btn-execute" type="button" class="btn btn-outline-danger" disabled (click) = "executeRob()">Ejecutar</button>
   </div>  
 </div>
 </div>
@@ -171,7 +171,7 @@
 <!--DEFINICION DE TABLAS-->
 <div class = "container">
     <h4>Simulación</h4> 
-    <button id = "btn-siguiente" type="button" class="btn btn-outline-danger" hidden (click) = "sigInstruccion()" >Siguiente Intruccion</button>
+    <button id = "btn-next" type="button" class="btn btn-outline-danger" hidden (click) = "nextInstruction()" >Siguiente Intruccion</button>
 
   <div class = "row">
     <div class = "col">

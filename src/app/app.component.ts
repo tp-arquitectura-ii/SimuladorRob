@@ -43,14 +43,14 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit() {
-    let ins1 = new Instruction("S1","ADD","R3","R0","R5");
-    let ins2 = new Instruction("S2","MUL","R2","R2","R5");
-    let ins3 = new Instruction("S3","DIV","R1","R5","R0");
-    let ins4 = new Instruction("S4","ST","R3","R1","");
-    let ins5 = new Instruction("S5","SUB","R6","R3","R2");
-    let ins6 = new Instruction("S6","LD","R9","R6","");
-    let ins7 = new Instruction("S7","SUB","R2","R6","R3");
-    let ins8 = new Instruction("S8","SUB","R10","R3","R1");
+    let ins1 = new Instruction("S1","ADD","R3","R0","R5","ARITH");
+    let ins2 = new Instruction("S2","MUL","R2","R2","R5","ARITH");
+    let ins3 = new Instruction("S3","DIV","R1","R5","R0","ARITH");
+    let ins4 = new Instruction("S4","ST","R3","R1","","MEM");
+    let ins5 = new Instruction("S5","SUB","R6","R3","R2","ARITH");
+    let ins6 = new Instruction("S6","LD","R9","R6","","MEM");
+    let ins7 = new Instruction("S7","SUB","R2","R6","R3","ARITH");
+    let ins8 = new Instruction("S8","SUB","R10","R3","R1","ARITH");
 
 
     this.listInstructions.push(ins1);
@@ -108,9 +108,9 @@ export class AppComponent implements OnInit {
     this.idInstruction++
     let instNueva;
     if (this.btnDefaultIns.type=="ST" || this.btnDefaultIns.type == "LD")
-      instNueva = new Instruction("S" +this.idInstruction,this.btnDefaultIns.type,this.btnDefaultIns.dst,this.btnDefaultIns.op1,"");
+      instNueva = new Instruction("S" +this.idInstruction,this.btnDefaultIns.type,this.btnDefaultIns.dst,this.btnDefaultIns.op1,"","MEM");
     else  
-      instNueva = new Instruction("S" +this.idInstruction,this.btnDefaultIns.type,this.btnDefaultIns.dst,this.btnDefaultIns.op1,this.btnDefaultIns.op2);  
+      instNueva = new Instruction("S" +this.idInstruction,this.btnDefaultIns.type,this.btnDefaultIns.dst,this.btnDefaultIns.op1,this.btnDefaultIns.op2,"ARITH");  
       this.listInstructions.push(instNueva);
 
 }
@@ -168,10 +168,10 @@ export class AppComponent implements OnInit {
   }
 
   resetConfiguration(){
-    document.getElementById("btn-siguiente").setAttribute("hidden","");
+    document.getElementById("btn-next").setAttribute("hidden","");
     document.getElementById("btn-reset").setAttribute("disabled","");
-    document.getElementById("btn-ejecutar").setAttribute("disabled","");
-    document.getElementById("btn-guardar").removeAttribute("disabled");
+    document.getElementById("btn-execute").setAttribute("disabled","");
+    document.getElementById("btn-save").removeAttribute("disabled");
     document.getElementById("btn-numMemory").removeAttribute("disabled");
     document.getElementById("btn-numArithmeti").removeAttribute("disabled");
     document.getElementById("btn-numMultifunction").removeAttribute("disabled");
@@ -197,8 +197,8 @@ export class AppComponent implements OnInit {
 
   saveConfiguration(){
     document.getElementById("btn-reset").removeAttribute("disabled");
-    document.getElementById("btn-ejecutar").removeAttribute("disabled");
-    document.getElementById("btn-guardar").setAttribute("disabled","");
+    document.getElementById("btn-execute").removeAttribute("disabled");
+    document.getElementById("btn-save").setAttribute("disabled","");
     document.getElementById("btn-numMemory").setAttribute("disabled","");
     document.getElementById("btn-numArithmetic").setAttribute("disabled","");
     document.getElementById("btn-numMultifunction").setAttribute("disabled","");
@@ -222,7 +222,6 @@ export class AppComponent implements OnInit {
     let tablaROB = document.getElementById("tablaROB");
     let tr = document.createElement("tr");
     let th,I,S,th1;
-
 
     let tamROB = this.numReserveStation* (this.numMultifunction+this.numArithmetic +this.numArithmetic);
     for (let i = 0; i < tamROB; i++) {
@@ -251,26 +250,27 @@ export class AppComponent implements OnInit {
     document.getElementById(tabla).appendChild(tr);
   }
   
-  ejecutarRob(){
-    document.getElementById("btn-siguiente").removeAttribute("hidden");
+  public executeRob(){
+    document.getElementById("btn-next").removeAttribute("hidden");
     document.getElementById("tablacycle").style.visibility = "visible";
     document.getElementById("tablaDispatch").style.visibility = "visible";
     document.getElementById("tablaER").style.visibility = "visible";
     document.getElementById("tablaUF").style.visibility = "visible";
     document.getElementById("tablaROB").style.visibility = "visible";
-    document.getElementById("btn-ejecutar").setAttribute("disabled","");
+    document.getElementById("btn-execute").setAttribute("disabled","");
     this.createTableHead("ER",this.numReserveStation,"tablaER");
-    console.log("hols");
     this.createTableHead("D",this.numOrder,"tablaDispatch");
     this.createTableHead("UF",this.numArithmetic+this.numMemory+this.numMultifunction,"tablaUF");
     this.createTableHeadROB();
-    this.cpu = new Processor(this.listInstructions,this.numOrder);
+    let sizeROB = this.numReserveStation* (this.numMultifunction+this.numArithmetic +this.numArithmetic);
+    this.cpu = new Processor(this.listInstructions,this.numOrder,this.numReserveStation,sizeROB);
+    this.cpu.addUF(this.numArithmetic,this.numMemory,this.numMultifunction);
   }
 
 
-  sigInstruccion(){
+  nextInstruction(){
     //testing 
-    this.cpu.siguienteCiclo();
+    this.cpu.nextCycle();
 
   }
 
