@@ -3,6 +3,7 @@ import { Instruction } from './Instruction';
 import { FunctionalUnit } from './FunctionalUnit';
 import { ReserveStation } from './ReserveStation';
 import { BufferReorder } from './BufferReorder';
+import { InstantiateExpr } from '@angular/compiler';
 
 
 export class Processor{
@@ -17,6 +18,7 @@ export class Processor{
         this.listInstruction = instrucciones.slice(0);
         this.dispatcher = new Dispatch(numOrden);
         this.er = new ReserveStation(numReserveStation);
+        this.uf=new Array<FunctionalUnit>();
         this.rob = new BufferReorder(robSize);
 
     }
@@ -47,11 +49,15 @@ export class Processor{
                 console.log(this.listInstruction[0].getId()); //borrar
                 this.dispatcher.addInstruction(this.listInstruction.shift())
             }
+            this.addRowCounter();
+            this.addRow(this.dispatcher.instruction,"tablaDispatch",3)
+            this.addRow(this.er.instructions,"tablaER",3)
             this.cycleCounter++;
         }
         else
-        {   
-            let indexUnit,s;
+        {  
+            console.log("entro"); 
+            /*let indexUnit,s;
             for(let i = 0; i < this.dispatcher.getSize(); i++){ //recorro instrucc cargadas en el dispatch
                 if ( !this.er.isBusy() && !this.rob.isBusy() ){ //si hay lugar en las ER y en el ROB
                     s= this.dispatcher.getInstruc(); //agarro instruc de cola de dispatch
@@ -64,27 +70,51 @@ export class Processor{
                         //aca deberia mostrar con el addRow
                     }
                 }
+            }*/
+            console.log(this.dispatcher.getSize());
+            for(let i = 0; i <= this.dispatcher.getSize();i++){//MIRAR ESTO PORQUE SI SE LO RETIRA DE LA LISTA DECREMENTA EL GETSIZE
+                if (!this.er.isBusy() && !this.rob.isBusy()){
+                    let inst = this.dispatcher.getInstruc();
+                    this.er.addInstruction(inst);
+                    this.rob.addInstruc(inst);
+         
+                }
             }
+
+
+            for(let i = 0; i < this.dispatcher.getGrade() && this.listInstruction.length != 0 ; i++){
+                this.dispatcher.addInstruction(this.listInstruction.shift())
+            }
+
+            this.addRowCounter();
+            this.addRow(this.dispatcher.instruction,"tablaDispatch",3)
+            this.addRow(this.er.instructions,"tablaER",3)
+            this.cycleCounter++;
+
+    
         }
     
     }
     //MODIFICAR
-    addRow() {
-        
+
+    addRow(inst:Array<Instruction>, id:string, cantidad:Number ){
+        let tr = document.createElement("tr");
+        for(let i = 0; i < inst.length ;i++){
+            let td = document.createElement("td");
+            td.appendChild(document.createTextNode(inst[i].getId()));
+            tr.appendChild(td);
+        }
+        document.getElementById(id).appendChild(tr);
+    }
+    addRowCounter() {
+    
         let tr = document.createElement("tr");
         let td = document.createElement("td");
         td.appendChild(document.createTextNode(""+this.cycleCounter));
         tr.appendChild(td);
         document.getElementById("tablacycle").appendChild(tr);
         
-        let tr1 = document.createElement("tr");
-        
-        for(let i = 0; i <this.dispatcher.getGrade() && !(this.dispatcher.isEmpty);i++){
-            let td1 = document.createElement("td");
-            td1.appendChild(document.createTextNode(this.dispatcher.getInstruc().getId()))
-            tr1.appendChild(td1);
-        }
-        document.getElementById("tablaDispatch").appendChild(tr1);
+       
         
     }
 

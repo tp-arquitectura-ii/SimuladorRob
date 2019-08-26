@@ -1,7 +1,7 @@
 import { Instruction } from './Instruction';
 
 export class ReserveStation{
-    private instructions = new Array<Instruction>();
+     instructions = new Array<Instruction>();
     private numReserveStation;
 
     constructor(numReserveStation){

@@ -1,7 +1,7 @@
 import { Instruction } from './Instruction';
 
 export class BufferReorder{
-    private instruction = new Array<Instruction>();
+    instruction = new Array<Instruction>();
     private size;
 
   constructor(size){

@@ -1,7 +1,7 @@
 import { Instruction } from './Instruction';
 
 export class Dispatch {
-    private instruction = new Array<Instruction>();
+    instruction = new Array<Instruction>();
     private grade=0;
 
     constructor(grade){
