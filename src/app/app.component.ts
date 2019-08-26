@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     let ins1 = new Instruction("S1","ADD","R3","R0","R5","ARITH");
-    let ins2 = new Instruction("S2","MUL","R2","R2","R5","ARITH");
+    let ins2 = new Instruction("S2","MUL","R2","R3","R5","ARITH");
     let ins3 = new Instruction("S3","DIV","R1","R5","R0","ARITH");
     let ins4 = new Instruction("S4","ST","R3","R1","","MEM");
     let ins5 = new Instruction("S5","SUB","R6","R3","R2","ARITH");
@@ -215,8 +215,20 @@ export class AppComponent implements OnInit {
     document.getElementById("btn-Agregar").setAttribute("disabled","");
     document.getElementById("btn-GradoDispatch").setAttribute("disabled","");
     document.getElementById("btn-CantidadER").setAttribute("disabled","");
+    this.setCycles();
+
   }
 
+  private setCycles(){
+    for(let i=0 ; i< this.listInstructions.length; i++){
+      for (let j =0 ; j < this.typeInstruction.length; j++)
+        if (this.listInstructions[i].getType() == this.typeInstruction[j].type){
+          this.listInstructions[i].setCycles(this.typeInstruction[j].cycle)
+          console.log(this.listInstructions[i].getCycle())
+        }    
+      }
+
+  }
   private createTableHeadROB(){
     //Inicializa la tabla del ROB
     let tablaROB = document.getElementById("tablaROB");
@@ -263,7 +275,7 @@ export class AppComponent implements OnInit {
     this.createTableHead("UF",this.numArithmetic+this.numMemory+this.numMultifunction,"tablaUF");
     this.createTableHeadROB();
     let sizeROB = this.numReserveStation+ (this.numMultifunction+this.numArithmetic +this.numMemory);
-    console.log(sizeROB);
+
     this.cpu = new Processor(this.listInstructions,this.numOrder,this.numReserveStation,sizeROB);
     this.cpu.addUF(this.numArithmetic,this.numMemory,this.numMultifunction);
   }

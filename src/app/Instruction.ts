@@ -4,7 +4,7 @@ export class Instruction {
     private destination:string;
     private op1:string;
     private op2:string;
-    private isExecute:boolean
+    private status:string
     private cycles: number;
     private UFType : string;
     dependecies:String[] = new Array;
@@ -18,11 +18,11 @@ export class Instruction {
       this.UFType = UFType; 
     }
     
-    public setExecuting(t:boolean){
-      this.isExecute = t;
+    public setStatus(t:string){
+      this.status = t;
     }
-    public getExecuting(){
-      return this.isExecute;
+    public getStatus(){
+      return this.status;
     }
     public getUFType(){
       return this.UFType;
@@ -45,5 +45,21 @@ export class Instruction {
     }
     public getOp2(){
       return this.op2;
+    }
+
+    public setCycles(cycle){
+      this.cycles=cycle; 
+      }
+    
+      public getCycle(){
+        return this.cycles;
+      }
+
+    public decrementCycle(){
+      this.cycles--;
+    }
+    
+    public existDependency(inst:Instruction){
+      return (this.dependecies.includes(inst.getId()));
     }
   }

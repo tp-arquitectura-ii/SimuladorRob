@@ -3,7 +3,7 @@ import { Instruction } from './Instruction';
 import { FunctionalUnit } from './FunctionalUnit';
 import { ReserveStation } from './ReserveStation';
 import { BufferReorder } from './BufferReorder';
-import { InstantiateExpr } from '@angular/compiler';
+
 
 
 export class Processor{
@@ -51,32 +51,58 @@ export class Processor{
             this.addRowCounter();
             this.addRow(this.dispatcher.instruction,"tablaDispatch",this.dispatcher.getGrade());
             this.addRow(this.er.instructions,"tablaER",this.er.getnumReserveStation());
+            this.addRowUF();
             this.addRowROB(this.rob.instruction,"tablaROB",this.rob.getSize());
             this.cycleCounter++;
         }
         else
         {  
-            console.log("entro"); 
-            /*let indexUnit,s;
-            for(let i = 0; i < this.dispatcher.getSize(); i++){ //recorro instrucc cargadas en el dispatch
-                if ( !this.er.isBusy() && !this.rob.isBusy() ){ //si hay lugar en las ER y en el ROB
-                    s= this.dispatcher.getInstruc(); //agarro instruc de cola de dispatch
-                    indexUnit= this.getUF(s.getUFType()); //obtengo indice de la uf con el tipo de la instruc o sino multifuncion
-                    if ( !this.uf[indexUnit].isBusy() ){ // si esta libre y && no hay dependencias con las otras q se ejecutan
-                        this.uf[indexUnit].addInstruc(s); //agrego a la uf 
-                        this.er.addInstruction(s); //agrego a la er
-                        s.setExecuting(true); // instruccion pasa a ejecutando
-                        this.rob.addInstruc(s); //agrego al rob 
-                        //aca deberia mostrar con el addRow
-                    }
-                }
-            }*/
-            console.log(this.dispatcher.getSize());
-            for(let i = 0; i <= this.dispatcher.getSize();i++){//MIRAR ESTO PORQUE SI SE LO RETIRA DE LA LISTA DECREMENTA EL GETSIZE
+ 
+            let sizeDispatch = this.dispatcher.getSize();
+            for(let i = 0; i < sizeDispatch;i++){//MIRAR ESTO PORQUE SI SE LO RETIRA DE LA LISTA DECREMENTA EL GETSIZE
                 if (!this.er.isBusy() && !this.rob.isBusy()){
                     let inst = this.dispatcher.getInstruc();
+                    inst.setStatus("I");
                     this.er.addInstruction(inst);
                     this.rob.addInstruc(inst);
+                }
+            }
+
+            for(let i = 0 ; i<this.uf.length; i++){
+                if(this.uf[i].getInstruc()!=null){
+                    console.log(this.uf[i].getInstruc().getCycle());
+                    if(this.uf[i].getInstruc().getCycle()==0){
+                        this.uf[i].getInstruc().setStatus("F");
+                        this.uf[i].removeInstruction();
+                        this.uf[i].setBusy(false);
+                    }
+                }
+            }
+            if(this.cycleCounter == 1){
+                let inst = this.er.getInstruc();
+                inst.setStatus("X");
+                this.uf[0].addInstruc(inst);
+                
+                this.uf[0].getInstruc().decrementCycle();
+                this.uf[0].setBusy(true);
+            }
+
+
+
+            let sizeER = this.er.instructions.length
+            for(let i = 0; i < sizeER; i++){  
+                let index = this.getUFFree();
+                if (index != -1){
+                    let inst = this.er.instructions[i];
+                    if (!this.hayDependecies(inst)){
+                        this.uf[index].addInstruc(inst);
+                        inst.setStatus("X");//cambiar
+                        this.uf[index].getInstruc().decrementCycle();
+                        this.uf[index].setBusy(true);
+                        this.er.getInstruc();
+                        i--;
+                        console.log("entro");
+                    }
                 }
             }
         
@@ -88,12 +114,32 @@ export class Processor{
             this.addRowCounter();
             this.addRow(this.dispatcher.instruction,"tablaDispatch",this.dispatcher.getGrade());
             this.addRow(this.er.instructions,"tablaER",this.er.getnumReserveStation());
+            this.addRowUF();
             this.addRowROB(this.rob.instruction,"tablaROB",this.rob.getSize());
             this.cycleCounter++;
 
     
         }
     
+    }
+    hayDependecies(inst: Instruction) {
+        
+        for(let i = 0; i < this.uf.length;i++){
+            if(this.uf[i].getInstruc()!=null){
+               console.log("asdsa"+this.uf[i].getInstruc().getId())
+                if(!this.uf[i].getInstruc().existDependency(inst))
+                    return true;
+            }
+        }
+        return false;
+    }
+    private getUFFree() {
+    
+       for(let i = 0; i< this.uf.length;i++){
+           if(!this.uf[i].isBusy())
+            return i;
+       }
+       return -1;
     }
     //MODIFICAR
 
@@ -105,8 +151,7 @@ export class Processor{
                 td.appendChild(document.createTextNode(inst[i].getId()));
                 tr.appendChild(td);
             }
-            else
-            {
+            else{
                 td.appendChild(document.createTextNode("-"));
                 tr.appendChild(td);
             }
@@ -114,6 +159,23 @@ export class Processor{
         document.getElementById(id).appendChild(tr);
     }
 
+    addRowUF(){
+        let tr = document.createElement("tr");
+        for(let i = 0; i < this.uf.length;i++){
+            let td = document.createElement("td");
+            if (this.uf[i].getInstruc()!= null){
+                td.appendChild(document.createTextNode(this.uf[i].getInstruc().getId()));
+                tr.appendChild(td);
+            }
+            else
+            {
+                td.appendChild(document.createTextNode("-"));
+                tr.appendChild(td);
+            }
+            
+        }
+        document.getElementById("tablaUF").appendChild(tr);
+    }
     addRowROB(inst:Array<Instruction>, id:string,cantidad:Number){
         let tr = document.createElement("tr");
         for (let i = 0; i < cantidad; i++){
@@ -121,7 +183,7 @@ export class Processor{
             let td1 = document.createElement("td");
             if (i<inst.length){
                 td.appendChild(document.createTextNode(inst[i].getId()))
-                td1.appendChild(document.createTextNode("X"));
+                td1.appendChild(document.createTextNode(inst[i].getStatus()));
                 tr.appendChild(td);
                 tr.appendChild(td1);
             }

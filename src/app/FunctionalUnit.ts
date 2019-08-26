@@ -25,4 +25,12 @@ public addInstruc(i:Instruction){
 public getInstruc(){
     return this.instruction;
 }
+
+public setBusy(busy:boolean){
+    this.busy=busy;  
+}
+
+public removeInstruction(){
+    this.instruction=null;
+}
 }
