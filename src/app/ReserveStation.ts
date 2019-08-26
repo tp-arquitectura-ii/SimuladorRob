@@ -2,7 +2,7 @@ import { Instruction } from './Instruction';
 
 export class ReserveStation{
      instructions = new Array<Instruction>();
-    private numReserveStation;
+    private numReserveStation: number;
 
     constructor(numReserveStation){
         this.numReserveStation=numReserveStation;
@@ -28,5 +28,12 @@ export class ReserveStation{
 
     getInstruc(){
         return this.instructions.shift();
+    }
+
+    public getnumReserveStation(): number {
+        return this.numReserveStation;
+    }
+    public setnumReserveStation(value: number) {
+        this.numReserveStation = value;
     }
 }

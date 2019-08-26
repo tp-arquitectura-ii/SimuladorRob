@@ -46,12 +46,11 @@ export class Processor{
     public nextCycle(){
         if(this.cycleCounter == 0){
             for(let i = 0; i < this.dispatcher.getGrade() && this.listInstruction.length != 0 ; i++){
-                console.log(this.listInstruction[0].getId()); //borrar
                 this.dispatcher.addInstruction(this.listInstruction.shift())
             }
             this.addRowCounter();
-            this.addRow(this.dispatcher.instruction,"tablaDispatch",3)
-            this.addRow(this.er.instructions,"tablaER",3)
+            this.addRow(this.dispatcher.instruction,"tablaDispatch",this.dispatcher.getGrade());
+            this.addRow(this.er.instructions,"tablaER",this.er.getnumReserveStation());
             this.cycleCounter++;
         }
         else
@@ -77,18 +76,18 @@ export class Processor{
                     let inst = this.dispatcher.getInstruc();
                     this.er.addInstruction(inst);
                     this.rob.addInstruc(inst);
-         
                 }
             }
+        
 
-
-            for(let i = 0; i < this.dispatcher.getGrade() && this.listInstruction.length != 0 ; i++){
-                this.dispatcher.addInstruction(this.listInstruction.shift())
+            for(let i = 0; i < this.dispatcher.getGrade() && this.listInstruction.length != 0 && !this.dispatcher.isBusy(); i++){
+                this.dispatcher.addInstruction(this.listInstruction.shift());
             }
 
             this.addRowCounter();
-            this.addRow(this.dispatcher.instruction,"tablaDispatch",3)
-            this.addRow(this.er.instructions,"tablaER",3)
+            this.addRow(this.dispatcher.instruction,"tablaDispatch",this.dispatcher.getGrade());
+            this.addRow(this.er.instructions,"tablaER",this.er.getnumReserveStation());
+            //this.addRow(this.rob.instruction,"tablaROB",3)
             this.cycleCounter++;
 
     
@@ -99,10 +98,17 @@ export class Processor{
 
     addRow(inst:Array<Instruction>, id:string, cantidad:Number ){
         let tr = document.createElement("tr");
-        for(let i = 0; i < inst.length ;i++){
+        for(let i = 0; i < cantidad;i++){
             let td = document.createElement("td");
-            td.appendChild(document.createTextNode(inst[i].getId()));
-            tr.appendChild(td);
+            if (i<inst.length){
+                td.appendChild(document.createTextNode(inst[i].getId()));
+                tr.appendChild(td);
+            }
+            else
+            {
+                td.appendChild(document.createTextNode("-"));
+                tr.appendChild(td);
+            }
         }
         document.getElementById(id).appendChild(tr);
     }
@@ -113,9 +119,7 @@ export class Processor{
         td.appendChild(document.createTextNode(""+this.cycleCounter));
         tr.appendChild(td);
         document.getElementById("tablacycle").appendChild(tr);
-        
-       
-        
+    
     }
 
 

@@ -223,7 +223,7 @@ export class AppComponent implements OnInit {
     let tr = document.createElement("tr");
     let th,I,S,th1;
 
-    let tamROB = this.numReserveStation* (this.numMultifunction+this.numArithmetic +this.numArithmetic);
+    let tamROB = this.numReserveStation+ (this.numMultifunction+this.numArithmetic +this.numMemory);
     for (let i = 0; i < tamROB; i++) {
        th = document.createElement("th");
        I = document.createTextNode("I");
@@ -262,7 +262,8 @@ export class AppComponent implements OnInit {
     this.createTableHead("D",this.numOrder,"tablaDispatch");
     this.createTableHead("UF",this.numArithmetic+this.numMemory+this.numMultifunction,"tablaUF");
     this.createTableHeadROB();
-    let sizeROB = this.numReserveStation* (this.numMultifunction+this.numArithmetic +this.numArithmetic);
+    let sizeROB = this.numReserveStation+ (this.numMultifunction+this.numArithmetic +this.numMemory);
+    console.log(sizeROB);
     this.cpu = new Processor(this.listInstructions,this.numOrder,this.numReserveStation,sizeROB);
     this.cpu.addUF(this.numArithmetic,this.numMemory,this.numMultifunction);
   }
