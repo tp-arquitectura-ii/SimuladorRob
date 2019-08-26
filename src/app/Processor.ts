@@ -51,6 +51,7 @@ export class Processor{
             this.addRowCounter();
             this.addRow(this.dispatcher.instruction,"tablaDispatch",this.dispatcher.getGrade());
             this.addRow(this.er.instructions,"tablaER",this.er.getnumReserveStation());
+            this.addRowROB(this.rob.instruction,"tablaROB",this.rob.getSize());
             this.cycleCounter++;
         }
         else
@@ -87,7 +88,7 @@ export class Processor{
             this.addRowCounter();
             this.addRow(this.dispatcher.instruction,"tablaDispatch",this.dispatcher.getGrade());
             this.addRow(this.er.instructions,"tablaER",this.er.getnumReserveStation());
-            //this.addRow(this.rob.instruction,"tablaROB",3)
+            this.addRowROB(this.rob.instruction,"tablaROB",this.rob.getSize());
             this.cycleCounter++;
 
     
@@ -112,6 +113,28 @@ export class Processor{
         }
         document.getElementById(id).appendChild(tr);
     }
+
+    addRowROB(inst:Array<Instruction>, id:string,cantidad:Number){
+        let tr = document.createElement("tr");
+        for (let i = 0; i < cantidad; i++){
+            let td = document.createElement("td");
+            let td1 = document.createElement("td");
+            if (i<inst.length){
+                td.appendChild(document.createTextNode(inst[i].getId()))
+                td1.appendChild(document.createTextNode("X"));
+                tr.appendChild(td);
+                tr.appendChild(td1);
+            }
+            else{
+                td.appendChild(document.createTextNode("-"))
+                td1.appendChild(document.createTextNode("-"));
+                tr.appendChild(td);
+                tr.appendChild(td1);
+            }
+        }
+        document.getElementById(id).appendChild(tr);
+    }
+
     addRowCounter() {
     
         let tr = document.createElement("tr");

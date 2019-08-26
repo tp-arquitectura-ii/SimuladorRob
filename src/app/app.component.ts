@@ -227,7 +227,7 @@ export class AppComponent implements OnInit {
     for (let i = 0; i < tamROB; i++) {
        th = document.createElement("th");
        I = document.createTextNode("I");
-       th1 = document.createElement("th1");
+       th1 = document.createElement("th");
        S = document.createTextNode("S");
       th.appendChild(I);
       th1.appendChild(S);

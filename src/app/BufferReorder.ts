@@ -18,4 +18,8 @@ export class BufferReorder{
   public addInstruc(i:Instruction){
       this.instruction.push(i);
   }
+
+  public getSize(){
+      return this.size;
+  }
 }
