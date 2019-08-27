@@ -45,6 +45,7 @@ export class Processor{
 
     public nextCycle(){
         if(this.cycleCounter == 0){
+            //AGREGO INSTRUCCIONES AL DISPATCH
             for(let i = 0; i < this.dispatcher.getGrade() && this.listInstruction.length != 0 ; i++){
                 this.dispatcher.addInstruction(this.listInstruction.shift())
             }
@@ -57,7 +58,7 @@ export class Processor{
         }
         else
         {  
- 
+            //AGREGO INSTRUCCIONES A LA ER Y ROB
             let sizeDispatch = this.dispatcher.getSize();
             for(let i = 0; i < sizeDispatch;i++){//MIRAR ESTO PORQUE SI SE LO RETIRA DE LA LISTA DECREMENTA EL GETSIZE
                 if (!this.er.isBusy() && !this.rob.isBusy()){
@@ -68,9 +69,9 @@ export class Processor{
                 }
             }
 
-            for(let i = 0 ; i<this.uf.length; i++){
+            //
+            for(let i = 0 ; i<this.uf.length; i++){              
                 if(this.uf[i].getInstruc()!=null){
-                    console.log(this.uf[i].getInstruc().getCycle());
                     if(this.uf[i].getInstruc().getCycle()==0){
                         this.uf[i].getInstruc().setStatus("F");
                         this.uf[i].removeInstruction();
@@ -78,70 +79,64 @@ export class Processor{
                     }
                 }
             }
+            // EJECUTO S1 SIEMPRE
             if(this.cycleCounter == 1){
                 let inst = this.er.getInstruc();
                 inst.setStatus("X");
-                this.uf[0].addInstruc(inst);
-                
+                this.uf[0].addInstruc(inst);                
                 this.uf[0].getInstruc().decrementCycle();
                 this.uf[0].setBusy(true);
             }
 
-
-
+            //AGREGO A UF
             let sizeER = this.er.instructions.length
-            for(let i = 0; i < sizeER; i++){  
+            for(let i = 0; i < this.er.instructions.length; i++){  //mirar este for
                 let index = this.getUFFree();
                 if (index != -1){
                     let inst = this.er.instructions[i];
+                    console.log("instruccion agarrada" + inst.getId());
                     if (!this.hayDependecies(inst)){
+                        console.log("no hay dependecia");
                         this.uf[index].addInstruc(inst);
-                        inst.setStatus("X");//cambiar
+                        inst.setStatus("X");
                         this.uf[index].getInstruc().decrementCycle();
                         this.uf[index].setBusy(true);
-                        this.er.getInstruc();
-                        i--;
-                        console.log("entro");
+                        this.er.getInstruc();                      
                     }
                 }
             }
-        
-
+               
+            //actualizo dispatch
             for(let i = 0; i < this.dispatcher.getGrade() && this.listInstruction.length != 0 && !this.dispatcher.isBusy(); i++){
                 this.dispatcher.addInstruction(this.listInstruction.shift());
             }
-
+            
             this.addRowCounter();
             this.addRow(this.dispatcher.instruction,"tablaDispatch",this.dispatcher.getGrade());
             this.addRow(this.er.instructions,"tablaER",this.er.getnumReserveStation());
             this.addRowUF();
             this.addRowROB(this.rob.instruction,"tablaROB",this.rob.getSize());
             this.cycleCounter++;
-
-    
         }
-    
     }
+
     hayDependecies(inst: Instruction) {
-        
         for(let i = 0; i < this.uf.length;i++){
+            console.log(this.uf[i].getInstruc());
             if(this.uf[i].getInstruc()!=null){
-               console.log("asdsa"+this.uf[i].getInstruc().getId())
-                if(!this.uf[i].getInstruc().existDependency(inst))
+                if(this.uf[i].getInstruc().existDependency(inst))
                     return true;
             }
         }
         return false;
     }
-    private getUFFree() {
-    
+    private getUFFree() {    
        for(let i = 0; i< this.uf.length;i++){
            if(!this.uf[i].isBusy())
             return i;
        }
        return -1;
     }
-    //MODIFICAR
 
     addRow(inst:Array<Instruction>, id:string, cantidad:Number ){
         let tr = document.createElement("tr");

@@ -60,6 +60,6 @@ export class Instruction {
     }
     
     public existDependency(inst:Instruction){
-      return (this.dependecies.includes(inst.getId()));
+      return (this.dependecies.includes(inst.id));
     }
   }

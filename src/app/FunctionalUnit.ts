@@ -3,7 +3,7 @@ import { Instruction } from './Instruction';
 export class FunctionalUnit{
     private instruction:Instruction;
     private type:String;
-    private busy:boolean;
+    busy:boolean;
 
 constructor(type: String){
     this.type = type;
