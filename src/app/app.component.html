@@ -9,7 +9,7 @@
 <div class = "container">
   <div class = "row justify-content-around">
     <div class = col-md-4>
-<table class="table table-striped" style = "width:5cm">  
+<table class="table table-striped" style="width:5cm">  
   <thead>
   <tr>
     <th scope="col">#</th>
@@ -59,14 +59,14 @@
           <button class="dropdown-item" *ngFor="let reg of registers" (click)="change('op2',reg)" >{{reg}}</button>
         </div>
   </div> 
-  <button id="btn-Agregar" type="button" class="btn btn-outline-danger" disabled (click) = "addInstruction()"  >Agregar</button>
+  <button id="btn-Agregar" type="button" class="btn btn-outline-danger" disabled (click)="addInstruction()"  >Agregar</button>
 </div>
 
 <div>
   <h4>Dispatcher</h4>
     <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
       <button class="btn btn-outline-danger">Orden N°: </button>
-      <button class="btn btn-outline-danger" id = "btn-GradoDispatch" ngbDropdownToggle> {{numOrder}}</button>
+      <button class="btn btn-outline-danger" id="btn-GradoDispatch" ngbDropdownToggle> {{numOrder}}</button>
         <div class="dropdown-menu" ngbDropdownMenu>
             <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="changeOrder(num)" >{{num}}</button>
         </div>
@@ -77,7 +77,7 @@
   <h4>Estacion de reserva</h4>
     <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
       <button class="btn btn-outline-danger">Cantidad: </button>
-      <button class="btn btn-outline-danger" id = "btn-CantidadER" ngbDropdownToggle> {{numReserveStation}}</button>
+      <button class="btn btn-outline-danger" id="btn-CantidadER" ngbDropdownToggle> {{numReserveStation}}</button>
         <div class="dropdown-menu" ngbDropdownMenu>
             <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="changeER(num)" >{{num}}</button>
         </div>
@@ -89,42 +89,42 @@
   <h4>Ciclos de cada instruccion</h4>
   <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
       <button class="btn btn-outline-danger">ADD: </button>
-      <button class="btn btn-outline-danger" id = "btn-Inst-ADD" ngbDropdownToggle> {{typeInstruction[0].cycle}}</button>
+      <button class="btn btn-outline-danger" id="btn-Inst-ADD" ngbDropdownToggle> {{typeInstruction[0].cycle}}</button>
         <div class="dropdown-menu" ngbDropdownMenu>
             <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="changeCycle('ADD',num)" >{{num}}</button>
         </div>
     </div>
     <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
         <button class="btn btn-outline-danger">SUB: </button>
-        <button class="btn btn-outline-danger" id = "btn-Inst-SUB" ngbDropdownToggle> {{typeInstruction[1].cycle}}</button>
+        <button class="btn btn-outline-danger" id="btn-Inst-SUB" ngbDropdownToggle> {{typeInstruction[1].cycle}}</button>
           <div class="dropdown-menu" ngbDropdownMenu>
             <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="changeCycle('SUB',num)" >{{num}}</button>
           </div>
       </div>
       <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
           <button class="btn btn-outline-danger">MUL: </button>
-          <button class="btn btn-outline-danger" id = "btn-Inst-MUL" ngbDropdownToggle> {{typeInstruction[2].cycle}}</button>
+          <button class="btn btn-outline-danger" id="btn-Inst-MUL" ngbDropdownToggle> {{typeInstruction[2].cycle}}</button>
             <div class="dropdown-menu" ngbDropdownMenu>
               <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="changeCycle('MUL',num)" >{{num}}</button>
             </div>
         </div>
         <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
             <button class="btn btn-outline-danger">DIV: </button>
-            <button class="btn btn-outline-danger" id = "btn-Inst-DIV" ngbDropdownToggle> {{typeInstruction[3].cycle}}</button>
+            <button class="btn btn-outline-danger" id="btn-Inst-DIV" ngbDropdownToggle> {{typeInstruction[3].cycle}}</button>
               <div class="dropdown-menu" ngbDropdownMenu>
                 <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="changeCycle('DIV',num)" >{{num}}</button>
               </div>
           </div>
           <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
               <button class="btn btn-outline-danger">ST: </button>
-              <button class="btn btn-outline-danger" id = "btn-Inst-ST" ngbDropdownToggle> {{typeInstruction[4].cycle}}</button>
+              <button class="btn btn-outline-danger" id="btn-Inst-ST" ngbDropdownToggle> {{typeInstruction[4].cycle}}</button>
                 <div class="dropdown-menu" ngbDropdownMenu>
                   <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="changeCycle('ST',num)" >{{num}}</button>
                 </div>
             </div>
             <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
                 <button class="btn btn-outline-danger">LD: </button>
-                <button class="btn btn-outline-danger" id = "btn-Inst-LD" ngbDropdownToggle> {{typeInstruction[5].cycle}}</button>
+                <button class="btn btn-outline-danger" id="btn-Inst-LD" ngbDropdownToggle> {{typeInstruction[5].cycle}}</button>
                   <div class="dropdown-menu" ngbDropdownMenu>
                     <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="changeCycle('LD',num)" >{{num}}</button>
                   </div>
@@ -136,21 +136,21 @@
 
     <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
         <button class="btn btn-outline-danger">Multifuncion: </button>
-        <button id = "btn-numMultifunction" class="btn btn-outline-danger" ngbDropdownToggle>{{numMultifunction}}</button>
+        <button [disabled]="executingROB" id="btn-numMultifunction" class="btn btn-outline-danger" ngbDropdownToggle>{{numMultifunction}}</button>
         <div class="dropdown-menu" ngbDropdownMenu>
             <button class="dropdown-item" *ngFor="let num of [0,1,2,3,4,5]" (click)="changeUFmultifunction(num)" >{{num}}</button>
         </div>
       </div>
   <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
       <button class="btn btn-outline-danger">Aritmetica: </button>
-    <button id = "btn-numArithmetic" class="btn btn-outline-danger" ngbDropdownToggle>{{numArithmetic}}</button>
+    <button [disabled]="executingROB" id="btn-numArithmetic" class="btn btn-outline-danger" ngbDropdownToggle>{{numArithmetic}}</button>
     <div class="dropdown-menu" ngbDropdownMenu>
       <button class="dropdown-item" *ngFor="let num of [0,1,2,3,4,5]" (click)="changeUFArithmetic(num)" >{{num}}</button>
     </div>
   </div>
   <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
     <button class="btn btn-outline-danger">Memoria: </button>
-    <button id = "btn-numMemory"class="btn btn-outline-danger" ngbDropdownToggle>{{numMemory}}</button>
+    <button [disabled]="executingROB" id="btn-numMemory"class="btn btn-outline-danger" ngbDropdownToggle>{{numMemory}}</button>
     <div class="dropdown-menu" ngbDropdownMenu>
         <button class="dropdown-item" *ngFor="let num of [0,1,2,3,4,5]" (click)="changeUFMemory(num)" >{{num}}</button>
     </div>
@@ -159,9 +159,9 @@
 
   <h4>Configuracion</h4> 
   <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-    <button id = "btn-save" type="button" class="btn btn-outline-danger" (click) = "saveConfiguration()" >Guardar</button>
-    <button id = "btn-reset" type="button" class="btn btn-outline-danger" disabled  (click) = "resetConfiguration()">Reset </button>
-    <button id = "btn-execute" type="button" class="btn btn-outline-danger" disabled (click) = "executeRob()">Ejecutar</button>
+    <button id="btn-save" type="button" class="btn btn-outline-danger" [disabled]="executingROB" (click)="saveConfiguration()" >Guardar</button>
+    <button id="btn-reset" type="button" class="btn btn-outline-danger" [disabled]="!executingROB"  (click)="resetConfiguration()">Reset </button>
+    <button id="btn-execute" type="button" class="btn btn-outline-danger" [disabled]="executingROB" (click)="executeRob()">Ejecutar</button>
   </div>  
 </div>
 </div>
@@ -171,11 +171,11 @@
 <!--DEFINICION DE TABLAS-->
 <div class = "container">
     <h4>Simulación</h4> 
-    <button id = "btn-next" type="button" class="btn btn-outline-danger" hidden (click) = "nextInstruction()" >Siguiente Intruccion</button>
+    <button *ngIf="executingROB" id="btn-next" type="button" class="btn btn-outline-danger" (click)="nextInstruction()" >Siguiente Intruccion</button>
 
   <div class = "row">
     <div class = "col">
-    <table id ="tablacycle" class="table table-striped" style = "width:2cm" >  
+    <table id ="tablacycle" class="table table-striped" style="width:2cm" *ngIf="executingROB">  
       <thead>
       <tr>
         <th scope = "col">Ciclo #</th>
@@ -186,29 +186,41 @@
     </div>
 
     <div class = "col">
-    <table id = "tablaDispatch" class="table table-striped" style = "width:1cm" >  
+    <table id="tablaDispatch" class="table table-striped" style="width:1cm" *ngIf="executingROB">  
       <thead>
+        <th *ngFor="let header of DHeaders">
+          {{header}}
+        </th>
       </thead>
       <tbody></tbody>
     </table>
   </div>
    <div class = "col">
-    <table id = "tablaER" class="table table-striped" style = "width:1cm" >  
+    <table id="tablaER" class="table table-striped" style="width:1cm" *ngIf="executingROB">  
       <thead>
+        <th *ngFor="let header of ERHeaders">
+          {{header}}
+        </th>
       </thead>
       <tbody></tbody>
     </table>
   </div>
   <div class = "col">
-    <table id = "tablaUF" class="table table-striped" style = "width:1cm" >  
+    <table id="tablaUF" class="table table-striped" style="width:1cm" *ngIf="executingROB">  
       <thead>
+        <th *ngFor="let header of UFHeaders">
+          {{header}}
+        </th>
       </thead>
       <tbody></tbody>
     </table>
   </div>
   <div class = "col">
-    <table id = "tablaROB" class="table table-striped" style = "width:4cm">  
+    <table id="tablaROB" class="table table-striped" style="width:4cm" *ngIf="executingROB">  
       <thead>
+        <th *ngFor="let header of ROBHeaders">
+          {{header}}
+        </th>
       </thead>
       <tbody></tbody>
     </table>

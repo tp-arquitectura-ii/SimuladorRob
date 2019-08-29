@@ -90,11 +90,12 @@ export class Processor{
 
             //AGREGO A UF
             let sizeER = this.er.instructions.length
-            for(let i = 0; i < this.er.instructions.length; i++){  //mirar este for
+            let i=0;
+            while( i < this.er.instructions.length){  //mirar este for
                 let index = this.getUFFree();
                 if (index != -1){
                     let inst = this.er.instructions[i];
-                    console.log("instruccion agarrada" + inst.getId());
+                    console.log("instruccion agarrada " + inst.getId());
                     if (!this.hayDependecies(inst)){
                         console.log("no hay dependecia");
                         this.uf[index].addInstruc(inst);
@@ -103,7 +104,11 @@ export class Processor{
                         this.uf[index].setBusy(true);
                         this.er.getInstruc();                      
                     }
-                }
+                    else{
+                        i++
+                    }
+                }else{
+                i++;}
             }
                
             //actualizo dispatch
@@ -122,7 +127,6 @@ export class Processor{
 
     hayDependecies(inst: Instruction) {
         for(let i = 0; i < this.uf.length;i++){
-            console.log(this.uf[i].getInstruc());
             if(this.uf[i].getInstruc()!=null){
                 if(this.uf[i].getInstruc().existDependency(inst))
                     return true;
