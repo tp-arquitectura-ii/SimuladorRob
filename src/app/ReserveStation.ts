@@ -36,4 +36,8 @@ export class ReserveStation{
     public setnumReserveStation(value: number) {
         this.numReserveStation = value;
     }
+
+    public removeInstruction(i:number){
+        this.instructions.splice(i,1);
+    }
 }

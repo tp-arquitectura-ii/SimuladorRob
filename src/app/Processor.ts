@@ -69,6 +69,13 @@ export class Processor{
                 }
             }
 
+            //DECREMENTO INSTRUCCIONES
+            for(let i = 0; i<this.uf.length; i++){
+                if (this.uf[i].getInstruc()!= null && this.uf[i].getInstruc().getCycle()!=0){
+                    this.uf[i].getInstruc().decrementCycle();
+                }
+            }
+
             //
             for(let i = 0 ; i<this.uf.length; i++){              
                 if(this.uf[i].getInstruc()!=null){
@@ -84,7 +91,7 @@ export class Processor{
                 let inst = this.er.getInstruc();
                 inst.setStatus("X");
                 this.uf[0].addInstruc(inst);                
-                this.uf[0].getInstruc().decrementCycle();
+                //this.uf[0].getInstruc().decrementCycle();
                 this.uf[0].setBusy(true);
             }
 
@@ -93,16 +100,19 @@ export class Processor{
             let i=0;
             while( i < this.er.instructions.length){  //mirar este for
                 let index = this.getUFFree();
+                console.log("i:" + i );
+                console.log("sizeER: " + this.er.instructions.length);
+                console.log("Index: " + index)
                 if (index != -1){
                     let inst = this.er.instructions[i];
                     console.log("instruccion agarrada " + inst.getId());
-                    if (!this.hayDependecies(inst)){
+                    if (!this.hayDependecies(inst) && !this.dependeciesER(inst)){
                         console.log("no hay dependecia");
                         this.uf[index].addInstruc(inst);
                         inst.setStatus("X");
-                        this.uf[index].getInstruc().decrementCycle();
+                     //   this.uf[index].getInstruc().decrementCycle();
                         this.uf[index].setBusy(true);
-                        this.er.getInstruc();                      
+                        this.er.removeInstruction(i);                     
                     }
                     else{
                         i++
@@ -123,6 +133,14 @@ export class Processor{
             this.addRowROB(this.rob.instruction,"tablaROB",this.rob.getSize());
             this.cycleCounter++;
         }
+    }
+    dependeciesER(inst: Instruction) {
+        for(let i = 0; i < this.er.instructions.length;i++){
+            if(this.er.instructions[i].getId() != inst.getId())
+                if(this.er.instructions[i].existDependency(inst))
+                    return true;
+        }
+        return false;
     }
 
     hayDependecies(inst: Instruction) {

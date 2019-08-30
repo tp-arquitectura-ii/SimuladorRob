@@ -193,10 +193,17 @@ export class AppComponent implements OnInit {
   }
 
   saveConfiguration(){
+    if(this.numArithmetic!=0 || this.numMemory != 0 || this.numMultifunction!=0){
+      document.getElementById("btn-save").setAttribute("disabled","");
+    }
+    else{
+      console.log("Ingresa una unidad funcional boludo");
+    }
     this.configurationSaved = true;
+   
     document.getElementById("btn-reset").removeAttribute("disabled");
     document.getElementById("btn-execute").removeAttribute("disabled");
-    document.getElementById("btn-save").setAttribute("disabled","");
+ 
     document.getElementById("btn-numMemory").setAttribute("disabled","");
     document.getElementById("btn-numArithmetic").setAttribute("disabled","");
     document.getElementById("btn-numMultifunction").setAttribute("disabled","");
@@ -214,6 +221,7 @@ export class AppComponent implements OnInit {
     document.getElementById("btn-GradoDispatch").setAttribute("disabled","");
     document.getElementById("btn-CantidadER").setAttribute("disabled","");
     this.setCycles();
+    
 
   }
 
