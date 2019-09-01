@@ -59,6 +59,7 @@ export class Instruction {
       this.cycles--;
     }
     
+  
     public existDependency(inst:Instruction){
       return (this.dependecies.includes(inst.id));
     }

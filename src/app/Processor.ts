@@ -19,7 +19,7 @@ export class Processor{
         this.dispatcher = new Dispatch(numOrden);
         this.er = new ReserveStation(numReserveStation);
         this.uf=new Array<FunctionalUnit>();
-        this.rob = new BufferReorder(robSize);
+        this.rob = new BufferReorder(robSize,numOrden);
 
     }
     public addUF(numArithmetic,numMemory,numMultifunction){
@@ -58,6 +58,10 @@ export class Processor{
         }
         else
         {  
+
+            //RETIRO DEL ROB
+            this.rob.removeInstCompletes();
+
             //AGREGO INSTRUCCIONES A LA ER Y ROB
             let sizeDispatch = this.dispatcher.getSize();
             for(let i = 0; i < sizeDispatch;i++){//MIRAR ESTO PORQUE SI SE LO RETIRA DE LA LISTA DECREMENTA EL GETSIZE
@@ -110,7 +114,6 @@ export class Processor{
                         console.log("no hay dependecia");
                         this.uf[index].addInstruc(inst);
                         inst.setStatus("X");
-                     //   this.uf[index].getInstruc().decrementCycle();
                         this.uf[index].setBusy(true);
                         this.er.removeInstruction(i);                     
                     }

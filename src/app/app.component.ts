@@ -63,17 +63,15 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     const instrucions = [
       new Instruction("S1","ADD","R3","R0","R5","ARITH"),
-      new Instruction("S2","MUL","R2","R3","R5","ARITH"),
-      new Instruction("S3","DIV","R1","R2","R0","ARITH"),
+      new Instruction("S2","MUL","R2","R2","R5","ARITH"),
+      new Instruction("S3","DIV","R1","R5","R0","ARITH"),
       new Instruction("S4","ST","R3","R1","","MEM"),
       new Instruction("S5","SUB","R6","R3","R2","ARITH"),
       new Instruction("S6","LD","R9","R6","","MEM"),
-      new Instruction("S7","SUB","R2","R6","R3","ARITH"),
-      new Instruction("S8","SUB","R10","R3","R1","ARITH")
+      new Instruction("S7","ADD","R2","R6","R3","ARITH"),
+      new Instruction("S8","DIV","R10","R3","R1","ARITH")
     ];
-
     this.listInstructions = instrucions;
-
     this.idInstruction = this.listInstructions.length;
   }
   
@@ -114,12 +112,14 @@ export class AppComponent implements OnInit {
   addInstruction(){ 
     this.idInstruction++
     let instNueva;
-    if (this.btnDefaultIns.type=="ST" || this.btnDefaultIns.type == "LD")
-      instNueva = new Instruction("S" +this.idInstruction,this.btnDefaultIns.type,this.btnDefaultIns.dst,this.btnDefaultIns.op1,"","MEM");
-    else  
-      instNueva = new Instruction("S" +this.idInstruction,this.btnDefaultIns.type,this.btnDefaultIns.dst,this.btnDefaultIns.op1,this.btnDefaultIns.op2,"ARITH");  
-      this.listInstructions.push(instNueva);
-
+    if (this.btnDefaultIns.type=="ST")
+      instNueva = new Instruction("S" +this.idInstruction,this.btnDefaultIns.type,"("+this.btnDefaultIns.dst+")",this.btnDefaultIns.op1,"","MEM");
+    else 
+      if (this.btnDefaultIns.type == "LD")
+        instNueva = new Instruction("S" +this.idInstruction,this.btnDefaultIns.type,this.btnDefaultIns.dst,"("+this.btnDefaultIns.op1+")","","MEM");
+      else
+        instNueva = new Instruction("S" +this.idInstruction,this.btnDefaultIns.type,this.btnDefaultIns.dst,this.btnDefaultIns.op1,this.btnDefaultIns.op2,"ARITH");  
+    this.listInstructions.push(instNueva);
 }
   changeOrder(num){
       this.numOrder = num;
@@ -158,8 +158,7 @@ export class AppComponent implements OnInit {
        for (let j = i+1; j < this.listInstructions.length && !encontro; j++) {
          if(this.listInstructions[j].getType()!="ST"){
             if (this.listInstructions[i].getDestination() == this.listInstructions[j].getOp1() || this.listInstructions[i].getDestination() == this.listInstructions[j].getOp2() )  
-              this.listInstructions[i].addDependency(this.listInstructions[j].getId());
-            
+              this.listInstructions[i].addDependency(this.listInstructions[j].getId());            
             if(this.listInstructions[i].getDestination() == this.listInstructions[j].getDestination()){
               encontro=true;
             }
@@ -193,17 +192,18 @@ export class AppComponent implements OnInit {
   }
 
   saveConfiguration(){
+    console.log(this.numArithmetic);
     if(this.numArithmetic!=0 || this.numMemory != 0 || this.numMultifunction!=0){
-      document.getElementById("btn-save").setAttribute("disabled","");
+      
+      console.log("entro");
     }
     else{
       console.log("Ingresa una unidad funcional boludo");
     }
     this.configurationSaved = true;
-   
+    document.getElementById("btn-save").setAttribute("disabled","");
     document.getElementById("btn-reset").removeAttribute("disabled");
     document.getElementById("btn-execute").removeAttribute("disabled");
- 
     document.getElementById("btn-numMemory").setAttribute("disabled","");
     document.getElementById("btn-numArithmetic").setAttribute("disabled","");
     document.getElementById("btn-numMultifunction").setAttribute("disabled","");
@@ -221,8 +221,6 @@ export class AppComponent implements OnInit {
     document.getElementById("btn-GradoDispatch").setAttribute("disabled","");
     document.getElementById("btn-CantidadER").setAttribute("disabled","");
     this.setCycles();
-    
-
   }
 
   private setCycles(){
@@ -232,8 +230,8 @@ export class AppComponent implements OnInit {
           this.listInstructions[i].setCycles(this.typeInstruction[j].cycle);
         }    
       }
-
-  }
+  
+    }
   private createTableHeadROB(){
     const array = [];
     for (let i = 0; i < this.sizeROB; i++) {
