@@ -57,7 +57,7 @@ export class Processor{
                     let inst = this.dispatcher.getInstruc();
                     inst.setStatus("I");
                     this.er.addInstruction(inst);
-                    this.rob.addInstruc(inst);
+                    this.rob.addInstruction(inst);
                 }
             }
 
@@ -78,14 +78,10 @@ export class Processor{
                     }
                 }
             }
-            // EJECUTO S1 SIEMPRE
-          /*  if(this.cycleCounter == 1){
-                let inst = this.er.getInstruc();
-                inst.setStatus("X");
-                this.uf[0].addInstruc(inst);                
-                //this.uf[0].getInstruc().decrementCycle();
-                this.uf[0].setBusy(true);
-            }*/
+            
+            //AGREGO A er Y ROB SI UNA INSTRUCCION ESTA FINALIZADA
+
+
 
             //AGREGO A UF
             let i=0;
@@ -105,6 +101,21 @@ export class Processor{
                 }else{
                 i++;}
             }
+
+            
+            let sizeDispatch2 = this.dispatcher.getSize();
+            for(let i = 0; i < sizeDispatch2;i++){
+                    let index = this.rob.hasInstructionCompleted();
+                    console.log("completo " + this.er.instructions.length);
+                    if (!this.er.isBusy() &&  index != -1){
+                        console.log("entraste a esta funcion")  ; 
+                        let inst = this.dispatcher.getInstruc();
+                        inst.setStatus("I");
+                        this.er.addInstruction(inst);
+                        this.rob.getRobC()[index].addInstruction2(inst);
+                        console.log(this.rob.getRobC()[index].getInstruction2());
+                    }
+                }
                
             //actualizo dispatch
             for(let i = 0; i < this.dispatcher.getGrade() && this.listInstruction.length != 0 && !this.dispatcher.isBusy(); i++){
@@ -188,9 +199,16 @@ export class Processor{
         for (let i = 0; i < cantidad; i++){
             let td = document.createElement("td");
             let td1 = document.createElement("td");
-            if (i<inst.length){
-                td.appendChild(document.createTextNode(inst[i].getId()))
-                td1.appendChild(document.createTextNode(inst[i].getStatus()));
+            if (this.rob.getRobC()[i].getInstruction()!=null){
+                if (this.rob.getRobC()[i].getInstruction2()==null){
+                    td.appendChild(document.createTextNode(this.rob.getRobC()[i].getInstruction().getId()))
+                    td1.appendChild(document.createTextNode(this.rob.getRobC()[i].getInstruction().getStatus()));  
+                }
+                else{
+                    console.log("Seererer");
+                    td.appendChild(document.createTextNode(this.rob.getRobC()[i].getInstruction().getId()+ "/" +this.rob.getRobC()[i].getInstruction2().getId() ))
+                    td1.appendChild(document.createTextNode(this.rob.getRobC()[i].getInstruction().getStatus()+"/"+ this.rob.getRobC()[i].getInstruction2().getStatus()));
+                }
                 tr.appendChild(td);
                 tr.appendChild(td1);
             }
