@@ -7,13 +7,22 @@ export class BufferReorder{
     private numGrade: number;
     private robC = new Array<RobColum>();
     private instComplete = new Array<Instruction> ();
+    private listInstructionOriginal;
 
-  constructor(size,numGrade){
-      this.size= size;
-      this.numGrade = numGrade;
-      for(let i = 0; i < size; i++)
+    constructor(size,numGrade,listInstruction){
+        this.size= size;
+        this.numGrade = numGrade;
+        for(let i = 0; i < size; i++)
             this.robC.push(new RobColum);
+        this.listInstructionOriginal=listInstruction;
 
+    }
+
+  public addInstruction (inst:Instruction){
+      for (let i = 0; i < this.robC.length; i++) {
+          if (this.robC[i].getInstruction() != null)
+            this.robC[i].addInstruction(inst);
+      }
   }
 
   public isBusy(){

@@ -19,28 +19,16 @@ export class Processor{
         this.dispatcher = new Dispatch(numOrden);
         this.er = new ReserveStation(numReserveStation);
         this.uf=new Array<FunctionalUnit>();
-        this.rob = new BufferReorder(robSize,numOrden);
+        this.rob = new BufferReorder(robSize,numOrden,instrucciones);
 
     }
     public addUF(numArithmetic,numMemory,numMultifunction){
-        //set Functional Units
         for( let i=0; i<numMultifunction; i++)
             this.uf.push(new FunctionalUnit("MULTIFUNCT"));
         for( let i=0; i<numArithmetic; i++)
             this.uf.push(new FunctionalUnit("ARITH"));
         for( let i=0; i<numMemory; i++)
             this.uf.push(new FunctionalUnit("MEM"));
-    }
-
-    private getUF(type:String){
-        //CHEKEARR, NO ESTA BIEN ASI. SI NO ENCUENTRA EL TIPO DE LA INSTRUCCINO, VERIFICAR LA MULTIFUNCION
-        let i=0;
-        while( i<this.uf.length && this.uf[i].getType() !=type )
-            i++;
-        if ( i < this.uf.length )
-            return this.uf.slice(i,i);
-        else
-             return this.uf.slice(i,i); //ACA HABRIA QUE CHEQUEAR SI HAY UNA MULTIFUNCION 
     }
 
     public nextCycle(){
@@ -80,7 +68,7 @@ export class Processor{
                 }
             }
 
-            //
+            //remuevo instrucciones de la uf
             for(let i = 0 ; i<this.uf.length; i++){              
                 if(this.uf[i].getInstruc()!=null){
                     if(this.uf[i].getInstruc().getCycle()==0){
@@ -105,7 +93,7 @@ export class Processor{
                 let index = this.getUFFree(this.er.instructions[i]);
                 if (index != -1){
                     let inst = this.er.instructions[i];
-                    if (!this.hayDependecies(inst) && !this.dependeciesER(inst)){
+                    if (!this.hasDependence(inst) && !this.hasDependeceER(inst)){
                         this.uf[index].addInstruc(inst);
                         inst.setStatus("X");
                         this.uf[index].setBusy(true);
@@ -133,7 +121,7 @@ export class Processor{
     }
 
 
-    dependeciesER(inst: Instruction) {
+    hasDependeceER(inst: Instruction) {
         for(let i = 0; i < this.er.instructions.length;i++){
             if(this.er.instructions[i].getId() != inst.getId())
                 if(this.er.instructions[i].existDependency(inst))
@@ -142,7 +130,7 @@ export class Processor{
         return false;
     }
 
-    hayDependecies(inst: Instruction) {
+    hasDependence(inst: Instruction) {
         for(let i = 0; i < this.uf.length;i++){
             if(this.uf[i].getInstruc()!=null){
                 if(this.uf[i].getInstruc().existDependency(inst))

@@ -1,20 +1,27 @@
 import { Instruction } from './Instruction';
 
 export class RobColum{
-    private instruction: Array<Instruction> //O LISTA DE STRING?
+    private inst: Instruction//O LISTA DE STRING?
+    private busy: boolean
 
     constructor(){
-        this.instruction=new Array<Instruction> ();
+        this.inst = null;
+        this.busy = false
     }
 
 
     public addInstruction(inst:Instruction ){
-        this.instruction.push(inst);
+        this.inst = inst;
     }
 
     public isBusy(){
-        if (this.instruction.length == 1)
-            return true;
-        return false
+        return this.busy;
     }
+
+
+
+    public getInstruction(){
+        return this.inst;
+    }
+
 }
