@@ -24,12 +24,12 @@ export class Processor{
     }
     public addUF(numArithmetic,numMemory,numMultifunction){
         //set Functional Units
+        for( let i=0; i<numMultifunction; i++)
+            this.uf.push(new FunctionalUnit("MULTIFUNCT"));
         for( let i=0; i<numArithmetic; i++)
             this.uf.push(new FunctionalUnit("ARITH"));
         for( let i=0; i<numMemory; i++)
             this.uf.push(new FunctionalUnit("MEM"));
-        for( let i=0; i<numMultifunction; i++)
-            this.uf.push(new FunctionalUnit("MULTIFUNCT"));
     }
 
     private getUF(type:String){
@@ -91,27 +91,21 @@ export class Processor{
                 }
             }
             // EJECUTO S1 SIEMPRE
-            if(this.cycleCounter == 1){
+          /*  if(this.cycleCounter == 1){
                 let inst = this.er.getInstruc();
                 inst.setStatus("X");
                 this.uf[0].addInstruc(inst);                
                 //this.uf[0].getInstruc().decrementCycle();
                 this.uf[0].setBusy(true);
-            }
+            }*/
 
             //AGREGO A UF
-            let sizeER = this.er.instructions.length
             let i=0;
-            while( i < this.er.instructions.length){  //mirar este for
-                let index = this.getUFFree();
-                console.log("i:" + i );
-                console.log("sizeER: " + this.er.instructions.length);
-                console.log("Index: " + index)
+            while( i < this.er.instructions.length){  
+                let index = this.getUFFree(this.er.instructions[i]);
                 if (index != -1){
                     let inst = this.er.instructions[i];
-                    console.log("instruccion agarrada " + inst.getId());
                     if (!this.hayDependecies(inst) && !this.dependeciesER(inst)){
-                        console.log("no hay dependecia");
                         this.uf[index].addInstruc(inst);
                         inst.setStatus("X");
                         this.uf[index].setBusy(true);
@@ -137,6 +131,8 @@ export class Processor{
             this.cycleCounter++;
         }
     }
+
+
     dependeciesER(inst: Instruction) {
         for(let i = 0; i < this.er.instructions.length;i++){
             if(this.er.instructions[i].getId() != inst.getId())
@@ -155,10 +151,13 @@ export class Processor{
         }
         return false;
     }
-    private getUFFree() {    
+    private getUFFree(inst:Instruction) {    
        for(let i = 0; i< this.uf.length;i++){
-           if(!this.uf[i].isBusy())
-            return i;
+            if(!this.uf[i].isBusy() && this.uf[i].getType() == inst.getUFType())
+                return i;
+            else
+                if ((!this.uf[i].isBusy() && this.uf[i].getType() == "MULTIFUNCT"))
+                    return i;
        }
        return -1;
     }
