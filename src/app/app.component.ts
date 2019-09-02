@@ -173,53 +173,29 @@ export class AppComponent implements OnInit {
     }
   }
 
+  deleteDependencies(){
+    for (let i = 0; i <this.listInstructions.length ;i++)
+      this.listInstructions[i].dependecies.splice(0,this.listInstructions.length);
+  }
+
+
   resetConfiguration(){
     this.configurationSaved = false;
     this.executingROB = false;
-    document.getElementById("btn-Inst-LD").removeAttribute("disabled");
-    document.getElementById("btn-Inst-ST").removeAttribute("disabled");
-    document.getElementById("btn-Inst-ADD").removeAttribute("disabled");
-    document.getElementById("btn-Inst-MUL").removeAttribute("disabled");
-    document.getElementById("btn-Inst-DIV").removeAttribute("disabled");
-    document.getElementById("btn-Inst-SUB").removeAttribute("disabled");
-    document.getElementById("btn-op1").removeAttribute("disabled");
-    document.getElementById("btn-op2").removeAttribute("disabled");
-    document.getElementById("btn-type").removeAttribute("disabled");
-    document.getElementById("btn-dst").removeAttribute("disabled");
-    document.getElementById("btn-Agregar").removeAttribute("disabled");
-    document.getElementById("btn-GradoDispatch").removeAttribute("disabled");
-    document.getElementById("btn-CantidadER").removeAttribute("disabled");
+    this.cpu = null;
+    this.deleteDependencies();
+
+
   }
 
   saveConfiguration(){
-    console.log(this.numArithmetic);
     if(this.numArithmetic!=0 || this.numMemory != 0 || this.numMultifunction!=0){
-      
-      console.log("entro");
+      this.configurationSaved = true;
+      this.executingROB=false;
     }
     else{
       console.log("Ingresa una unidad funcional boludo");
     }
-    this.configurationSaved = true;
-    document.getElementById("btn-save").setAttribute("disabled","");
-    document.getElementById("btn-reset").removeAttribute("disabled");
-    document.getElementById("btn-execute").removeAttribute("disabled");
-    document.getElementById("btn-numMemory").setAttribute("disabled","");
-    document.getElementById("btn-numArithmetic").setAttribute("disabled","");
-    document.getElementById("btn-numMultifunction").setAttribute("disabled","");
-    document.getElementById("btn-Inst-LD").setAttribute("disabled","");
-    document.getElementById("btn-Inst-ST").setAttribute("disabled","");
-    document.getElementById("btn-Inst-ADD").setAttribute("disabled","");
-    document.getElementById("btn-Inst-MUL").setAttribute("disabled","");
-    document.getElementById("btn-Inst-DIV").setAttribute("disabled","");
-    document.getElementById("btn-Inst-SUB").setAttribute("disabled","");
-    document.getElementById("btn-op1").setAttribute("disabled","");
-    document.getElementById("btn-op2").setAttribute("disabled","");
-    document.getElementById("btn-type").setAttribute("disabled","");
-    document.getElementById("btn-dst").setAttribute("disabled","");
-    document.getElementById("btn-Agregar").setAttribute("disabled","");
-    document.getElementById("btn-GradoDispatch").setAttribute("disabled","");
-    document.getElementById("btn-CantidadER").setAttribute("disabled","");
     this.setCycles();
   }
 
@@ -257,14 +233,17 @@ export class AppComponent implements OnInit {
     this.sizeROB = this.numReserveStation + this.numMultifunction + this.numArithmetic + this.numMemory;
     this.createTableHeadROB();
     this.getDependenciasRAW();
+    this.imprimirDependencias();
     this.cpu = new Processor(this.listInstructions,this.numOrder,this.numReserveStation,this.sizeROB);
     this.cpu.addUF(this.numArithmetic,this.numMemory,this.numMultifunction);
   }
 
 
   nextInstruction(){
-    //testing 
-    this.cpu.nextCycle();
+    if (!this.cpu.isFinished())
+      this.cpu.nextCycle();
+    else
+      console.log("Finalizo")
 
   }
 

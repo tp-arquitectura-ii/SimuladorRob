@@ -106,7 +106,6 @@ export class Processor{
             let sizeDispatch2 = this.dispatcher.getSize();
             for(let i = 0; i < sizeDispatch2;i++){
                     let index = this.rob.hasInstructionCompleted();
-                    console.log("completo " + this.er.instructions.length);
                     if (!this.er.isBusy() &&  index != -1){
                         console.log("entraste a esta funcion")  ; 
                         let inst = this.dispatcher.getInstruc();
@@ -159,6 +158,10 @@ export class Processor{
                     return i;
        }
        return -1;
+    }
+
+    public isFinished(){
+        return this.rob.isComplete();
     }
 
     addRow(inst:Array<Instruction>, id:string, cantidad:Number ){

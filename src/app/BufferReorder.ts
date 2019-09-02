@@ -3,6 +3,7 @@ import { RobColum } from './RobColum';
 
 export class BufferReorder{
 
+
     instruction = new Array<Instruction>();
     private size:number;
     private numGrade: number;
@@ -74,6 +75,12 @@ export class BufferReorder{
     }
     return -1;
   }
+
+  public isComplete() {
+    if (this.listInstructionOriginal.length == 0)
+        return true;
+    return false;
+}
 
 }
 
