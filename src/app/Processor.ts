@@ -13,7 +13,7 @@ export class Processor{
     private rob: BufferReorder;
     private cycleCounter = 0;
     private listInstruction: Array<Instruction>;
-
+    
     constructor(instrucciones:Array<Instruction>,numOrden,numReserveStation,robSize){
         this.listInstruction = instrucciones.slice(0);
         this.dispatcher = new Dispatch(numOrden);

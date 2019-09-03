@@ -56,7 +56,8 @@ export class AppComponent implements OnInit {
   };
 
   cpu:Processor
-  
+  showAlert = false;
+  showFinished = false;
   constructor() { }
 
 
@@ -184,17 +185,17 @@ export class AppComponent implements OnInit {
     this.executingROB = false;
     this.cpu = null;
     this.deleteDependencies();
-
-
   }
 
   saveConfiguration(){
     if(this.numArithmetic!=0 || this.numMemory != 0 || this.numMultifunction!=0){
       this.configurationSaved = true;
       this.executingROB=false;
+      this.showAlert=false;
     }
     else{
       console.log("Ingresa una unidad funcional boludo");
+      this.showAlert = true;
     }
     this.setCycles();
   }
@@ -243,7 +244,7 @@ export class AppComponent implements OnInit {
     if (!this.cpu.isFinished())
       this.cpu.nextCycle();
     else
-      console.log("Finalizo")
+      this.showFinished=true;
 
   }
 

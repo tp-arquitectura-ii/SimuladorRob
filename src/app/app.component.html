@@ -167,6 +167,12 @@
 </div>
 
 
+<p>
+  <ngb-alert  [dismissible]="false" *ngIf = "showAlert">
+    <strong>Advertencia!</strong> Debes agregar una UF para ejecutar las instrucciones
+  </ngb-alert>
+</p>
+
 
 <!--DEFINICION DE TABLAS-->
 <div class = "container">
@@ -229,6 +235,11 @@
 </div>
 </div>
 
+<p>
+  <ngb-alert type="success" [dismissible]="false" *ngIf = "showFinished">
+    <strong>Exito!</strong> Las instrucciones fueron ejecutadas con exito
+  </ngb-alert>
+</p>
 
 
 <router-outlet></router-outlet>
