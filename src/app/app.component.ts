@@ -184,6 +184,7 @@ export class AppComponent implements OnInit {
     this.configurationSaved = false;
     this.executingROB = false;
     this.cpu = null;
+    this.showFinished = false;
     this.deleteDependencies();
   }
 

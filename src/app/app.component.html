@@ -9,7 +9,7 @@
 <div class = "container">
   <div class = "row justify-content-around">
     <div class = col-md-4>
-<table class="table table-striped" style="width:5cm">  
+<table class="table table-bordered" style="width:5cm">  
   <thead>
   <tr>
     <th scope="col">#</th>
@@ -17,6 +17,7 @@
     <th scope="col">DST</th>
     <th scope="col">OP1</th>
     <th scope="col">OP2</th>
+    <th scope="col"> </th>
   </tr>
   </thead>
   <tbody>
@@ -34,7 +35,7 @@
 
 <div>
   <h4>Agregar una instruccion</h4>
-<div class="btn-group mr-3 ">
+<div class="btn-group mr-3 " >
     <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
         <button [disabled]="configurationSaved" id="btn-type" class="btn btn-outline-danger" ngbDropdownToggle>{{btnDefaultIns.type}}</button>
         <div class="dropdown-menu" ngbDropdownMenu>
@@ -181,7 +182,7 @@
 
   <div class = "row">
     <div class = "col">
-    <table id ="tablacycle" class="table table-striped" style="width:2cm" *ngIf="executingROB">  
+    <table id ="tablacycle" class="table table-bordered" style="width:2.2cm" *ngIf="executingROB">  
       <thead>
       <tr>
         <th scope = "col">Ciclo #</th>
@@ -192,7 +193,7 @@
     </div>
 
     <div class = "col">
-    <table id="tablaDispatch" class="table table-striped" style="width:1cm" *ngIf="executingROB">  
+    <table id="tablaDispatch" class="table table-bordered" style="width:1cm" *ngIf="executingROB">  
       <thead>
         <th *ngFor="let header of DHeaders">
           {{header}}
@@ -202,7 +203,7 @@
     </table>
   </div>
    <div class = "col">
-    <table id="tablaER" class="table table-striped" style="width:1cm" *ngIf="executingROB">  
+    <table id="tablaER" class="table table-bordered" style="width:1cm" *ngIf="executingROB">  
       <thead>
         <th *ngFor="let header of ERHeaders">
           {{header}}
@@ -212,7 +213,7 @@
     </table>
   </div>
   <div class = "col">
-    <table id="tablaUF" class="table table-striped" style="width:1cm" *ngIf="executingROB">  
+    <table id="tablaUF" class="table table-bordered" style="width:1cm" *ngIf="executingROB">  
       <thead>
         <th *ngFor="let header of UFHeaders">
           {{header}}
@@ -222,7 +223,7 @@
     </table>
   </div>
   <div class = "col">
-    <table id="tablaROB" class="table table-striped" style="width:4cm" *ngIf="executingROB">  
+    <table id="tablaROB" class="table table-bordered" style="width:4cm" *ngIf="executingROB">  
       <thead>
         <th *ngFor="let header of ROBHeaders">
           {{header}}
