@@ -33,6 +33,7 @@ export class Processor{
 
     public nextCycle(){
         if(this.cycleCounter == 0){
+
             //AGREGO INSTRUCCIONES AL DISPATCH
             for(let i = 0; i < this.dispatcher.getGrade() && this.listInstruction.length != 0 ; i++){
                 this.dispatcher.addInstruction(this.listInstruction.shift())
@@ -49,16 +50,17 @@ export class Processor{
 
             //RETIRO DEL ROB
             this.rob.removeInstCompletes();
-
             //AGREGO INSTRUCCIONES A LA ER Y ROB
-            let sizeDispatch = this.dispatcher.getSize();
-            for(let i = 0; i < sizeDispatch;i++){//MIRAR ESTO PORQUE SI SE LO RETIRA DE LA LISTA DECREMENTA EL GETSIZE
-                if (!this.er.isBusy() && !this.rob.isBusy()){
+            let j = 0; 
+            while(j < this.dispatcher.getSize()){
+                if (!this.er.isBusy() && !this.rob.isBusy()){                   
                     let inst = this.dispatcher.getInstruc();
                     inst.setStatus("I");
                     this.er.addInstruction(inst);
                     this.rob.addInstruction(inst);
                 }
+                else
+                    j++;
             }
 
             //DECREMENTO INSTRUCCIONES
@@ -78,9 +80,6 @@ export class Processor{
                     }
                 }
             }
-            
-            //AGREGO A er Y ROB SI UNA INSTRUCCION ESTA FINALIZADA
-
 
 
             //AGREGO A UF
@@ -102,20 +101,36 @@ export class Processor{
                 i++;}
             }
 
-            
+            j = 0; 
+            while(j < this.dispatcher.getSize()){
+                if (!this.er.isBusy() && !this.rob.isBusy()){
+                    
+                    let inst = this.dispatcher.getInstruc();
+                    inst.setStatus("I");
+                    this.er.addInstruction(inst);
+                    this.rob.addInstruction(inst);
+                }
+                else
+                    j++;
+            }
+
+            //AGREGO A er Y ROB SI UNA INSTRUCCION ESTA FINALIZADA
+           
             let sizeDispatch2 = this.dispatcher.getSize();
+            let listAux = this.rob.getListInstructions();
             for(let i = 0; i < sizeDispatch2;i++){
-                    let index = this.rob.hasInstructionCompleted();
+                   
+                    let index = this.rob.hasInstructionCompleted(i,listAux);
+                    
                     if (!this.er.isBusy() &&  index != -1){
-                        console.log("entraste a esta funcion")  ; 
                         let inst = this.dispatcher.getInstruc();
+                        listAux.shift()
                         inst.setStatus("I");
                         this.er.addInstruction(inst);
                         this.rob.getRobC()[index].addInstruction2(inst);
-                        console.log(this.rob.getRobC()[index].getInstruction2());
                     }
                 }
-               
+              
             //actualizo dispatch
             for(let i = 0; i < this.dispatcher.getGrade() && this.listInstruction.length != 0 && !this.dispatcher.isBusy(); i++){
                 this.dispatcher.addInstruction(this.listInstruction.shift());
@@ -164,6 +179,11 @@ export class Processor{
         return this.rob.isComplete();
     }
 
+
+
+
+
+    
     addRow(inst:Array<Instruction>, id:string, cantidad:Number ){
         let tr = document.createElement("tr");
         for(let i = 0; i < cantidad;i++){
@@ -208,7 +228,6 @@ export class Processor{
                     td1.appendChild(document.createTextNode(this.rob.getRobC()[i].getInstruction().getStatus()));  
                 }
                 else{
-                    console.log("Seererer");
                     td.appendChild(document.createTextNode(this.rob.getRobC()[i].getInstruction().getId()+ "/" +this.rob.getRobC()[i].getInstruction2().getId() ))
                     td1.appendChild(document.createTextNode(this.rob.getRobC()[i].getInstruction().getStatus()+"/"+ this.rob.getRobC()[i].getInstruction2().getStatus()));
                 }

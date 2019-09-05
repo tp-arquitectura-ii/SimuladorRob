@@ -63,15 +63,18 @@ export class BufferReorder{
         i++;
     }
   }
-
-  public hasInstructionCompleted() {
+  public getListInstructions(){
+      return this.listInstructionOriginal.slice(0);
+  }
+  public hasInstructionCompleted(index,listAux) {
     let i = 0;
-    let count = 0
+
     while (i<this.size){
         if (this.robC[i].getInstruction()!= null )
-            if (this.robC[i].getInstruction().getStatus() == "F" && this.listInstructionOriginal[0].getId() == this.robC[i].getInstruction().getId())
-               return i;
+            if (this.robC[i].getInstruction().getStatus() == "F" && listAux[0].getId() == this.robC[i].getInstruction().getId())
+                    return i;
         i++;
+                
     }
     return -1;
   }

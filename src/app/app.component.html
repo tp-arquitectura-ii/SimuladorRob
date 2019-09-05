@@ -179,61 +179,62 @@
 <div class = "container">
     <h4>Simulación</h4> 
     <button *ngIf="executingROB" id="btn-next" type="button" class="btn btn-outline-danger" (click)="nextInstruction()" >Siguiente Intruccion</button>
+    <div class = "row">    
+      <div class = "col">      
+        <table id ="tablacycle" class="table table-bordered" style="width:2.2cm" *ngIf="executingROB">  
+          <thead>
+            <tr>
+              <th scope = "col">Ciclo #</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
 
-  <div class = "row">
-    <div class = "col">
-    <table id ="tablacycle" class="table table-bordered" style="width:2.2cm" *ngIf="executingROB">  
-      <thead>
-      <tr>
-        <th scope = "col">Ciclo #</th>
-      </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-    </div>
+      <div class = "col">
+        <table id="tablaDispatch" class="table table-bordered" style="width:1cm" *ngIf="executingROB">  
+          <thead>
+            <th *ngFor="let header of DHeaders">
+              {{header}}
+            </th>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    
+      <div class = "col">
+        <table id="tablaER" class="table table-bordered" style="width:1cm" *ngIf="executingROB">  
+          <thead>
+            <th *ngFor="let header of ERHeaders">
+              {{header}}
+            </th>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
 
-    <div class = "col">
-    <table id="tablaDispatch" class="table table-bordered" style="width:1cm" *ngIf="executingROB">  
-      <thead>
-        <th *ngFor="let header of DHeaders">
-          {{header}}
-        </th>
-      </thead>
-      <tbody></tbody>
-    </table>
+      <div class = "col">
+        <table id="tablaUF" class="table table-bordered" style="width:1cm" *ngIf="executingROB">  
+          <thead>
+            <th *ngFor="let header of UFHeaders">
+              {{header}}
+            </th>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class = "col">
+        <table id="tablaROB" class="table table-bordered" style="width:4cm" *ngIf="executingROB">  
+          <thead>
+            <th *ngFor="let header of ROBHeaders">
+              {{header}}
+            </th>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
   </div>
-   <div class = "col">
-    <table id="tablaER" class="table table-bordered" style="width:1cm" *ngIf="executingROB">  
-      <thead>
-        <th *ngFor="let header of ERHeaders">
-          {{header}}
-        </th>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-  <div class = "col">
-    <table id="tablaUF" class="table table-bordered" style="width:1cm" *ngIf="executingROB">  
-      <thead>
-        <th *ngFor="let header of UFHeaders">
-          {{header}}
-        </th>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-  <div class = "col">
-    <table id="tablaROB" class="table table-bordered" style="width:4cm" *ngIf="executingROB">  
-      <thead>
-        <th *ngFor="let header of ROBHeaders">
-          {{header}}
-        </th>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
- 
-</div>
 </div>
 
 <p>

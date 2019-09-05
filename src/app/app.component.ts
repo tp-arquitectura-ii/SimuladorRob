@@ -63,14 +63,18 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     const instrucions = [
-      new Instruction("S1","ADD","R3","R0","R5","ARITH"),
-      new Instruction("S2","MUL","R2","R2","R5","ARITH"),
-      new Instruction("S3","DIV","R1","R5","R0","ARITH"),
-      new Instruction("S4","ST","R3","R1","","MEM"),
-      new Instruction("S5","SUB","R6","R3","R2","ARITH"),
-      new Instruction("S6","LD","R9","R6","","MEM"),
-      new Instruction("S7","ADD","R2","R6","R3","ARITH"),
-      new Instruction("S8","DIV","R10","R3","R1","ARITH")
+      new Instruction("S1","LD","R1","R0","","MEM"),
+      new Instruction("S2","LD","R2","R0","","MEM"),
+      new Instruction("S3","MUL","R3","R0","R10","ARITH"),
+      new Instruction("S4","DIV","R7","R1","R10","ARITH"),
+      new Instruction("S5","ADD","R3","R3","R2","ARITH"),
+      new Instruction("S6","LD","R4","R0","","MEM"),
+      new Instruction("S7","DIV","R6","R1","R10","ARITH"),
+      new Instruction("S8","ADD","R2","R4","R2","ARITH"),
+	    new Instruction("S9","SUB","R5","R3","R2","ARITH"),
+	    new Instruction("S10","ST","R1","R2","","MEM"),
+	    new Instruction("S11","ST","R1","R5","","MEM"),
+	    new Instruction("S12","ADD","R7","R2","R5","ARITH")
     ];
     this.listInstructions = instrucions;
     this.idInstruction = this.listInstructions.length;
