@@ -104,7 +104,6 @@ export class Processor{
             j = 0; 
             while(j < this.dispatcher.getSize()){
                 if (!this.er.isBusy() && !this.rob.isBusy()){
-                    
                     let inst = this.dispatcher.getInstruc();
                     inst.setStatus("I");
                     this.er.addInstruction(inst);
@@ -131,6 +130,23 @@ export class Processor{
                     }
                 }
               
+                i=0;
+                while( i < this.er.instructions.length){  
+                    let index = this.getUFFree(this.er.instructions[i]);
+                    if (index != -1){
+                        let inst = this.er.instructions[i];
+                        if (!this.hasDependence(inst) && !this.hasDependeceER(inst)){
+                            this.uf[index].addInstruc(inst);
+                            inst.setStatus("X");
+                            this.uf[index].setBusy(true);
+                            this.er.removeInstruction(i);                     
+                        }
+                        else{
+                            i++
+                        }
+                    }else{
+                    i++;}
+                }
             //actualizo dispatch
             for(let i = 0; i < this.dispatcher.getGrade() && this.listInstruction.length != 0 && !this.dispatcher.isBusy(); i++){
                 this.dispatcher.addInstruction(this.listInstruction.shift());
@@ -145,8 +161,11 @@ export class Processor{
         }
     }
 
+    private updateERandROB(){
 
-    hasDependeceER(inst: Instruction) {
+    }
+
+    private hasDependeceER(inst: Instruction) {
         for(let i = 0; i < this.er.instructions.length;i++){
             if(this.er.instructions[i].getId() != inst.getId())
                 if(this.er.instructions[i].existDependency(inst))
@@ -155,7 +174,7 @@ export class Processor{
         return false;
     }
 
-    hasDependence(inst: Instruction) {
+    private hasDependence(inst: Instruction) {
         for(let i = 0; i < this.uf.length;i++){
             if(this.uf[i].getInstruc()!=null){
                 if(this.uf[i].getInstruc().existDependency(inst))
