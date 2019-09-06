@@ -1,32 +1,26 @@
 import { Instruction } from './Instruction';
 
 export class ReserveStation{
-     instructions = new Array<Instruction>();
+    instructions = new Array<Instruction>();
     private numReserveStation: number;
 
     constructor(numReserveStation){
         this.numReserveStation=numReserveStation;
     }
 
-    isEmpty(){
-        if (this.instructions.length == 0)
-            return true; 
-        else 
-            return false;
-    }
     
-    isBusy(){
+    public isBusy(){
         if (this.instructions.length == this.numReserveStation)
             return true 
         else
             return false;
     }
 
-    addInstruction(i:Instruction){
+    public addInstruction(i:Instruction){
         this.instructions.push(i);
     }
 
-    getInstruc(){
+    public getInstruction(){
         return this.instructions.shift();
     }
 

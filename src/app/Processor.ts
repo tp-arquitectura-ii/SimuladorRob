@@ -20,8 +20,8 @@ export class Processor{
         this.er = new ReserveStation(numReserveStation);
         this.uf=new Array<FunctionalUnit>();
         this.rob = new BufferReorder(robSize,numOrden,instrucciones);
-
     }
+
     public addUF(numArithmetic,numMemory,numMultifunction){
         for( let i=0; i<numMultifunction; i++)
             this.uf.push(new FunctionalUnit("MULTIFUNCT"));
@@ -32,126 +32,43 @@ export class Processor{
     }
 
     public nextCycle(){
-        if(this.cycleCounter == 0){
-
-            //AGREGO INSTRUCCIONES AL DISPATCH
-            for(let i = 0; i < this.dispatcher.getGrade() && this.listInstruction.length != 0 ; i++){
-                this.dispatcher.addInstruction(this.listInstruction.shift())
-            }
-            this.addRowCounter();
-            this.addRow(this.dispatcher.instruction,"tablaDispatch",this.dispatcher.getGrade());
-            this.addRow(this.er.instructions,"tablaER",this.er.getnumReserveStation());
-            this.addRowUF();
-            this.addRowROB(this.rob.instruction,"tablaROB",this.rob.getSize());
-            this.cycleCounter++;
-        }
-        else
         {  
-
             //RETIRO DEL ROB
-            this.rob.removeInstCompletes();
+            this.rob.removeInstCompletes();            
             //AGREGO INSTRUCCIONES A LA ER Y ROB
-            let j = 0; 
-            while(j < this.dispatcher.getSize()){
-                if (!this.er.isBusy() && !this.rob.isBusy()){                   
-                    let inst = this.dispatcher.getInstruc();
-                    inst.setStatus("I");
-                    this.er.addInstruction(inst);
-                    this.rob.addInstruction(inst);
-                }
-                else
-                    j++;
-            }
-
+            this.updateERandROB();
             //DECREMENTO INSTRUCCIONES
             for(let i = 0; i<this.uf.length; i++){
-                if (this.uf[i].getInstruc()!= null && this.uf[i].getInstruc().getCycle()!=0){
-                    this.uf[i].getInstruc().decrementCycle();
+                if (this.uf[i].getInstruction()!= null && this.uf[i].getInstruction().getCycle()!=0){
+                    this.uf[i].getInstruction().decrementCycle();
                 }
             }
-
             //remuevo instrucciones de la uf
-            for(let i = 0 ; i<this.uf.length; i++){              
-                if(this.uf[i].getInstruc()!=null){
-                    if(this.uf[i].getInstruc().getCycle()==0){
-                        this.uf[i].getInstruc().setStatus("F");
-                        this.uf[i].removeInstruction();
-                        this.uf[i].setBusy(false);
-                    }
-                }
-            }
-
-
+            this.removeInstructionUF();
             //AGREGO A UF
-            let i=0;
-            while( i < this.er.instructions.length){  
-                let index = this.getUFFree(this.er.instructions[i]);
-                if (index != -1){
-                    let inst = this.er.instructions[i];
-                    if (!this.hasDependence(inst) && !this.hasDependeceER(inst)){
-                        this.uf[index].addInstruc(inst);
-                        inst.setStatus("X");
-                        this.uf[index].setBusy(true);
-                        this.er.removeInstruction(i);                     
-                    }
-                    else{
-                        i++
-                    }
-                }else{
-                i++;}
-            }
-
-            j = 0; 
-            while(j < this.dispatcher.getSize()){
-                if (!this.er.isBusy() && !this.rob.isBusy()){
-                    let inst = this.dispatcher.getInstruc();
-                    inst.setStatus("I");
-                    this.er.addInstruction(inst);
-                    this.rob.addInstruction(inst);
-                }
-                else
-                    j++;
-            }
-
-            //AGREGO A er Y ROB SI UNA INSTRUCCION ESTA FINALIZADA
-           
-            let sizeDispatch2 = this.dispatcher.getSize();
+            this.updateUF();
+            //AGREGO INSTRUCCIONES A LA ER Y ROB
+            this.updateERandROB();
+            //AGREGO A er Y ROB SI UNA INSTRUCCION ESTA FINALIZADA           
+            let sizeDispatch = this.dispatcher.getSize();
             let listAux = this.rob.getListInstructions();
-            for(let i = 0; i < sizeDispatch2;i++){
-                   
-                    let index = this.rob.hasInstructionCompleted(i,listAux);
-                    
+            for(let i = 0; i < sizeDispatch;i++){                  
+                    let index = this.rob.hasInstructionCompleted(listAux);                    
                     if (!this.er.isBusy() &&  index != -1){
-                        let inst = this.dispatcher.getInstruc();
+                        let inst = this.dispatcher.getInstruction();
                         listAux.shift()
                         inst.setStatus("I");
                         this.er.addInstruction(inst);
                         this.rob.getRobC()[index].addInstruction2(inst);
                     }
                 }
-              
-                i=0;
-                while( i < this.er.instructions.length){  
-                    let index = this.getUFFree(this.er.instructions[i]);
-                    if (index != -1){
-                        let inst = this.er.instructions[i];
-                        if (!this.hasDependence(inst) && !this.hasDependeceER(inst)){
-                            this.uf[index].addInstruc(inst);
-                            inst.setStatus("X");
-                            this.uf[index].setBusy(true);
-                            this.er.removeInstruction(i);                     
-                        }
-                        else{
-                            i++
-                        }
-                    }else{
-                    i++;}
-                }
+             
+            //Actualizo UF    
+            this.updateUF();
             //actualizo dispatch
             for(let i = 0; i < this.dispatcher.getGrade() && this.listInstruction.length != 0 && !this.dispatcher.isBusy(); i++){
                 this.dispatcher.addInstruction(this.listInstruction.shift());
             }
-            
             this.addRowCounter();
             this.addRow(this.dispatcher.instruction,"tablaDispatch",this.dispatcher.getGrade());
             this.addRow(this.er.instructions,"tablaER",this.er.getnumReserveStation());
@@ -162,7 +79,50 @@ export class Processor{
     }
 
     private updateERandROB(){
+        let j = 0; 
+        while(j < this.dispatcher.getSize()){
+            if (!this.er.isBusy() && !this.rob.isBusy()){
+                let inst = this.dispatcher.getInstruction();
+                inst.setStatus("I");
+                this.er.addInstruction(inst);
+                this.rob.addInstruction(inst);
+            }
+            else
+                j++;
+        }
+    }
 
+    private updateUF(){
+        let i=0;
+        while( i < this.er.instructions.length){  
+            let index = this.getUFFree(this.er.instructions[i]);
+            if (index != -1){
+                let inst = this.er.instructions[i];
+                if (!this.hasDependence(inst) && !this.hasDependeceER(inst)){
+                    this.uf[index].addInstruction(inst);
+                    inst.setStatus("X");
+                    this.uf[index].setBusy(true);
+                    this.er.removeInstruction(i);                     
+                }
+                else{
+                    i++
+                }
+            }else{
+            i++;
+            }
+        }
+    }
+
+    private removeInstructionUF(){
+        for(let i = 0 ; i<this.uf.length; i++){              
+            if(this.uf[i].getInstruction()!=null){
+                if(this.uf[i].getInstruction().getCycle()==0){
+                    this.uf[i].getInstruction().setStatus("F");
+                    this.uf[i].removeInstruction();
+                    this.uf[i].setBusy(false);
+                }
+            }
+        }
     }
 
     private hasDependeceER(inst: Instruction) {
@@ -176,8 +136,8 @@ export class Processor{
 
     private hasDependence(inst: Instruction) {
         for(let i = 0; i < this.uf.length;i++){
-            if(this.uf[i].getInstruc()!=null){
-                if(this.uf[i].getInstruc().existDependency(inst))
+            if(this.uf[i].getInstruction()!=null){
+                if(this.uf[i].getInstruction().existDependency(inst))
                     return true;
             }
         }
@@ -223,8 +183,8 @@ export class Processor{
         let tr = document.createElement("tr");
         for(let i = 0; i < this.uf.length;i++){
             let td = document.createElement("td");
-            if (this.uf[i].getInstruc()!= null){
-                td.appendChild(document.createTextNode(this.uf[i].getInstruc().getId()));
+            if (this.uf[i].getInstruction()!= null){
+                td.appendChild(document.createTextNode(this.uf[i].getInstruction().getId()));
                 tr.appendChild(td);
             }
             else

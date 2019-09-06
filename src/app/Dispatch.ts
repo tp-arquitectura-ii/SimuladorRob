@@ -8,28 +8,22 @@ export class Dispatch {
         this.grade=grade;
     }
 
-    getSize(){
+    public getSize(){
         return this.instruction.length;
     }
 
-    isEmpty(){
-        if (this.instruction.length == 0)
-            return true; 
-        else 
-            return false;
-    }
-    isBusy(){
+    public isBusy(){
         if (this.instruction.length == this.grade)
             return true 
         else
             return false;
     }
 
-    addInstruction(i:Instruction){
+    public addInstruction(i:Instruction){
         this.instruction.push(i);
     }
 
-    getInstruc(){
+    getInstruction(){
         return this.instruction.shift();
     }
     getGrade(){
