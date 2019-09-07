@@ -18,6 +18,10 @@ export class Instruction {
       this.UFType = UFType; 
     }
     
+    public setID(id:string){
+      this.id=id;
+    }
+
     public setStatus(t:string){
       this.status = t;
     }

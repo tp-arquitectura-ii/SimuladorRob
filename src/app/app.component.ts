@@ -13,7 +13,7 @@ declare var vis:any;
 
 export class AppComponent implements OnInit {
     @ViewChild("siteConfigNetwork",{static: true}) networkContainer: ElementRef;
-    title = 'Simulador ROB';
+    
     executingROB: boolean = false;
     configurationSaved: boolean = false;
     listInstructions = new Array<Instruction>();
@@ -68,18 +68,14 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
       const instrucions = [
-        new Instruction("S1","LD","R1","R0","","MEM"),
-        new Instruction("S2","LD","R2","R0","","MEM"),
-        new Instruction("S3","MUL","R3","R0","R10","ARITH"),
-        new Instruction("S4","DIV","R7","R1","R10","ARITH"),
-        new Instruction("S5","ADD","R3","R3","R2","ARITH"),
-        new Instruction("S6","LD","R4","R0","","MEM"),
-        new Instruction("S7","DIV","R6","R1","R10","ARITH"),
-        new Instruction("S8","ADD","R2","R4","R2","ARITH"),
-      new Instruction("S9","SUB","R5","R3","R2","ARITH"),
-      new Instruction("S10","ST","R1","R2","","MEM"),
-      new Instruction("S11","ST","R1","R5","","MEM"),
-      new Instruction("S12","ADD","R7","R2","R5","ARITH")
+        new Instruction("S1","ADD","R3","R0","R5","ARITH"),
+        new Instruction("S2","MUL","R2","R2","R5","ARITH"),
+        new Instruction("S3","DIV","R1","R5","R0","ARITH"),
+        new Instruction("S4","ST","(R3)","R1","","MEM"),
+        new Instruction("S5","SUB","R6","R3","R2","ARITH"),
+        new Instruction("S6","LD","R9","(R6)","","MEM"),
+        new Instruction("S7","ADD","R2","R6","R3","ARITH"),
+        new Instruction("S8","DIV","R10","R3","R1","ARITH")
       ];
       this.listInstructions = instrucions;
       this.idInstruction = this.listInstructions.length;
@@ -118,7 +114,7 @@ export class AppComponent implements OnInit {
     }
 
     addInstruction(){ 
-        this.idInstruction++
+        this.idInstruction=this.listInstructions.length+1
         let instNueva;
         if (this.btnDefaultIns.type=="ST")
           instNueva = new Instruction("S" +this.idInstruction,this.btnDefaultIns.type,"("+this.btnDefaultIns.dst+")",this.btnDefaultIns.op1,"","MEM");
@@ -160,22 +156,39 @@ export class AppComponent implements OnInit {
     deleteInstruction(inst:Instruction){
       let i = this.listInstructions.indexOf(inst);
       this.listInstructions.splice(i,1);
+      this.recalculateID();
+
+    }
+
+    recalculateID(){
+      for(let i = 1; i <= this.listInstructions.length; i++){
+        this.listInstructions[i-1].setID("S"+i);  
+      }
     }
 
     getDependenciasRAW(){
+      let a:string;
+      let b:string;
+      a = "S1";
+      b = "S1";
+      if (b.includes(a)){
+        console.log("entro");
+      }
+      else
+        console.log("No");
       let encontro = false;
       for (let i = 0; i < this.listInstructions.length -1; i++) {
         if(this.listInstructions[i].getType()!="ST")
-        for (let j = i+1; j < this.listInstructions.length && !encontro; j++) {
-          if(this.listInstructions[j].getType()!="ST"){
-              if (this.listInstructions[i].getDestination() == this.listInstructions[j].getOp1() || this.listInstructions[i].getDestination() == this.listInstructions[j].getOp2() )  
-                this.listInstructions[i].addDependency(this.listInstructions[j].getId());            
-              if(this.listInstructions[i].getDestination() == this.listInstructions[j].getDestination()){
-                encontro=true;
-              }
-          }
+          for (let j = i+1; j < this.listInstructions.length && !encontro; j++) {
+            if(this.listInstructions[j].getType()!="ST"){
+                if (this.listInstructions[j].getOp1().includes(this.listInstructions[i].getDestination()) || this.listInstructions[i].getDestination() == this.listInstructions[j].getOp2() )  
+                  this.listInstructions[i].addDependency(this.listInstructions[j].getId());            
+                if(this.listInstructions[i].getDestination() == this.listInstructions[j].getDestination()){
+                  encontro=true;
+                }
+            }
             else{
-              if(this.listInstructions[i].getDestination() == this.listInstructions[j].getDestination() || this.listInstructions[i].getDestination()==this.listInstructions[j].getOp1())            
+              if(this.listInstructions[j].getDestination().includes( this.listInstructions[i].getDestination()) || this.listInstructions[i].getDestination()==this.listInstructions[j].getOp1())            
                 this.listInstructions[i].addDependency(this.listInstructions[j].getId()); 
               
             }
@@ -215,8 +228,7 @@ export class AppComponent implements OnInit {
           if (this.listInstructions[i].getType() == this.typeInstruction[j].type){
             this.listInstructions[i].setCycles(this.typeInstruction[j].cycle);
           }    
-        }
-    
+        }   
     }
 
     private createTableHeadROB(){
@@ -235,12 +247,27 @@ export class AppComponent implements OnInit {
       }
       this[desc+'Headers'] = array;
     }
+
+    private createTableHeadUF(desc:string, numM:number, numMem:number,numA:number){
+      let array = [];
+      for (let i = 0; i < numM; i++) {
+        array.push(desc+"M"+i);
+      }
+      for (let i = 0; i < numA; i++) {
+        array.push(desc+"A"+i);
+      }
+      for (let i = 0; i < numMem; i++) {
+        array.push(desc+"Mem"+i);
+      }    
+      this[desc+'Headers'] = array;
+    }
   
     public executeRob(){
       this.executingROB = true;
       this.createTableHead("ER",this.numReserveStation);
       this.createTableHead("D",this.numOrder);
-      this.createTableHead("UF",this.numArithmetic+this.numMemory+this.numMultifunction);
+      this.createTableHeadUF("UF",this.numMultifunction,this.numMemory,this.numArithmetic);
+
       this.sizeROB = this.numReserveStation + this.numMultifunction + this.numArithmetic + this.numMemory;
       this.createTableHeadROB();
       this.getDependenciasRAW();

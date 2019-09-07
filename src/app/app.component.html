@@ -1,67 +1,70 @@
 
 <div style="text-align:center">
   <h1>
-    Bienvenido al {{ title }}! 
-     </h1>
+    Bienvenidos al Simulador ROB
+  </h1>
+  <img src = "assets/Logo_UNICEN.gif" width= "200">
 </div>
+
 <!--TABLA DE INSTRUCCIONES-->
 
 <div class = "container">
   <div class = "row justify-content-around">
     <div class = col-md-4>
-<table class="table table-bordered" style="width:5cm">  
-  <thead>
-  <tr>
-    <th scope="col">#</th>
-    <th scope="col">Instruccion</th>
-    <th scope="col">DST</th>
-    <th scope="col">OP1</th>
-    <th scope="col">OP2</th>
-    <th scope="col"> </th>
-  </tr>
-  </thead>
-  <tbody>
-      <tr *ngFor="let inst of listInstructions">
-          <td>{{ inst.getId() }}</td>
-          <td> {{ inst.getType() }}</td>
-          <td> {{ inst.getDestination()}}</td>
-          <td> {{ inst.getOp1() }}</td>
-          <td> {{inst.getOp2()}}</td>
-          <td> <button type="button" class="close" aria-label="Close" (click) = deleteInstruction(inst)> <span aria-hidden="true">&times;</span> </button></td>
-        </tr>
-  </tbody>
-</table>
-</div>
+      <h4>Instrucciones</h4>
+      <table class="table table-bordered" style="width:5cm">  
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Instruccion</th>
+            <th scope="col">DST</th>
+            <th scope="col">OP1</th>
+            <th scope="col">OP2</th>
+            <th scope="col"> </th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let inst of listInstructions">
+              <td>{{ inst.getId() }}</td>
+              <td> {{ inst.getType() }}</td>
+              <td> {{ inst.getDestination()}}</td>
+              <td> {{ inst.getOp1() }}</td>
+              <td> {{inst.getOp2()}}</td>
+              <td> <button type="button" class="close" aria-label="Close" (click) = deleteInstruction(inst)> <span aria-hidden="true">&times;</span> </button></td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
 
 <div>
   <h4>Agregar una instruccion</h4>
-<div class="btn-group mr-3 " >
+  <div class="btn-group mr-3 " >
+      <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+          <button [disabled]="configurationSaved" id="btn-type" class="btn btn-outline-danger" ngbDropdownToggle>{{btnDefaultIns.type}}</button>
+          <div class="dropdown-menu" ngbDropdownMenu>
+              <button class="dropdown-item" *ngFor="let inst of typeInstruction" (click)="change('type',inst.type)" >{{inst.type}}</button>
+          </div>
+        </div>
     <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-        <button [disabled]="configurationSaved" id="btn-type" class="btn btn-outline-danger" ngbDropdownToggle>{{btnDefaultIns.type}}</button>
-        <div class="dropdown-menu" ngbDropdownMenu>
-            <button class="dropdown-item" *ngFor="let inst of typeInstruction" (click)="change('type',inst.type)" >{{inst.type}}</button>
-        </div>
-      </div>
-  <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-    <button [disabled]="configurationSaved" id="btn-dst" class="btn btn-outline-danger" ngbDropdownToggle>{{btnDefaultIns.dst}}</button>
-    <div class="dropdown-menu" ngbDropdownMenu>
-      <button class="dropdown-item" *ngFor="let reg of registers" (click)="change('dst',reg)" >{{reg}}</button>
-    </div>
-  </div>
-  <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-    <button [disabled]="configurationSaved" id="btn-op1" class="btn btn-outline-danger" ngbDropdownToggle>{{btnDefaultIns.op1}}</button>
-    <div class="dropdown-menu" ngbDropdownMenu>
-        <button class="dropdown-item" *ngFor="let reg of registers" (click)="change('op1',reg)" >{{reg}}</button>
-    </div>
-  </div>
-  <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-    <button [disabled]="configurationSaved" id="btn-op2" class="btn btn-outline-danger" ngbDropdownToggle> {{btnDefaultIns.op2}}</button>
+      <button [disabled]="configurationSaved" id="btn-dst" class="btn btn-outline-danger" ngbDropdownToggle>{{btnDefaultIns.dst}}</button>
       <div class="dropdown-menu" ngbDropdownMenu>
-          <button class="dropdown-item" *ngFor="let reg of registers" (click)="change('op2',reg)" >{{reg}}</button>
-        </div>
-  </div> 
-  <button id="btn-Agregar" type="button" class="btn btn-outline-danger" disabled (click)="addInstruction()"  >Agregar</button>
-</div>
+        <button class="dropdown-item" *ngFor="let reg of registers" (click)="change('dst',reg)" >{{reg}}</button>
+      </div>
+    </div>
+    <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+      <button [disabled]="configurationSaved" id="btn-op1" class="btn btn-outline-danger" ngbDropdownToggle>{{btnDefaultIns.op1}}</button>
+      <div class="dropdown-menu" ngbDropdownMenu>
+          <button class="dropdown-item" *ngFor="let reg of registers" (click)="change('op1',reg)" >{{reg}}</button>
+      </div>
+    </div>
+    <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+      <button [disabled]="configurationSaved" id="btn-op2" class="btn btn-outline-danger" ngbDropdownToggle> {{btnDefaultIns.op2}}</button>
+        <div class="dropdown-menu" ngbDropdownMenu>
+            <button class="dropdown-item" *ngFor="let reg of registers" (click)="change('op2',reg)" >{{reg}}</button>
+          </div>
+    </div> 
+    <button id="btn-Agregar" type="button" class="btn btn-outline-danger" disabled (click)="addInstruction()"  >Agregar</button>
+  </div>
 
 <div>
   <h4>Dispatcher</h4>
@@ -69,7 +72,7 @@
       <button class="btn btn-outline-danger">Orden N°: </button>
       <button [disabled]="configurationSaved" class="btn btn-outline-danger" id="btn-GradoDispatch" ngbDropdownToggle> {{numOrder}}</button>
         <div class="dropdown-menu" ngbDropdownMenu>
-            <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="changeOrder(num)" >{{num}}</button>
+          <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="changeOrder(num)" >{{num}}</button>
         </div>
     </div>
 </div>
@@ -80,61 +83,65 @@
       <button class="btn btn-outline-danger">Cantidad: </button>
       <button [disabled]="configurationSaved" class="btn btn-outline-danger" id="btn-CantidadER" ngbDropdownToggle> {{numReserveStation}}</button>
         <div class="dropdown-menu" ngbDropdownMenu>
-            <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="changeER(num)" >{{num}}</button>
+          <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="changeER(num)" >{{num}}</button>
         </div>
     </div>
   </div>
 <div>
 
   <!--BOTONES CICLO DE INSTRUCCIONES-->
-  <h4>Ciclos de cada instruccion</h4>
-  <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-      <button class="btn btn-outline-danger">ADD: </button>
-      <button [disabled]="configurationSaved" class="btn btn-outline-danger" id="btn-Inst-ADD" ngbDropdownToggle> {{typeInstruction[0].cycle}}</button>
-        <div class="dropdown-menu" ngbDropdownMenu>
-            <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="changeCycle('ADD',num)" >{{num}}</button>
-        </div>
-    </div>
-    <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-        <button class="btn btn-outline-danger">SUB: </button>
-        <button [disabled]="configurationSaved" class="btn btn-outline-danger" id="btn-Inst-SUB" ngbDropdownToggle> {{typeInstruction[1].cycle}}</button>
-          <div class="dropdown-menu" ngbDropdownMenu>
-            <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="changeCycle('SUB',num)" >{{num}}</button>
-          </div>
+<h4>Ciclos de cada instruccion</h4>
+<div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+    <button class="btn btn-outline-danger">ADD: </button>
+    <button [disabled]="configurationSaved" class="btn btn-outline-danger" id="btn-Inst-ADD" ngbDropdownToggle> {{typeInstruction[0].cycle}}</button>
+      <div class="dropdown-menu" ngbDropdownMenu>
+        <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="changeCycle('ADD',num)" >{{num}}</button>
       </div>
-      <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-          <button class="btn btn-outline-danger">MUL: </button>
-          <button [disabled]="configurationSaved" class="btn btn-outline-danger" id="btn-Inst-MUL" ngbDropdownToggle> {{typeInstruction[2].cycle}}</button>
-            <div class="dropdown-menu" ngbDropdownMenu>
-              <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="changeCycle('MUL',num)" >{{num}}</button>
-            </div>
-        </div>
-        <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-            <button class="btn btn-outline-danger">DIV: </button>
-            <button [disabled]="configurationSaved" class="btn btn-outline-danger" id="btn-Inst-DIV" ngbDropdownToggle> {{typeInstruction[3].cycle}}</button>
-              <div class="dropdown-menu" ngbDropdownMenu>
-                <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="changeCycle('DIV',num)" >{{num}}</button>
-              </div>
-          </div>
-          <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-              <button class="btn btn-outline-danger">ST: </button>
-              <button [disabled]="configurationSaved" class="btn btn-outline-danger" id="btn-Inst-ST" ngbDropdownToggle> {{typeInstruction[4].cycle}}</button>
-                <div class="dropdown-menu" ngbDropdownMenu>
-                  <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="changeCycle('ST',num)" >{{num}}</button>
-                </div>
-            </div>
-            <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-                <button class="btn btn-outline-danger">LD: </button>
-                <button [disabled]="configurationSaved" class="btn btn-outline-danger" id="btn-Inst-LD" ngbDropdownToggle> {{typeInstruction[5].cycle}}</button>
-                  <div class="dropdown-menu" ngbDropdownMenu>
-                    <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="changeCycle('LD',num)" >{{num}}</button>
-                  </div>
-              </div>
+</div>
+
+<div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+  <button class="btn btn-outline-danger">SUB: </button>
+  <button [disabled]="configurationSaved" class="btn btn-outline-danger" id="btn-Inst-SUB" ngbDropdownToggle> {{typeInstruction[1].cycle}}</button>
+    <div class="dropdown-menu" ngbDropdownMenu>
+      <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="changeCycle('SUB',num)" >{{num}}</button>
+    </div>
+</div>
+
+<div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+  <button class="btn btn-outline-danger">MUL: </button>
+    <button [disabled]="configurationSaved" class="btn btn-outline-danger" id="btn-Inst-MUL" ngbDropdownToggle> {{typeInstruction[2].cycle}}</button>
+      <div class="dropdown-menu" ngbDropdownMenu>
+        <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="changeCycle('MUL',num)" >{{num}}</button>
+      </div>
+</div>
+
+<div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+  <button class="btn btn-outline-danger">DIV: </button>
+    <button [disabled]="configurationSaved" class="btn btn-outline-danger" id="btn-Inst-DIV" ngbDropdownToggle> {{typeInstruction[3].cycle}}</button>
+      <div class="dropdown-menu" ngbDropdownMenu>
+        <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="changeCycle('DIV',num)" >{{num}}</button>
+      </div>
+</div>
+
+<div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+  <button class="btn btn-outline-danger">ST: </button>
+  <button [disabled]="configurationSaved" class="btn btn-outline-danger" id="btn-Inst-ST" ngbDropdownToggle> {{typeInstruction[4].cycle}}</button>
+    <div class="dropdown-menu" ngbDropdownMenu>
+      <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="changeCycle('ST',num)" >{{num}}</button>
+    </div>
+</div>
+
+<div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+  <button class="btn btn-outline-danger">LD: </button>
+  <button [disabled]="configurationSaved" class="btn btn-outline-danger" id="btn-Inst-LD" ngbDropdownToggle> {{typeInstruction[5].cycle}}</button>
+    <div class="dropdown-menu" ngbDropdownMenu>
+      <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" (click)="changeCycle('LD',num)" >{{num}}</button>
+    </div>
+</div>
 
 <!--BOTONES UNIDADES FUNCIONALES-->
 <div>
   <h4>Unidades funcionales</h4>
-
     <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
         <button class="btn btn-outline-danger">Multifuncion: </button>
         <button [disabled]="configurationSaved" id="btn-numMultifunction" class="btn btn-outline-danger" ngbDropdownToggle>{{numMultifunction}}</button>
@@ -142,6 +149,7 @@
             <button class="dropdown-item" *ngFor="let num of [0,1,2,3,4,5]" (click)="changeUFmultifunction(num)" >{{num}}</button>
         </div>
       </div>
+
   <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
       <button class="btn btn-outline-danger">Aritmetica: </button>
     <button [disabled]="configurationSaved" id="btn-numArithmetic" class="btn btn-outline-danger" ngbDropdownToggle>{{numArithmetic}}</button>
@@ -149,6 +157,7 @@
       <button class="dropdown-item" *ngFor="let num of [0,1,2,3,4,5]" (click)="changeUFArithmetic(num)" >{{num}}</button>
     </div>
   </div>
+  
   <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
     <button class="btn btn-outline-danger">Memoria: </button>
     <button [disabled]="configurationSaved" id="btn-numMemory"class="btn btn-outline-danger" ngbDropdownToggle>{{numMemory}}</button>
@@ -156,9 +165,9 @@
         <button class="dropdown-item" *ngFor="let num of [0,1,2,3,4,5]" (click)="changeUFMemory(num)" >{{num}}</button>
     </div>
   </div>
-  </div>
+</div>
 
-  <h4>Configuración</h4> 
+<h4>Configuración</h4> 
   <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
     <button id="btn-save" type="button" class="btn btn-outline-danger" [disabled]="configurationSaved" (click)="saveConfiguration()" >Guardar</button>
     <button id="btn-reset" type="button" class="btn btn-outline-danger" [disabled]="!configurationSaved"  (click)="resetConfiguration()">Editar </button>
@@ -257,6 +266,13 @@
   </ngb-alert>
 </p>
 
+<ngb-accordion >
+  <ngb-panel id="static-1" title="Informacion">
+    <ng-template ngbPanelContent>
+      Aceleracion = Tsec / Tpar
+    </ng-template>
+  </ngb-panel>
+</ngb-accordion>
 
 
 <router-outlet></router-outlet>
