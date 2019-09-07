@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Instruction } from './Instruction';
 import { Processor } from './Processor';
 
+declare var vis:any;
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ import { Processor } from './Processor';
 
 
 export class AppComponent implements OnInit {
+    @ViewChild("siteConfigNetwork",{static: true}) networkContainer: ElementRef;
     title = 'Simulador ROB';
     executingROB: boolean = false;
     configurationSaved: boolean = false;
@@ -58,6 +60,9 @@ export class AppComponent implements OnInit {
     cpu:Processor
     showAlert = false;
     showFinished = false;
+
+    public network: any;
+
     constructor() { }
 
 
@@ -74,6 +79,9 @@ export class AppComponent implements OnInit {
       ];
       this.listInstructions = instrucions;
       this.idInstruction = this.listInstructions.length;
+      
+
+    
     }
   
     change(pos,name){
@@ -235,6 +243,8 @@ export class AppComponent implements OnInit {
     // this.imprimirDependencias();
       this.cpu = new Processor(this.listInstructions,this.numOrder,this.numReserveStation,this.sizeROB);
       this.cpu.addUF(this.numArithmetic,this.numMemory,this.numMultifunction);
+      var treeData = this.getTreeData();
+      this.loadVisTree(treeData); 
     }
 
 
@@ -246,4 +256,49 @@ export class AppComponent implements OnInit {
 
     }
 
+    loadVisTree(treedata) {
+      var options = {
+        interaction: {
+          hover: true,
+        },
+        manipulation: {
+          enabled: true
+        }
+      };
+      var container = this.networkContainer.nativeElement;
+      this.network = new vis.Network(container, treedata, options);
+  
+      var that = this;
+      this.network.on("hoverNode", function (params) {                  
+        console.log('hoverNode Event:', params);
+      });
+      this.network.on("blurNode", function(params){
+        console.log('blurNode event:', params);      
+      });
+    }
+  
+    getTreeData() {
+      
+      var nodes = []
+      for (let inst of this.listInstructions) {
+        let n = {id: inst.getId(), label: inst.getId() }
+        nodes.push(n);
+      }
+
+  
+      // create an array with edges
+      var edges = []
+      for (let inst of this.listInstructions)
+        for(let depen of inst.dependecies){
+            let e = {from: inst.getId(), to: depen, arrows:"to"}
+            edges.push(e);
+            }
+
+
+      var treeData = {
+        nodes: nodes,
+        edges: edges
+      };
+      return treeData;
+    }
 }
