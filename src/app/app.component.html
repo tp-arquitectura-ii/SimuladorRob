@@ -215,7 +215,9 @@
               <th scope = "col">Ciclo #</th>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody>
+            {{rowCycle}}
+          </tbody>
         </table>
       </div>
 
@@ -226,7 +228,9 @@
               {{header}}
             </th>
           </thead>
-          <tbody></tbody>
+          <tbody>
+
+          </tbody>
         </table>
       </div>
     
@@ -274,10 +278,10 @@
 <div class = "container">
     <div class  = "row">
       <div class = "col">
-        <ngb-accordion  *ngIf = "executingROB">
+        <ngb-accordion  *ngIf = "showFinished">
           <ngb-panel id="static-1" title="Informacion">
             <ng-template ngbPanelContent>
-              Aceleracion = Tsec / Tpar
+              Aceleracion = {{timeSec}} / {{timePar}} = {{timeTotal}} 
             </ng-template>
           </ngb-panel>
         </ngb-accordion>

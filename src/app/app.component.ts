@@ -18,6 +18,10 @@ export class AppComponent implements OnInit {
     configurationSaved: boolean = false;
     listInstructions = new Array<Instruction>();
     sizeROB:number = 0;
+
+    timeSec = 0;
+    timePar = 0;
+    timeTotal;
     typeInstruction = [
       { type: "ADD", cycle: 1},
       { type: "SUB", cycle: 1},
@@ -44,6 +48,8 @@ export class AppComponent implements OnInit {
     ERHeaders: Array<string>;
     UFHeaders: Array<string>;
 
+    rowCycle: Array<string>;
+    
     numOrder = 1;
     numReserveStation = 1;
     numMultifunction = 0;
@@ -68,14 +74,16 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
       const instrucions = [
-        new Instruction("S0","ADD","R3","R0","R5","ARITH"),
-        new Instruction("S1","MUL","R2","R2","R5","ARITH"),
-        new Instruction("S2","DIV","R1","R5","R0","ARITH"),
-        new Instruction("S3","ST","(R3)","R1","","MEM"),
-        new Instruction("S4","SUB","R6","R3","R2","ARITH"),
-        new Instruction("S5","LD","R9","(R6)","","MEM"),
-        new Instruction("S6","ADD","R2","R6","R3","ARITH"),
-        new Instruction("S7","DIV","R10","R3","R1","ARITH")
+        new Instruction("S0","ADD","R1","R2","R5","ARITH"),
+        new Instruction("S1","MUL","R2","R2","R3","ARITH"),
+        new Instruction("S2","DIV","R1","R2","R5","ARITH"),
+        new Instruction("S3","ST","(R2)","R2","","MEM"),
+        new Instruction("S4","DIV","R7","R1","R3","ARITH"),
+        new Instruction("S5","LD","R4","(R2)","","MEM"),
+        new Instruction("S6","DIV","R3","R3","R5","ARITH"),
+        new Instruction("S7","ADD","R2","R2","R7","ARITH"),
+      new Instruction("S8","ST","(R3)","R2","","MEM"),
+      new Instruction("S9","ADD","R4","R2","R7","ARITH")
       ];
       this.listInstructions = instrucions;
       this.idInstruction = this.listInstructions.length;
@@ -254,6 +262,14 @@ export class AppComponent implements OnInit {
       this[desc+'Headers'] = array;
     }
   
+    public getTimeSecuencial(){
+      let sum = 0 ;
+      for (let inst of this.listInstructions) {
+        sum = sum + inst.getCycle()
+      }
+      return sum+2;
+    }
+    
     public executeRob(){
       this.executing = false;
       this.executingROB = true;
@@ -264,6 +280,7 @@ export class AppComponent implements OnInit {
       this.sizeROB = this.numReserveStation + this.numMultifunction + this.numArithmetic + this.numMemory;
       this.createTableHeadROB();
       this.getDependenciasRAW();
+      this.timeSec = this.getTimeSecuencial();
       this.cpu = new Processor(this.listInstructions,this.numOrder,this.numReserveStation,this.sizeROB);
       this.cpu.addUF(this.numArithmetic,this.numMemory,this.numMultifunction);
       var treeData = this.getTreeData();
@@ -280,8 +297,11 @@ export class AppComponent implements OnInit {
         this.addRowUF(this.cpu.getUF());
         this.addRowROB(this.cpu.getROB(),"tablaROB",this.sizeROB);
       }
-      else
+      else{
         this.showFinished=true;
+        this.timePar= this.cpu.getCycleCounter();
+        this.timeTotal = this.timeSec/this.timePar;
+      }
     }
 
     loadVisTree(treedata) {
