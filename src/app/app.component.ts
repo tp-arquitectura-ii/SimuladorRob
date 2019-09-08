@@ -13,7 +13,7 @@ declare var vis:any;
 
 export class AppComponent implements OnInit {
     @ViewChild("siteConfigNetwork",{static: true}) networkContainer: ElementRef;
-    
+    executing: boolean = false;
     executingROB: boolean = false;
     configurationSaved: boolean = false;
     listInstructions = new Array<Instruction>();
@@ -79,9 +79,6 @@ export class AppComponent implements OnInit {
       ];
       this.listInstructions = instrucions;
       this.idInstruction = this.listInstructions.length;
-      
-
-    
     }
   
     change(pos,name){
@@ -167,11 +164,6 @@ export class AppComponent implements OnInit {
     }
 
     getDependenciasRAW(){
-      let a:string;
-      let b:string;
-      a = "S10";
-      b = "S10";
-      console.log(a.search(b));
       let encontro = false;
       for (let i = 0; i < this.listInstructions.length -1; i++) {
         if(this.listInstructions[i].getType()!="ST")
@@ -188,8 +180,7 @@ export class AppComponent implements OnInit {
             }
             else{
               if(this.listInstructions[j].getDestination().substring(1,this.listInstructions[j].getDestination().length-1) == this.listInstructions[i].getDestination() || this.listInstructions[i].getDestination()==this.listInstructions[j].getOp1())            
-                this.listInstructions[i].addDependency(this.listInstructions[j].getId()); 
-              
+                this.listInstructions[i].addDependency(this.listInstructions[j].getId());             
             }
         }
         encontro = false;
@@ -204,6 +195,7 @@ export class AppComponent implements OnInit {
     resetConfiguration(){
       this.configurationSaved = false;
       this.executingROB = false;
+      this.executing = false;
       this.cpu = null;
       this.showFinished = false;
       this.deleteDependencies();
@@ -214,6 +206,7 @@ export class AppComponent implements OnInit {
         this.configurationSaved = true;
         this.executingROB=false;
         this.showAlert=false;
+        this.executing = true;
       }
       else{
         this.showAlert = true;
@@ -262,6 +255,7 @@ export class AppComponent implements OnInit {
     }
   
     public executeRob(){
+      this.executing = false;
       this.executingROB = true;
       this.createTableHead("ER",this.numReserveStation);
       this.createTableHead("D",this.numOrder);

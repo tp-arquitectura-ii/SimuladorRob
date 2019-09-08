@@ -12,7 +12,7 @@
   <div class = "row justify-content-around">
     <div class = col-md-4>
       <h4>Instrucciones</h4>
-      <table class="table table-bordered" style="width:5cm">  
+      <table  class="table table-bordered" style="width:5cm" >  
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -30,7 +30,7 @@
               <td> {{ inst.getDestination()}}</td>
               <td> {{ inst.getOp1() }}</td>
               <td> {{inst.getOp2()}}</td>
-              <td> <button type="button" class="close" aria-label="Close" (click) = deleteInstruction(inst)> <span aria-hidden="true">&times;</span> </button></td>
+              <td> <button [disabled]="configurationSaved" type="button" class="close" aria-label="Close" (click) = deleteInstruction(inst)> <span aria-hidden="true">&times;</span> </button></td>
             </tr>
         </tbody>
       </table>
@@ -69,7 +69,7 @@
 <div>
   <h4>Dispatcher</h4>
     <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-      <button class="btn btn-outline-danger">Orden N°: </button>
+      <button class="btn btn-outline-danger">Grado: </button>
       <button [disabled]="configurationSaved" class="btn btn-outline-danger" id="btn-GradoDispatch" ngbDropdownToggle> {{numOrder}}</button>
         <div class="dropdown-menu" ngbDropdownMenu>
           <button class="dropdown-item" *ngFor="let num of [1,2,3,4,5]" (click)="changeOrder(num)" >{{num}}</button>
@@ -171,7 +171,7 @@
   <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
     <button id="btn-save" type="button" class="btn btn-outline-danger" [disabled]="configurationSaved" (click)="saveConfiguration()" >Guardar</button>
     <button id="btn-reset" type="button" class="btn btn-outline-danger" [disabled]="!configurationSaved"  (click)="resetConfiguration()">Editar </button>
-    <button id="btn-execute" type="button" class="btn btn-outline-danger" [disabled]="!configurationSaved" (click)="executeRob()">Ejecutar</button>
+    <button id="btn-execute" type="button" class="btn btn-outline-danger" [disabled]="!executing" (click)="executeRob()">Ejecutar</button>
   </div>  
 </div>
 </div>
