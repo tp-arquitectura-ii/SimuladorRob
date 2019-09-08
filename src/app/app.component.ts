@@ -264,7 +264,6 @@ export class AppComponent implements OnInit {
       this.sizeROB = this.numReserveStation + this.numMultifunction + this.numArithmetic + this.numMemory;
       this.createTableHeadROB();
       this.getDependenciasRAW();
-    // this.imprimirDependencias();
       this.cpu = new Processor(this.listInstructions,this.numOrder,this.numReserveStation,this.sizeROB);
       this.cpu.addUF(this.numArithmetic,this.numMemory,this.numMultifunction);
       var treeData = this.getTreeData();
@@ -273,11 +272,16 @@ export class AppComponent implements OnInit {
 
 
     nextInstruction(){
-      if (!this.cpu.isFinished())
+      if (!this.cpu.isFinished()){
         this.cpu.nextCycle();
+        this.addRowCounter(this.cpu.getCycleCounter());
+        this.addRow(this.cpu.getDispatcher().instruction,"tablaDispatch",this.numOrder);
+        this.addRow(this.cpu.getER().instructions,"tablaER",this.numReserveStation);
+        this.addRowUF(this.cpu.getUF());
+        this.addRowROB(this.cpu.getROB(),"tablaROB",this.sizeROB);
+      }
       else
         this.showFinished=true;
-
     }
 
     loadVisTree(treedata) {
@@ -291,38 +295,94 @@ export class AppComponent implements OnInit {
       };
       var container = this.networkContainer.nativeElement;
       this.network = new vis.Network(container, treedata, options);
-  
-      var that = this;
-      this.network.on("hoverNode", function (params) {                  
-        console.log('hoverNode Event:', params);
-      });
-      this.network.on("blurNode", function(params){
-        console.log('blurNode event:', params);      
-      });
     }
   
-    getTreeData() {
-      
+    getTreeData() {     
       var nodes = []
       for (let inst of this.listInstructions) {
         let n = {id: inst.getId(), label: inst.getId() }
         nodes.push(n);
-      }
-
-  
+      }  
       // create an array with edges
       var edges = []
       for (let inst of this.listInstructions)
         for(let depen of inst.dependecies){
             let e = {from: inst.getId(), to: depen, arrows:"to"}
             edges.push(e);
-            }
-
-
+        }
       var treeData = {
         nodes: nodes,
         edges: edges
       };
       return treeData;
     }
+
+    addRow(inst:Array<Instruction>, id:string, cantidad:Number ){
+      let tr = document.createElement("tr");
+      for(let i = 0; i < cantidad;i++){
+          let td = document.createElement("td");
+          if (i<inst.length){
+              td.appendChild(document.createTextNode(inst[i].getId()));
+              tr.appendChild(td);
+          }
+          else{
+              td.appendChild(document.createTextNode("-"));
+              tr.appendChild(td);
+          }
+      }
+      document.getElementById(id).appendChild(tr);
+  }
+
+  addRowUF(uf){
+      let tr = document.createElement("tr");
+      for(let i = 0; i < uf.length;i++){
+          let td = document.createElement("td");
+          if (uf[i].getInstruction()!= null){
+              td.appendChild(document.createTextNode(uf[i].getInstruction().getId()));
+              tr.appendChild(td);
+          }
+          else
+          {
+              td.appendChild(document.createTextNode("-"));
+              tr.appendChild(td);
+          }
+          
+      }
+      document.getElementById("tablaUF").appendChild(tr);
+  }
+  addRowROB(rob, id:string,cantidad:Number){
+      let tr = document.createElement("tr");
+      for (let i = 0; i < cantidad; i++){
+          let td = document.createElement("td");
+          let td1 = document.createElement("td");
+          if (rob.getRobC()[i].getInstruction()!=null){
+              if (rob.getRobC()[i].getInstruction2()==null){
+                  td.appendChild(document.createTextNode(rob.getRobC()[i].getInstruction().getId()))
+                  td1.appendChild(document.createTextNode(rob.getRobC()[i].getInstruction().getStatus()));  
+              }
+              else{
+                  td.appendChild(document.createTextNode(rob.getRobC()[i].getInstruction().getId()+ "/" +rob.getRobC()[i].getInstruction2().getId() ))
+                  td1.appendChild(document.createTextNode(rob.getRobC()[i].getInstruction().getStatus()+"/"+ rob.getRobC()[i].getInstruction2().getStatus()));
+              }
+              tr.appendChild(td);
+              tr.appendChild(td1);
+          }
+          else{
+              td.appendChild(document.createTextNode("-"))
+              td1.appendChild(document.createTextNode("-"));
+              tr.appendChild(td);
+              tr.appendChild(td1);
+          }
+      }
+      document.getElementById(id).appendChild(tr);
+  }
+
+  addRowCounter(cycleCounter:number) {  
+      let tr = document.createElement("tr");
+      let td = document.createElement("td");
+      td.appendChild(document.createTextNode(""+cycleCounter));
+      tr.appendChild(td);
+      document.getElementById("tablacycle").appendChild(tr);
+  
+  }
 }

@@ -11,7 +11,7 @@ export class Processor{
     private uf: Array<FunctionalUnit>;
     private er: ReserveStation;
     private rob: BufferReorder;
-    private cycleCounter = 0;
+    private cycleCounter = -1;
     private listInstruction: Array<Instruction>;
     
     constructor(instrucciones:Array<Instruction>,numOrden,numReserveStation,robSize){
@@ -31,51 +31,64 @@ export class Processor{
             this.uf.push(new FunctionalUnit("MEM"));
     }
 
-    public nextCycle(){
-        {  
-            //RETIRO DEL ROB
-            this.rob.removeInstCompletes();            
-            //AGREGO INSTRUCCIONES A LA ER Y ROB
-            this.updateERandROB();
-            //DECREMENTO INSTRUCCIONES
-            for(let i = 0; i<this.uf.length; i++){
-                if (this.uf[i].getInstruction()!= null && this.uf[i].getInstruction().getCycle()!=0){
-                    this.uf[i].getInstruction().decrementCycle();
-                }
+    public nextCycle(){ 
+        //RETIRO DEL ROB
+        this.rob.removeInstCompletes();            
+        //AGREGO INSTRUCCIONES A LA ER Y ROB
+        this.updateERandROB();
+        //DECREMENTO INSTRUCCIONES
+        for(let i = 0; i<this.uf.length; i++){
+            if (this.uf[i].getInstruction()!= null && this.uf[i].getInstruction().getCycle()!=0){
+                this.uf[i].getInstruction().decrementCycle();
             }
-            //remuevo instrucciones de la uf
-            this.removeInstructionUF();
-            //AGREGO A UF
-            this.updateUF();
-            //AGREGO INSTRUCCIONES A LA ER Y ROB
-            this.updateERandROB();
-            //AGREGO A er Y ROB SI UNA INSTRUCCION ESTA FINALIZADA           
-            let sizeDispatch = this.dispatcher.getSize();
-            let listAux = this.rob.getListInstructions();
-            for(let i = 0; i < sizeDispatch;i++){                  
-                    let index = this.rob.hasInstructionCompleted(listAux);                    
-                    if (!this.er.isBusy() &&  index != -1){
-                        let inst = this.dispatcher.getInstruction();
-                        listAux.shift()
-                        inst.setStatus("I");
-                        this.er.addInstruction(inst);
-                        this.rob.getRobC()[index].addInstruction2(inst);
-                    }
-                }
-             
-            //Actualizo UF    
-            this.updateUF();
-            //actualizo dispatch
-            for(let i = 0; i < this.dispatcher.getGrade() && this.listInstruction.length != 0 && !this.dispatcher.isBusy(); i++){
-                this.dispatcher.addInstruction(this.listInstruction.shift());
-            }
-            this.addRowCounter();
-            this.addRow(this.dispatcher.instruction,"tablaDispatch",this.dispatcher.getGrade());
-            this.addRow(this.er.instructions,"tablaER",this.er.getnumReserveStation());
-            this.addRowUF();
-            this.addRowROB(this.rob.instruction,"tablaROB",this.rob.getSize());
-            this.cycleCounter++;
         }
+        //remuevo instrucciones de la uf
+        this.removeInstructionUF();
+        //AGREGO A UF
+        this.updateUF();
+        //AGREGO INSTRUCCIONES A LA ER Y ROB
+        this.updateERandROB();
+        //AGREGO A er Y ROB SI UNA INSTRUCCION ESTA FINALIZADA           
+        let sizeDispatch = this.dispatcher.getSize();
+        let listAux = this.rob.getListInstructions();
+        for(let i = 0; i < sizeDispatch;i++){                  
+            let index = this.rob.hasInstructionCompleted(listAux);                    
+            if (!this.er.isBusy() &&  index != -1){
+                let inst = this.dispatcher.getInstruction();
+                listAux.shift()
+                inst.setStatus("I");
+                this.er.addInstruction(inst);
+                this.rob.getRobC()[index].addInstruction2(inst);
+            }
+        }
+             
+        //Actualizo UF    
+        this.updateUF();
+        //actualizo dispatch
+        for(let i = 0; i < this.dispatcher.getGrade() && this.listInstruction.length != 0 && !this.dispatcher.isBusy(); i++){
+            this.dispatcher.addInstruction(this.listInstruction.shift());
+        }
+        this.cycleCounter++;
+    }
+
+    public getCycleCounter(){
+        return this.cycleCounter;
+    }
+
+    public getDispatcher(){
+        return this.dispatcher;
+    }
+
+    public getER(){
+        return this.er;
+    }
+
+    public getUF(){
+        return this.uf;
+    }
+
+    public getROB(){
+        return this.rob;
     }
 
     private updateERandROB(){
@@ -156,84 +169,5 @@ export class Processor{
 
     public isFinished(){
         return this.rob.isComplete();
-    }
-
-
-
-
-
-    
-    addRow(inst:Array<Instruction>, id:string, cantidad:Number ){
-        let tr = document.createElement("tr");
-        for(let i = 0; i < cantidad;i++){
-            let td = document.createElement("td");
-            if (i<inst.length){
-                td.appendChild(document.createTextNode(inst[i].getId()));
-                tr.appendChild(td);
-            }
-            else{
-                td.appendChild(document.createTextNode("-"));
-                tr.appendChild(td);
-            }
-        }
-        document.getElementById(id).appendChild(tr);
-    }
-
-    addRowUF(){
-        let tr = document.createElement("tr");
-        for(let i = 0; i < this.uf.length;i++){
-            let td = document.createElement("td");
-            if (this.uf[i].getInstruction()!= null){
-                td.appendChild(document.createTextNode(this.uf[i].getInstruction().getId()));
-                tr.appendChild(td);
-            }
-            else
-            {
-                td.appendChild(document.createTextNode("-"));
-                tr.appendChild(td);
-            }
-            
-        }
-        document.getElementById("tablaUF").appendChild(tr);
-    }
-    addRowROB(inst:Array<Instruction>, id:string,cantidad:Number){
-        let tr = document.createElement("tr");
-        for (let i = 0; i < cantidad; i++){
-            let td = document.createElement("td");
-            let td1 = document.createElement("td");
-            if (this.rob.getRobC()[i].getInstruction()!=null){
-                if (this.rob.getRobC()[i].getInstruction2()==null){
-                    td.appendChild(document.createTextNode(this.rob.getRobC()[i].getInstruction().getId()))
-                    td1.appendChild(document.createTextNode(this.rob.getRobC()[i].getInstruction().getStatus()));  
-                }
-                else{
-                    td.appendChild(document.createTextNode(this.rob.getRobC()[i].getInstruction().getId()+ "/" +this.rob.getRobC()[i].getInstruction2().getId() ))
-                    td1.appendChild(document.createTextNode(this.rob.getRobC()[i].getInstruction().getStatus()+"/"+ this.rob.getRobC()[i].getInstruction2().getStatus()));
-                }
-                tr.appendChild(td);
-                tr.appendChild(td1);
-            }
-            else{
-                td.appendChild(document.createTextNode("-"))
-                td1.appendChild(document.createTextNode("-"));
-                tr.appendChild(td);
-                tr.appendChild(td1);
-            }
-        }
-        document.getElementById(id).appendChild(tr);
-    }
-
-    addRowCounter() {
-    
-        let tr = document.createElement("tr");
-        let td = document.createElement("td");
-        td.appendChild(document.createTextNode(""+this.cycleCounter));
-        tr.appendChild(td);
-        document.getElementById("tablacycle").appendChild(tr);
-    
-    }
-
-
-
-    
+    }    
 }

@@ -186,8 +186,8 @@
 <div class = "container">
   <div class  = "row">
     <div class = "col">
-      <h4> Grafo de dependencias</h4>
-      <div  id="mynetwork" #siteConfigNetwork> </div>
+      <h4 *ngIf = "executingROB"> Grafo de dependencias</h4>
+      <div  id="mynetwork" #siteConfigNetwork > </div>
       <style type="text/css">
           #mynetwork {
               position: relative;
@@ -205,7 +205,7 @@
 
 <!--DEFINICION DE TABLAS-->
 <div class = "container">
-    <h4>Simulación</h4> 
+    <h4 *ngIf = "executingROB">Simulación</h4> 
     <button *ngIf="executingROB" id="btn-next" type="button" class="btn btn-outline-danger" (click)="nextInstruction()" >Siguiente Instruccion</button>
     <div class = "row">    
       <div class = "col">      
@@ -274,7 +274,7 @@
 <div class = "container">
     <div class  = "row">
       <div class = "col">
-        <ngb-accordion >
+        <ngb-accordion  *ngIf = "executingROB">
           <ngb-panel id="static-1" title="Informacion">
             <ng-template ngbPanelContent>
               Aceleracion = Tsec / Tpar
