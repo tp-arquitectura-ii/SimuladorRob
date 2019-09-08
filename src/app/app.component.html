@@ -183,17 +183,21 @@
   </ngb-alert>
 </p>
 
-<div>
-  <h4> Grafo de dependencias</h4>
-  <div  id="mynetwork" #siteConfigNetwork> </div>
-  <style type="text/css">
-      #mynetwork {
-          position: relative;
-          width: 700px;
-          height: 300px;
-          border: 1px solid lightgray;
-      }
-  </style>
+<div class = "container">
+  <div class  = "row">
+    <div class = "col">
+      <h4> Grafo de dependencias</h4>
+      <div  id="mynetwork" #siteConfigNetwork> </div>
+      <style type="text/css">
+          #mynetwork {
+              position: relative;
+              width: 700px;
+              height: 300px;
+              border: 1px solid lightgray;
+          }
+      </style>
+    </div>
+  </div>
 </div>
 
 
@@ -267,13 +271,21 @@
   </ngb-alert>
 </p>
 
-<ngb-accordion >
-  <ngb-panel id="static-1" title="Informacion">
-    <ng-template ngbPanelContent>
-      Aceleracion = Tsec / Tpar
-    </ng-template>
-  </ngb-panel>
-</ngb-accordion>
+<div class = "container">
+    <div class  = "row">
+      <div class = "col">
+        <ngb-accordion >
+          <ngb-panel id="static-1" title="Informacion">
+            <ng-template ngbPanelContent>
+              Aceleracion = Tsec / Tpar
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
+      </div>
+    </div>
+</div>
+
+
 
 
 <router-outlet></router-outlet>
