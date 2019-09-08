@@ -184,10 +184,11 @@
 </p>
 
 <div>
-  <h4> Grafo de dependecias</h4>
-  <div  id="mynetwork" #siteConfigNetwork></div>
+  <h4> Grafo de dependencias</h4>
+  <div  id="mynetwork" #siteConfigNetwork> </div>
   <style type="text/css">
       #mynetwork {
+          position: relative;
           width: 700px;
           height: 300px;
           border: 1px solid lightgray;
@@ -201,7 +202,7 @@
 <!--DEFINICION DE TABLAS-->
 <div class = "container">
     <h4>Simulación</h4> 
-    <button *ngIf="executingROB" id="btn-next" type="button" class="btn btn-outline-danger" (click)="nextInstruction()" >Siguiente Intruccion</button>
+    <button *ngIf="executingROB" id="btn-next" type="button" class="btn btn-outline-danger" (click)="nextInstruction()" >Siguiente Instruccion</button>
     <div class = "row">    
       <div class = "col">      
         <table id ="tablacycle" class="table table-bordered" style="width:2.2cm" *ngIf="executingROB">  

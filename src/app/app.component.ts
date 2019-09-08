@@ -68,14 +68,14 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
       const instrucions = [
-        new Instruction("S1","ADD","R3","R0","R5","ARITH"),
-        new Instruction("S2","MUL","R2","R2","R5","ARITH"),
-        new Instruction("S3","DIV","R1","R5","R0","ARITH"),
-        new Instruction("S4","ST","(R3)","R1","","MEM"),
-        new Instruction("S5","SUB","R6","R3","R2","ARITH"),
-        new Instruction("S6","LD","R9","(R6)","","MEM"),
-        new Instruction("S7","ADD","R2","R6","R3","ARITH"),
-        new Instruction("S8","DIV","R10","R3","R1","ARITH")
+        new Instruction("S0","ADD","R3","R0","R5","ARITH"),
+        new Instruction("S1","MUL","R2","R2","R5","ARITH"),
+        new Instruction("S2","DIV","R1","R5","R0","ARITH"),
+        new Instruction("S3","ST","(R3)","R1","","MEM"),
+        new Instruction("S4","SUB","R6","R3","R2","ARITH"),
+        new Instruction("S5","LD","R9","(R6)","","MEM"),
+        new Instruction("S6","ADD","R2","R6","R3","ARITH"),
+        new Instruction("S7","DIV","R10","R3","R1","ARITH")
       ];
       this.listInstructions = instrucions;
       this.idInstruction = this.listInstructions.length;
@@ -114,7 +114,7 @@ export class AppComponent implements OnInit {
     }
 
     addInstruction(){ 
-        this.idInstruction=this.listInstructions.length+1
+        this.idInstruction=this.listInstructions.length
         let instNueva;
         if (this.btnDefaultIns.type=="ST")
           instNueva = new Instruction("S" +this.idInstruction,this.btnDefaultIns.type,"("+this.btnDefaultIns.dst+")",this.btnDefaultIns.op1,"","MEM");
@@ -161,34 +161,33 @@ export class AppComponent implements OnInit {
     }
 
     recalculateID(){
-      for(let i = 1; i <= this.listInstructions.length; i++){
-        this.listInstructions[i-1].setID("S"+i);  
+      for(let i = 0; i < this.listInstructions.length; i++){
+        this.listInstructions[i].setID("S"+i);  
       }
     }
 
     getDependenciasRAW(){
       let a:string;
       let b:string;
-      a = "S1";
-      b = "S1";
-      if (b.includes(a)){
-        console.log("entro");
-      }
-      else
-        console.log("No");
+      a = "S10";
+      b = "S10";
+      console.log(a.search(b));
       let encontro = false;
       for (let i = 0; i < this.listInstructions.length -1; i++) {
         if(this.listInstructions[i].getType()!="ST")
           for (let j = i+1; j < this.listInstructions.length && !encontro; j++) {
             if(this.listInstructions[j].getType()!="ST"){
-                if (this.listInstructions[j].getOp1().includes(this.listInstructions[i].getDestination()) || this.listInstructions[i].getDestination() == this.listInstructions[j].getOp2() )  
-                  this.listInstructions[i].addDependency(this.listInstructions[j].getId());            
+              if(this.listInstructions[j].getType()=="LD") 
+                if (this.listInstructions[j].getOp1().substring(1,this.listInstructions[j].getOp1().length-1) == this.listInstructions[i].getDestination() || this.listInstructions[i].getDestination() == this.listInstructions[j].getOp2() )  
+                  this.listInstructions[i].addDependency(this.listInstructions[j].getId());
+                if (this.listInstructions[j].getOp1() == this.listInstructions[i].getDestination() || this.listInstructions[i].getDestination() == this.listInstructions[j].getOp2() )  
+                    this.listInstructions[i].addDependency(this.listInstructions[j].getId());
                 if(this.listInstructions[i].getDestination() == this.listInstructions[j].getDestination()){
                   encontro=true;
                 }
             }
             else{
-              if(this.listInstructions[j].getDestination().includes( this.listInstructions[i].getDestination()) || this.listInstructions[i].getDestination()==this.listInstructions[j].getOp1())            
+              if(this.listInstructions[j].getDestination().substring(1,this.listInstructions[j].getDestination().length-1) == this.listInstructions[i].getDestination() || this.listInstructions[i].getDestination()==this.listInstructions[j].getOp1())            
                 this.listInstructions[i].addDependency(this.listInstructions[j].getId()); 
               
             }
