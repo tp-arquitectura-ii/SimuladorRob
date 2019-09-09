@@ -267,7 +267,7 @@ export class AppComponent implements OnInit {
       for (let inst of this.listInstructions) {
         sum = sum + inst.getCycle()
       }
-      return sum+2;
+      return sum;
     }
     
     public executeRob(){
