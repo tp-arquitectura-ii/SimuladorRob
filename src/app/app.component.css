@@ -1,3 +1,19 @@
+#mynetwork {
+    position: relative;
+    width: 500px;
+    height: 300px;
+    border: 1px solid lightgray;
+}
 
 
+.rpadding-10 {
+    padding-right: 10px;
+}
 
+.bpadding-10 {
+    padding-bottom: 10px;
+}
+
+.lpadding-10{
+    padding-left: 50px;
+}

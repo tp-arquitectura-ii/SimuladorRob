@@ -74,16 +74,14 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
       const instrucions = [
-        new Instruction("S0","ADD","R1","R2","R5","ARITH"),
-        new Instruction("S1","MUL","R2","R2","R3","ARITH"),
-        new Instruction("S2","DIV","R1","R2","R5","ARITH"),
-        new Instruction("S3","ST","(R2)","R2","","MEM"),
-        new Instruction("S4","DIV","R7","R1","R3","ARITH"),
-        new Instruction("S5","LD","R4","(R2)","","MEM"),
-        new Instruction("S6","DIV","R3","R3","R5","ARITH"),
-        new Instruction("S7","ADD","R2","R2","R7","ARITH"),
-      new Instruction("S8","ST","(R3)","R2","","MEM"),
-      new Instruction("S9","ADD","R4","R2","R7","ARITH")
+        new Instruction("S0","ADD","R3","R0","R5","ARITH"),
+        new Instruction("S1","MUL","R2","R2","R5","ARITH"),
+        new Instruction("S2","DIV","R1","R5","R0","ARITH"),
+        new Instruction("S3","ST","(R3)","R1","","MEM"),
+        new Instruction("S4","SUB","R6","R3","R2","ARITH"),
+        new Instruction("S5","LD","R9","(R6)","","MEM"),
+        new Instruction("S6","ADD","R2","R6","R3","ARITH"),
+        new Instruction("S7","DIV","R10","R3","R1","ARITH")
       ];
       this.listInstructions = instrucions;
       this.idInstruction = this.listInstructions.length;
@@ -94,14 +92,6 @@ export class AppComponent implements OnInit {
       this.updateButton();
     }
 
-    imprimirDependencias() {
-      for (let index = 0; index < this.listInstructions.length; index++) {
-        console.log(this.listInstructions[index].getId() + ":" )
-        for (let j = 0; j < this.listInstructions[index].dependecies.length; j++) {
-          console.log(this.listInstructions[index].dependecies[j])        
-        }
-      }
-    }
 
     updateButton(){
       let btnAgr = document.getElementById("btn-Agregar");
@@ -276,7 +266,7 @@ export class AppComponent implements OnInit {
       this.createTableHead("ER",this.numReserveStation);
       this.createTableHead("D",this.numOrder);
       this.createTableHeadUF("UF",this.numMultifunction,this.numMemory,this.numArithmetic);
-
+      document.getElementById("graph").style.visibility = "visible";
       this.sizeROB = this.numReserveStation + this.numMultifunction + this.numArithmetic + this.numMemory;
       this.createTableHeadROB();
       this.getDependenciasRAW();
