@@ -197,6 +197,7 @@ export class AppComponent implements OnInit {
       this.cpu = null;
       this.showFinished = false;
       this.deleteDependencies();
+      document.getElementById("graph").style.visibility = "hidden";
     }
 
     saveConfiguration(){

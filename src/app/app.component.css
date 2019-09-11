@@ -5,6 +5,20 @@
     border: 1px solid lightgray;
 }
 
+.processor-table {
+    padding: 0 20px 0 0 !important;
+    border: none !important;   
+}
+
+#table-processor {
+    width: auto;
+    overflow-x: auto;
+}
+
+#table-processor table {
+    display: table-cell;
+    width: auto;
+}
 
 .rpadding-10 {
     padding-right: 10px;
