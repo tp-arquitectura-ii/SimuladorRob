@@ -48,6 +48,7 @@ export class AppComponent implements OnInit {
     DHeaders: Array<string>;
     ERHeaders: Array<string>;
     UFHeaders: Array<string>;
+    ROBHeaders: Array<string>;
 
     rowCycle: Array<string>;
     
