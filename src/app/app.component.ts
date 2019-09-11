@@ -163,29 +163,7 @@ export class AppComponent implements OnInit {
       }
     }
 
-    getDependenciasRAW(){
-      let encontro = false;
-      for (let i = 0; i < this.listInstructions.length -1; i++) {
-        if(this.listInstructions[i].getType()!="ST")
-          for (let j = i+1; j < this.listInstructions.length && !encontro; j++) {
-            if(this.listInstructions[j].getType()!="ST"){
-              if(this.listInstructions[j].getType()=="LD") 
-                if (this.listInstructions[j].getOp1().substring(1,this.listInstructions[j].getOp1().length-1) == this.listInstructions[i].getDestination() || this.listInstructions[i].getDestination() == this.listInstructions[j].getOp2() )  
-                  this.listInstructions[i].addDependency(this.listInstructions[j].getId());
-                if (this.listInstructions[j].getOp1() == this.listInstructions[i].getDestination() || this.listInstructions[i].getDestination() == this.listInstructions[j].getOp2() )  
-                    this.listInstructions[i].addDependency(this.listInstructions[j].getId());
-                if(this.listInstructions[i].getDestination() == this.listInstructions[j].getDestination()){
-                  encontro=true;
-                }
-            }
-            else{
-              if(this.listInstructions[j].getDestination().substring(1,this.listInstructions[j].getDestination().length-1) == this.listInstructions[i].getDestination() || this.listInstructions[i].getDestination()==this.listInstructions[j].getOp1())            
-                this.listInstructions[i].addDependency(this.listInstructions[j].getId());             
-            }
-        }
-        encontro = false;
-      }
-    }
+
 
     deleteDependencies(){
       for (let i = 0; i <this.listInstructions.length ;i++)
@@ -194,6 +172,7 @@ export class AppComponent implements OnInit {
 
     resetConfiguration(){
       this.configurationSaved = false;
+      this.sigInstruction=false;
       this.executingROB = false;
       this.executing = false;
       this.sigInstruction = false;
@@ -274,7 +253,6 @@ export class AppComponent implements OnInit {
       document.getElementById("graph").style.visibility = "visible";
       this.sizeROB = this.numReserveStation + this.numMultifunction + this.numArithmetic + this.numMemory;
       this.createTableHeadROB();
-      this.getDependenciasRAW();
       this.timeSec = this.getTimeSecuencial();
       this.cpu = new Processor(this.listInstructions,this.numOrder,this.numReserveStation,this.sizeROB);
       this.cpu.addUF(this.numArithmetic,this.numMemory,this.numMultifunction);

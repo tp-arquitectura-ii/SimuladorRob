@@ -16,6 +16,7 @@ export class Processor{
     
     constructor(instrucciones:Array<Instruction>,numOrden,numReserveStation,robSize){
         this.listInstruction = instrucciones.slice(0);
+        this.setDependenciasRAW();
         this.dispatcher = new Dispatch(numOrden);
         this.er = new ReserveStation(numReserveStation);
         this.uf=new Array<FunctionalUnit>();
@@ -30,6 +31,30 @@ export class Processor{
         for( let i=0; i<numMemory; i++)
             this.uf.push(new FunctionalUnit("MEM"));
     }
+
+    public setDependenciasRAW(){
+        let encontro = false;
+        for (let i = 0; i < this.listInstruction.length -1; i++) {
+          if(this.listInstruction[i].getType()!="ST")
+            for (let j = i+1; j < this.listInstruction.length && !encontro; j++) {
+              if(this.listInstruction[j].getType()!="ST"){
+                if(this.listInstruction[j].getType()=="LD") 
+                  if (this.listInstruction[j].getOp1().substring(1,this.listInstruction[j].getOp1().length-1) == this.listInstruction[i].getDestination() || this.listInstruction[i].getDestination() == this.listInstruction[j].getOp2() )  
+                    this.listInstruction[i].addDependency(this.listInstruction[j].getId());
+                  if (this.listInstruction[j].getOp1() == this.listInstruction[i].getDestination() || this.listInstruction[i].getDestination() == this.listInstruction[j].getOp2() )  
+                      this.listInstruction[i].addDependency(this.listInstruction[j].getId());
+                  if(this.listInstruction[i].getDestination() == this.listInstruction[j].getDestination()){
+                    encontro=true;
+                  }
+              }
+              else{
+                if(this.listInstruction[j].getDestination().substring(1,this.listInstruction[j].getDestination().length-1) == this.listInstruction[i].getDestination() || this.listInstruction[i].getDestination()==this.listInstruction[j].getOp1())            
+                  this.listInstruction[i].addDependency(this.listInstruction[j].getId());             
+              }
+          }
+          encontro = false;
+        }
+      }
 
     public nextCycle(){ 
         //RETIRO DEL ROB
