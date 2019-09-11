@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
     listInstructions = new Array<Instruction>();
     sizeROB:number = 0;
 
+    sigInstruction:boolean = false;
     timeSec = 0;
     timePar = 0;
     timeTotal;
@@ -194,6 +195,7 @@ export class AppComponent implements OnInit {
       this.configurationSaved = false;
       this.executingROB = false;
       this.executing = false;
+      this.sigInstruction = false;
       this.cpu = null;
       this.showFinished = false;
       this.deleteDependencies();
@@ -262,6 +264,7 @@ export class AppComponent implements OnInit {
     }
     
     public executeRob(){
+      this.sigInstruction = true;
       this.executing = false;
       this.executingROB = true;
       this.createTableHead("ER",this.numReserveStation);
@@ -279,7 +282,7 @@ export class AppComponent implements OnInit {
     }
 
 
-    nextInstruction(){
+    public nextInstruction(){
       if (!this.cpu.isFinished()){
         this.cpu.nextCycle();
         this.addRowCounter(this.cpu.getCycleCounter());
@@ -289,6 +292,7 @@ export class AppComponent implements OnInit {
         this.addRowROB(this.cpu.getROB(),"tablaROB",this.sizeROB);
       }
       else{
+        this.sigInstruction = false;
         this.showFinished=true;
         this.timePar= this.cpu.getCycleCounter();
         this.timeTotal = this.timeSec/this.timePar;
