@@ -45,7 +45,7 @@
     <div class = "col-md-8" >
       <div class="row">
         <div class="col">      
-          <h4>Agregar una instrucción</h4>
+          <h4>Agregar instrucción</h4>
         </div> 
       </div>
       <div class = "row">
@@ -118,7 +118,7 @@
       <!--BOTONES CICLO DE INSTRUCCIONES-->
       <div class="row">
         <div class="col">
-          <h4>Ciclos de cada instrucción</h4>
+          <h4>Parámetros</h4>
         </div>
       </div>
       <div class = "row">
@@ -182,7 +182,7 @@
       <div class = "row">
         <div class="col">
           <div class="btn-group rpadding-10  bpadding-10" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-            <button class="btn btn-outline-danger">Multifuncion: </button>
+            <button class="btn btn-outline-danger">Multifunción: </button>
             <button [disabled]="configurationSaved" id="btn-numMultifunction" class="btn btn-outline-danger" ngbDropdownToggle>{{numMultifunction}}</button>
             <div class="dropdown-menu" ngbDropdownMenu>
                 <button class="dropdown-item" *ngFor="let num of [0,1,2,3,4,5]" (click)="changeUFmultifunction(num)" >{{num}}</button>
@@ -190,7 +190,7 @@
           </div>
 
           <div class="btn-group rpadding-10  bpadding-10" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-              <button class="btn btn-outline-danger">Aritmetica: </button>
+              <button class="btn btn-outline-danger">Aritmética: </button>
             <button [disabled]="configurationSaved" id="btn-numArithmetic" class="btn btn-outline-danger" ngbDropdownToggle>{{numArithmetic}}</button>
             <div class="dropdown-menu" ngbDropdownMenu>
               <button class="dropdown-item" *ngFor="let num of [0,1,2,3,4,5]" (click)="changeUFArithmetic(num)" >{{num}}</button>

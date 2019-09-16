@@ -59,7 +59,7 @@ export class AppComponent implements OnInit {
     numMemory = 0;
     idInstruction = 1;
     btnDefaultIns = {
-      type: "INSTRUCCION",
+      type: "INSTRUCCIÓN",
       dst: "DST",
       op1: "OP1",
       op2: "OP2"
