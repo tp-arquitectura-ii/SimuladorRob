@@ -13,17 +13,6 @@
       </div>
   </div>
   
-  <footer>
-  <div class="row">
-    <div class= "col-md-12">
-      <ngb-alert type="info" [dismissible]="false" width = "200px" >
-        <strong>INFO:</strong> Desarrollado por los alumnos Stampone Juan Manuel y Videla Matias.
-        <strong>CÁTEDRA:</strong> Arquitectura de Computadoras y Técnicas Digitales.
-      </ngb-alert>
-    </div>
-  </div>
-  </footer>
-
   <!--TABLA DE INSTRUCCIONES-->
 
   <div class = "row justify-content-around  bpadding-10" >
@@ -245,9 +234,9 @@
   </div>
  
 
-  <div id = "graph" class  = "row bpadding-10" style="visibility: hidden">
+  <div id = "graph" class  = "row bpadding-10">
     <div  class = "col-md-12 ">
-      <h4> Grafo de dependencias</h4>
+      <h4 *ngIf = executingROB>  Grafo de dependencias</h4>
       <div id="mynetwork" #siteConfigNetwork > </div>
     </div>
   </div>
@@ -342,14 +331,13 @@
       </ngb-accordion>
     </div>
   </div>
-  <footer>
-    <div class="row">
-      <div class= "col-md-12">
-        <ngb-alert type="info" [dismissible]="false" width = "200px" >
-          <strong>INFO:</strong> Desarrollado por los alumnos Stampone Juan Manuel y Videla Matias.
-          <strong>CÁTEDRA:</strong> Arquitectura de Computadoras y Técnicas Digitales.
-        </ngb-alert>
-      </div>
+
+  <div class="row uppadding-10">
+    <div class= "col-md-12">
+      <ngb-alert type="info" [dismissible]="false" width = "200px" >
+        <strong>INFO:</strong> Desarrollado por los alumnos Stampone Juan Manuel y Videla Matias.
+        <strong>CÁTEDRA:</strong> Arquitectura de Computadoras y Técnicas Digitales.
+      </ngb-alert>
     </div>
-    </footer>
+  </div>
 </div>

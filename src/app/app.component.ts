@@ -179,7 +179,7 @@ export class AppComponent implements OnInit {
       this.cpu = null;
       this.showFinished = false;
       this.deleteDependencies();
-      document.getElementById("graph").style.visibility = "hidden";
+      document.getElementById("mynetwork").style.display = "none";
     }
 
     saveConfiguration(){
@@ -250,7 +250,8 @@ export class AppComponent implements OnInit {
       this.createTableHead("ER",this.numReserveStation);
       this.createTableHead("D",this.numOrder);
       this.createTableHeadUF("UF",this.numMultifunction,this.numMemory,this.numArithmetic);
-      document.getElementById("graph").style.visibility = "visible";
+      //document.getElementById("graph").style.visibility = "visible";
+      document.getElementById("mynetwork").style.display = "block";
       this.sizeROB = this.numReserveStation + this.numMultifunction + this.numArithmetic + this.numMemory;
       this.createTableHeadROB();
       this.timeSec = this.getTimeSecuencial();
