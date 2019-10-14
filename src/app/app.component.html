@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-12">
         <h1 class="text-center">
-          ROB Simulator
+          Simulador de buffer de reordenamiento
         </h1>
     </div>
   </div>
@@ -52,30 +52,30 @@
         <div class="col">
           <div class="btn-group mr-3 bpadding-10 " >
               <div class="btn-group " ngbDropdown role="group" aria-label="Button group with nested dropdown">
-                  <button [disabled]="configurationSaved" id="btn-type" class="btn btn-outline-danger" ngbDropdownToggle>{{btnDefaultIns.type}}</button>
+                  <button [disabled]="configurationSaved" id="btn-type" class="btn btn-outline-success" ngbDropdownToggle>{{btnDefaultIns.type}}</button>
                   <div class="dropdown-menu" ngbDropdownMenu>
                       <button class="dropdown-item" *ngFor="let inst of typeInstruction" (click)="change('type',inst.type)" >{{inst.type}}</button>
                   </div>
                 </div>
             <div class="btn-group " ngbDropdown role="group" aria-label="Button group with nested dropdown">
-              <button [disabled]="configurationSaved" id="btn-dst" class="btn btn-outline-danger" ngbDropdownToggle>{{btnDefaultIns.dst}}</button>
+              <button [disabled]="configurationSaved" id="btn-dst" class="btn btn-outline-success" ngbDropdownToggle>{{btnDefaultIns.dst}}</button>
               <div class="dropdown-menu" ngbDropdownMenu>
                 <button class="dropdown-item" *ngFor="let reg of registers" (click)="change('dst',reg)" >{{reg}}</button>
               </div>
             </div>
             <div class="btn-group " ngbDropdown role="group" aria-label="Button group with nested dropdown">
-              <button [disabled]="configurationSaved" id="btn-op1" class="btn btn-outline-danger" ngbDropdownToggle>{{btnDefaultIns.op1}}</button>
+              <button [disabled]="configurationSaved" id="btn-op1" class="btn btn-outline-success" ngbDropdownToggle>{{btnDefaultIns.op1}}</button>
               <div class="dropdown-menu" ngbDropdownMenu>
                   <button class="dropdown-item" *ngFor="let reg of registers" (click)="change('op1',reg)" >{{reg}}</button>
               </div>
             </div>
             <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-              <button [disabled]="configurationSaved" id="btn-op2" class="btn btn-outline-danger" ngbDropdownToggle> {{btnDefaultIns.op2}}</button>
+              <button [disabled]="configurationSaved" id="btn-op2" class="btn btn-outline-success" ngbDropdownToggle> {{btnDefaultIns.op2}}</button>
                 <div class="dropdown-menu" ngbDropdownMenu>
                     <button class="dropdown-item" *ngFor="let reg of registers" (click)="change('op2',reg)" >{{reg}}</button>
                   </div>
             </div> 
-            <button id="btn-Agregar" type="button" class="btn btn-outline-danger" disabled (click)="addInstruction()"  >Agregar</button>
+            <button id="btn-Agregar" type="button" class="btn btn-outline-success" disabled (click)="addInstruction()"  >Agregar</button>
           </div>
         </div>
       </div>
@@ -249,7 +249,7 @@
     </div>
 
     <div class = "col-md-12 bpadding-10">
-      <button *ngIf="executingROB" [disabled] = "!sigInstruction" id="btn-next" type="button" class="btn btn-outline-danger " (click)="nextInstruction()" >Siguiente Instruccion</button>
+      <button *ngIf="executingROB" [disabled] = "!sigInstruction" id="btn-next" type="button" class="btn btn-outline-danger " (click)="nextInstruction()" >Siguiente ciclo</button>
     </div>
   </div>
 
